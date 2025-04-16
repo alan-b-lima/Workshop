@@ -1,0 +1,19 @@
+@tui
+@run {
+    $ java src/main/java/visual/tui/Main.java
+}
+
+@gui {
+    $ java src/main/java/visual/gui/Main.java
+}
+
+@doctui
+@doc {
+    $ cd doc
+    $ javadoc ..\src\main\java\visual\tui\Main.java
+}
+
+@docgui {
+    $ cd doc
+    $ javadoc ../src/main/java/visual/gui/Main.java
+}
