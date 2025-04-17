@@ -7,6 +7,10 @@
 - Alan Barbosa Lima [@AlanLima287](https://github.com/AlanLima287)
 - Juan Pablo Ferreira Costa [@juan-ferreirax](https://github.com/juan-ferreirax)
 
+# Casos de Uso
+
+
+
 # Estrutura do Projeto
 
 - visual\
