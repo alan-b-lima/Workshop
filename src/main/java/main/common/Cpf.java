@@ -5,6 +5,9 @@ package main.common;
  */
 public final class Cpf {
 
+    /**
+     * Private constructor, prevents instanciation
+     */
     private Cpf() {
 
     }
