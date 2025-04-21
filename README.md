@@ -2,8 +2,6 @@
 
 Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programação Orientada a Objetos, do Curso de Sistemas de Informação, sob comando do Prof. Eduardo Pelli.
 
-Neste trabalho, desenvolvemos um sistema para uma 
-
 # Autores
 
 - Alan Barbosa Lima [@AlanLima287](https://github.com/AlanLima287)
@@ -13,12 +11,16 @@ Neste trabalho, desenvolvemos um sistema para uma
 
 - Tipos devem sempre ser compatíveis, logo conversões devem ser sempre explicitas, mesmo que a conversão implicita seja garantida;
 - Apenas expressões com resultado booleano são premitidas dentro das condições de if's, while's e for's;
-- Todo if's, while's e for's deve ter um bloco delimitado por chaves associado, mesmo que seja composto por uma única declaração;
+- Todo if's, while's e for's deve ter um bloco delimitado por chaves associado, mesmo que seja composto por uma única sentença;
+- Caso uma função tenha mais de duas sentenças significativas, this é obrigatório para referênciar variáveis de instância;
 - Caso um atributo tenha mais de um getter/setter, o getter/setter padrão deve vir primeiro e imediatamente abaixo todos os outros deve ser postos;
 - O bloco de getters de um atributo deve vir imediatamente antes do bloco de setters;
+- Os blocos de getters e setters devem aparecer na mesma ordem que a declaração de seus atributos;
 - A ordem de estruturação de uma classe deve ser:
     - atributos (constantes ou não),
+    - intancia da própria classe (para singletons),
     - construtores,
+    - método getInstance (para singletons),
     - enums,
     - atributos de classe (constantes ou não),
     - getters e setters,
