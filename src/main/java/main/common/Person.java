@@ -1,35 +1,31 @@
 package main.common;
 
-public abstract class Person {
+public class Person {
+
     private String name;
-    private String phone;
-    private String cpf;
+    private Phone phone;
+    private Cpf cpf;
 
     /**
      * Construtor padrão
      */
     public Person() {
-
+        this.phone = new Phone();
+        this.cpf = new Cpf();
     }
 
     /**
      * Contrutor parametrizado
      * 
-     * @param name nome da pessoa
+     * @param name  nome da pessoa
      * @param phone nº de telefone da pessoa
-     * @param cpf documento da pessoa
+     * @param cpf   documento da pessoa
      * @throws Exception
      */
-    public Person(String name, String phone, String cpf) throws Exception {
+    public Person(String name, String phone, String cpf) {
         this.name = name;
-        this.phone = phone;
-        Cpf.isValid(cpf);
-
-        if (Cpf.isValid(cpf) == false) {
-            throw new Exception("O CPF informado é inválido!");
-        }
-
-        this.cpf = cpf;
+        this.phone = new Phone(phone);
+        this.cpf = new Cpf(cpf);
     }
 
     public String getName() {
@@ -41,23 +37,24 @@ public abstract class Person {
     }
 
     public String getPhone() {
-        return phone;
+        return phone.getPhone();
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone.setPhone(phone);
+
     }
 
     public String getCpf() {
-        return cpf;
+        return cpf.getCpf();
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        this.cpf.setCpf(cpf);
     }
 
     @Override
     public String toString() {
-        return "%s - %s - %s".formatted(name, phone, cpf);
+        return String.format("%s - %s - %s", name, phone, cpf);
     }
 }

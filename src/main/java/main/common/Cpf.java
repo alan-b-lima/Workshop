@@ -1,8 +1,12 @@
 package main.common;
 
-public final class Cpf {
+public class Cpf {
 
     private long cpf;
+
+    public Cpf() {
+        
+    }
 
     public Cpf(String cpf) {
         this.setCpf(cpf);
@@ -43,12 +47,6 @@ public final class Cpf {
         if (false
                 || (byte) (stripedCpf.charAt(9) - '0') != (remainder[0] < 2 ? 0 : 11 - remainder[0])
                 || (byte) (stripedCpf.charAt(10) - '0') != (remainder[1] < 2 ? 0 : 11 - remainder[1])) {
-
-            System.out.printf("%d%d-%d%d\n",
-                    (byte) (stripedCpf.charAt(9) - '0'),
-                    (byte) (stripedCpf.charAt(10) - '0'),
-                    (remainder[0] < 2 ? 0 : 11 - remainder[0]),
-                    (remainder[1] < 2 ? 0 : 11 - remainder[1]));
             // error
             return;
         }

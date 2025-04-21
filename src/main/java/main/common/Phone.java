@@ -1,6 +1,6 @@
 package main.common;
 
-public final class Phone {
+public class Phone {
 
     private long phone;
 
