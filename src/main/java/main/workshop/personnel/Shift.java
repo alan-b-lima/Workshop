@@ -20,7 +20,7 @@ public class Shift {
     private long end;
 
     /**
-     * Construtor padrão
+     * Construtor padrão.
      */
     public Shift() {
 
@@ -91,9 +91,9 @@ public class Shift {
     }
 
     /**
-     * Retorna o fim do turno como um objeto Date.
+     * Retorna o fim do turno como um objeto {@code Date}.
      * 
-     * @return objeto Date que representa o fim do turno.
+     * @return objeto {@code Date} que representa o fim do turno.
      * @see java.util.Date
      */
     public Date getEndDate() {
@@ -117,9 +117,9 @@ public class Shift {
     }
 
     /**
-     * Retorna a duração do turno em milissegundos.
+     * Retorna a duração o UNIX timestamp atual.
      * 
-     * @return duração do turno em milissegundos.
+     * @return UNIX timestamp atual em milissegundos.
      */
     public static long now() {
         return System.currentTimeMillis();
