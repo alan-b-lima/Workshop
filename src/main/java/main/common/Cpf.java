@@ -1,29 +1,65 @@
 package main.common;
 
+/**
+ * Classe que representa um CPF.
+ * 
+ * @author Alan Lima
+ */
 public class Cpf {
 
+    /**
+     * Representa um CPF
+     * 
+     * <p>
+     * Cada dígito do telefone é armazenado em 4 bits, totalizando 40 bits (10
+     * dígitos). Assim, essa variável funciona com um vetor de dígitos decimais.
+     * </p>
+     */
     private long cpf;
 
+    /**
+     * Construtor padrão
+     */
     public Cpf() {
-        
+
     }
 
+    /**
+     * Construtor que recebe o CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx"
+     * 
+     * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx"
+     */
     public Cpf(String cpf) {
         this.setCpf(cpf);
     }
 
+    /**
+     * Retorna o CPF completo no formato "xxx.xxx.xxx-xx".
+     * 
+     * @return CPF completo no formato "xxx.xxx.xxx-xx".
+     */
     public String getFullCpf() {
         return String
                 .format("%011x", this.cpf)
                 .replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
     }
 
+    /**
+     * Retorna o CPF pseudo-anomizado no formato "***.xxx.xxx-**".
+     * 
+     * @return CPF pseudo-anomizado no formato "***.xxx.xxx-**".
+     */
     public String getCpf() {
         return String
                 .format("%06x", (this.cpf & 0x000_FFF_FFF_00L) >> 8)
                 .replaceAll("(\\d{3})(\\d{3})", "***.$1.$2-**");
     }
 
+    /**
+     * Altera o CPF a partir de uma string.
+     * 
+     * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx".
+     */
     public void setCpf(String cpf) {
         if (cpf == null) {
             // error
@@ -36,6 +72,11 @@ public class Cpf {
         }
 
         String stripedCpf = cpf.replaceAll("[^\\d]", "");
+
+        if (stripedCpf.matches("^(\\d)\\1{10}$") == true) {
+            // error
+            return;
+        }
 
         int[] check_sum = { 0, 0 };
         for (int i = 10; i >= 2; i--) {
@@ -57,6 +98,13 @@ public class Cpf {
         }
     }
 
+    /**
+     * Retorna a representação textual do objeto.
+     * Equivalente à chamada do método {@link #getCpf()}.
+     * 
+     * @return representação textual do objeto.
+     * @see {@link #getCpf()}
+     */
     @Override
     public String toString() {
         return this.getCpf();

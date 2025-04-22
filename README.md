@@ -44,6 +44,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
         - Invoice.java
     - common\
         - Cpf.java
+        <!-- - Decimal.java -->
         - Person.java
         - Phone.java
         - Vehicle.java
@@ -63,6 +64,133 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - Service.java
         - Workshop.java
     
+## Diagrama de Classes
+
+```mermaid
+classDiagram
+
+class Account {
+    ...
+}
+
+class Authenticator {
+    ...
+}
+
+class Expense {
+    ...
+}
+
+class Invoice {
+    ...
+}
+
+    class Cpf {
+        - cpf long
+
+        + Cpf()
+        + Cpf(String)
+
+        + getFullCpf() String
+        + getCpf() String
+        + setCpf(String)
+    }
+
+    class Decimal {
+        - decimal: long
+
+        + Decimal()
+        + Decimal(long)
+        + Decimal(double)
+        + Decimal(String)
+
+        + add(Decimal) Decimal
+        + sub(Decimal) Decimal
+        + mul(Decimal) Decimal
+        + div(Decimal) Decimal
+
+        + getDecimal() double
+        + setDecimal(double)
+    }
+
+    class Person {
+        - name: String
+        - phone: Phone
+        - cpf: Cpf
+
+        + getName() String
+        + setName(String)
+        + getPhone() String
+        + setPhone(String) 
+        + getCpf() String
+        + setCpf(String)
+    }
+
+    class Phone {
+        - phone: long
+
+        + getPhone() String
+        + setPhone(String)
+    }
+
+class Vehicle {
+    ...
+}
+
+class Customer {
+    ...
+}
+
+class Employee {
+    ...
+}
+
+class Manager {
+    ...
+}
+
+class Shift {
+    ...
+}
+
+class Maintenance {
+    ...
+}
+
+class Part {
+    ...
+}
+
+class Scheduler {
+    ...
+}
+
+class Scheduling {
+    ...
+}
+
+class Service {
+    ...
+}
+
+class Workshop {
+    ...
+}
+
+class Vehicle {
+    - modelo: String
+    - placa: String
+    - ano: int
+
+    + getModelo() String
+    + setModelo(String)
+    + getPlaca() String
+    + setPlaca(String)
+    + getAno() int
+    + setAno(int)
+}
+```
+
 # Referências
 
 https://docs.oracle.com/javase/tutorial/java/concepts/interface.html

@@ -1,30 +1,57 @@
 package main.common;
 
+/**
+ * Classe que representa um telefone.
+ * 
+ * @author Alan Lima
+ */
 public class Phone {
 
+    /**
+     * Cada dígito do telefone é armazenado em 4 bits, totalizando 40 bits (10 dígitos)
+     * Assim, essa variável funciona com um vetor de dígitos decimais.
+     */
     private long phone;
 
+    /**
+     * Construtor padrão
+     */
     public Phone() {
 
     }
 
+    /**
+     * Construtor que recebe o telefone no formato "(xx) 9xxxx-xxxx"
+     * 
+     * @param phone telefone no formato "(xx) 9xxxx-xxxx"
+     */
     public Phone(String phone) {
         this.setPhone(phone);
     }
 
+    /**
+     * Retorna o telefone no formato "(xx) 9xxxx-xxxx"
+     * 
+     * @return telefone no formato "(xx) 9xxxx-xxxx"
+     */
     public String getPhone() {
         return String
                 .format("%010x", this.phone)
-                .replaceAll("(\\d{2})(\\d{4})(\\d{4})", "($1) 9$2-$3");
+                .replaceAll("^(\\d{2})(\\d{4})(\\d{4})$", "($1) 9$2-$3");
     }
 
+    /**
+     * Define o telefone a partir de uma string
+     * 
+     * @param phone telefone no formato
+     */
     public void setPhone(String phone) {
         if (phone == null) {
             // error
             return;
         }
 
-        if (phone.matches("^(\\(\\d{2}\\)|\\d{2}) ?9?\\d{4}-?\\d{4}$") == false) {
+        if (phone.matches("^(\\(\\d{2}\\)|\\d{2}) ?9?\\d{4}[- ]?\\d{4}$") == false) {
             // error
             return;
         }
@@ -46,6 +73,9 @@ public class Phone {
         }
     }
 
+    /**
+     * Retorna a representação textual do telefone no formato "(xx) 9xxxx-xxxx".
+     */
     @Override
     public String toString() {
         return this.getPhone();
