@@ -1,74 +1,112 @@
 package main.common;
 
 /**
- * Utility class for CPF validation and formatting
+ * Classe que representa um CPF.
+ * 
+ * @author Alan Lima
  */
-public final class Cpf {
+public class Cpf {
 
-    private Cpf() {
+    /**
+     * Representa um CPF
+     * 
+     * <p>
+     * Cada dígito do telefone é armazenado em 4 bits, totalizando 40 bits (10
+     * dígitos). Assim, essa variável funciona com um vetor de dígitos decimais.
+     * </p>
+     */
+    private long cpf;
+
+    /**
+     * Construtor padrão
+     */
+    public Cpf() {
 
     }
 
     /**
-     * Regular expression pattern for CPF validation
-     * The pattern allows for formatted (xxx.xxx.xxx-xx) CPF's
+     * Construtor que recebe o CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx"
+     * 
+     * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx"
      */
-    private static final String CPF_PATTERN = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$";
+    public Cpf(String cpf) {
+        this.setCpf(cpf);
+    }
 
     /**
-     * Verify the validity of a CPF
+     * Retorna o CPF completo no formato "xxx.xxx.xxx-xx".
      * 
-     * @param cpf the CPF to be validated
-     * @return    `true` if the CPF is valid, `false` otherwise
+     * @return CPF completo no formato "xxx.xxx.xxx-xx".
      */
-    public static boolean isValid(String cpf) {
+    public String getFullCpf() {
+        return String
+                .format("%011x", this.cpf)
+                .replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
+    }
+
+    /**
+     * Retorna o CPF pseudo-anomizado no formato "***.xxx.xxx-**".
+     * 
+     * @return CPF pseudo-anomizado no formato "***.xxx.xxx-**".
+     */
+    public String getCpf() {
+        return String
+                .format("%06x", (this.cpf & 0x000_FFF_FFF_00L) >> 8)
+                .replaceAll("(\\d{3})(\\d{3})", "***.$1.$2-**");
+    }
+
+    /**
+     * Altera o CPF a partir de uma string.
+     * 
+     * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx".
+     */
+    public void setCpf(String cpf) {
         if (cpf == null) {
-            return false;
+            // error
+            return;
         }
 
-        if (!cpf.matches(CPF_PATTERN)) {
-            return false;
+        if (cpf.matches("^(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{11})$") == false) {
+            // error
+            return;
         }
 
-        byte[] digits = {
-            (byte) (cpf.charAt(0) - '0'),
-            (byte) (cpf.charAt(1) - '0'),
-            (byte) (cpf.charAt(2) - '0'),
-            
-            (byte) (cpf.charAt(4) - '0'),
-            (byte) (cpf.charAt(5) - '0'),
-            (byte) (cpf.charAt(6) - '0'),
-            
-            (byte) (cpf.charAt(8) - '0'),
-            (byte) (cpf.charAt(9) - '0'),
-            (byte) (cpf.charAt(10) - '0'),
+        String stripedCpf = cpf.replaceAll("[^\\d]", "");
 
-            (byte) (cpf.charAt(12) - '0'),
-            (byte) (cpf.charAt(13) - '0')
-        };
+        if (stripedCpf.matches("^(\\d)\\1{10}$") == true) {
+            // error
+            return;
+        }
 
         int[] check_sum = { 0, 0 };
-        for (int i = 0; i < 9; i++) {
-            check_sum[0] += (int) digits[i + 0] * (10 - i);
-            check_sum[1] += (int) digits[i + 1] * (10 - i);
+        for (int i = 10; i >= 2; i--) {
+            check_sum[0] += (int) (stripedCpf.charAt(10 - i) - '0') * i;
+            check_sum[1] += (int) (stripedCpf.charAt(11 - i) - '0') * i;
         }
 
-        byte[] remainder = { (byte)(check_sum[0] % 11), (byte)(check_sum[1] % 11) };
-        return true
-                && digits[+9] == (remainder[0] < 2 ? 0 : 11 - remainder[0])
-                && digits[10] == (remainder[1] < 2 ? 0 : 11 - remainder[1]);
+        byte[] remainder = { (byte) (check_sum[0] % 11), (byte) (check_sum[1] % 11) };
+        if (false
+                || (byte) (stripedCpf.charAt(9) - '0') != (remainder[0] < 2 ? 0 : 11 - remainder[0])
+                || (byte) (stripedCpf.charAt(10) - '0') != (remainder[1] < 2 ? 0 : 11 - remainder[1])) {
+            // error
+            return;
+        }
+
+        this.cpf = 0L;
+        for (int i = 0; i < stripedCpf.length(); i++) {
+            this.cpf |= (long) (stripedCpf.charAt(i) - '0') << ((10 - i) << 2);
+        }
     }
 
     /**
-     * Format a CPF string to the standard format (xxx.xxx.xxx-xx)
-     * @param cpf the CPF to be formatted
-     * @return    the formatted CPF
+     * Retorna a representação textual do objeto.
+     * Equivalente à chamada do método {@link #getCpf()}.
+     * 
+     * @return representação textual do objeto.
+     * @see {@link #getCpf()}
      */
-    public static String format(String cpf) {
-        if (cpf == null) {
-            return null;
-        }
-
-        return cpf.replaceAll("(\\d{3})\\.?(\\d{3})\\.?(\\d{3})\\-?(\\d{2})", "$1.$2.$3-$4");
+    @Override
+    public String toString() {
+        return this.getCpf();
     }
 }
