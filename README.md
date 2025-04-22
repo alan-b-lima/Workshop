@@ -57,6 +57,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - Manager.java
             - Shift.java
         - service\
+            - Elevator.java
             - Maintenance.java
             - Part.java
             - Scheduler.java
@@ -150,6 +151,10 @@ class Manager {
 }
 
 class Shift {
+    ...
+}
+
+class Elevator {
     ...
 }
 
