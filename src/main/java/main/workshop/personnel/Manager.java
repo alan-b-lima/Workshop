@@ -1,0 +1,62 @@
+package main.workshop.personnel;
+
+/**
+ * Classe que representa um gerente de oficina.
+ * 
+ * @author Alan Lima
+ */
+public class Manager extends main.common.Person {
+
+    /**
+     * Pro labore do gerente.
+     */
+    private double proLabore;
+
+    /**
+     * Construtor padrão.
+     */
+    public Manager() {
+
+    }
+
+    /**
+     * Construtor parametrizado.
+     * 
+     * @param name      nome do gerente.
+     * @param phone     telefone do gerente.
+     * @param cpf       CPF do gerente.
+     * @param proLabore pro labore do gerente.
+     */
+    public Manager(String name, String phone, String cpf, double proLabore) {
+        super(name, phone, cpf);
+        this.setProLabore(proLabore);
+    }
+
+    /**
+     * Retorna o pro labore do gerente.
+     * 
+     * @return pro labore do gerente.
+     */
+    public double getProLabore() {
+        return proLabore;
+    }
+
+    /**
+     * Define o pro labore do gerente.
+     * 
+     * @param proLabore pro labore do gerente.
+     */
+    public void setProLabore(double proLabore) {
+        this.proLabore = proLabore;
+    }
+
+    /**
+     * Retorna uma representação textual do gerente.
+     * 
+     * @return representação textual do gerente.
+     */
+    @Override
+    public String toString() {
+        return "";
+    }
+}

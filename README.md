@@ -150,9 +150,20 @@ class Invoice {
         + setAddress(String)
     }
 
-class Employee {
-    ...
-}
+    Employee --|> Person
+    class Employee {
+        - shifts: ArrayList<Shift>
+        - salary: double
+
+        + Employee()
+        + Employee(String, String, String, double)
+
+        + getShifts() ArrayList<Shift>
+        + getShifts(long, long) ArrayList<Shift>
+        + getRecentShift() Shift
+        + getSalary() double
+        + setSalary(double)
+    }
 
     Manager --|> Person
     class Manager {
