@@ -8,12 +8,9 @@ package main.common;
 public class Cpf {
 
     /**
-     * Representa um CPF
-     * 
-     * <p>
-     * Cada dígito do telefone é armazenado em 4 bits, totalizando 40 bits (10
-     * dígitos). Assim, essa variável funciona com um vetor de dígitos decimais.
-     * </p>
+     * Representa um CPF. Cada dígito do telefone é armazenado em 4 bits,
+     * totalizando 40 bits (10 dígitos). Assim, essa variável funciona com um vetor
+     * de dígitos decimais.
      */
     private long cpf;
 
@@ -100,10 +97,8 @@ public class Cpf {
 
     /**
      * Retorna a representação textual do objeto.
-     * Equivalente à chamada do método {@link #getCpf()}.
      * 
      * @return representação textual do objeto.
-     * @see {@link #getCpf()}
      */
     @Override
     public String toString() {

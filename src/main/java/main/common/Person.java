@@ -8,17 +8,17 @@ package main.common;
 public abstract class Person {
 
     /**
-     * Nome de pessoa.
+     * Nome da pessoa.
      */
     private String name;
 
     /**
-     * Telefone de pessoa.
+     * Telefone da pessoa.
      */
     private Phone phone;
 
     /**
-     * CPF de pessoa.
+     * CPF da pessoa.
      */
     private Cpf cpf;
 
@@ -31,11 +31,11 @@ public abstract class Person {
     }
 
     /**
-     * Contrutor parametrizado.
+     * Construtor parametrizado.
      * 
-     * @param name  nome de pessoa.
-     * @param phone telefone de pessoa.
-     * @param cpf   CPF de pessoa.
+     * @param name Nome da pessoa.
+     * @param phone Telefone da pessoa.
+     * @param cpf CPF da pessoa.
      */
     public Person(String name, String phone, String cpf) {
         this.name = name;
@@ -44,72 +44,72 @@ public abstract class Person {
     }
 
     /**
-     * Método que retorna o nome de pessoa.
+     * Retorna o telefone da pessoa.
      * 
-     * @return nome de pessoa.
+     * @return telefone da pessoa.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Método que altera o nome de pessoa.
+     * Define o nome da pessoa.
      * 
-     * @param name nome de pessoa.
+     * @param name nome da pessoa.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Método que retorna o telefone de pessoa.
+     * Retorna o telefone da pessoa.
      * 
-     * @return telefone de pessoa.
+     * @return telefone da pessoa.
      */
     public String getPhone() {
         return phone.getPhone();
     }
 
     /**
-     * Método que altera o telefone de pessoa.
+     * Retorna o telefone da pessoa.
      * 
-     * @param phone telefone de pessoa.
+     * @return telefone da pessoa.
      */
     public void setPhone(String phone) {
         this.phone.setPhone(phone);
     }
 
     /**
-     * Método que retorna o CPF pseudo-anomizado de pessoa.
+     * Retorna o CPF pseudo-anonimizado da pessoa.
      * 
-     * @return CPF pseudo-anomizado de pessoa.
+     * @return CPF pseudo-anonimizado da pessoa.
      */
     public String getCpf() {
         return cpf.getCpf();
     }
 
     /**
-     * Método que retorna o CPF completo de pessoa.
+     * Retorna o CPF completo da pessoa.
      * 
-     * @return CPF completo de pessoa.
+     * @return CPF completo da pessoa.
      */
     public String getFullCpf() {
         return cpf.getFullCpf();
     }
 
     /**
-     * Método que altera o CPF de pessoa.
+     * Define o CPF da pessoa.
      * 
-     * @param cpf CPF de pessoa.
+     * @param cpf CPF da pessoa.
      */
     public void setCpf(String cpf) {
         this.cpf.setCpf(cpf);
     }
 
     /**
-     * Método que retorna a representação textual do objeto.
+     * Retorna uma representação textual da pessoa.
      * 
-     * @return representação textual do objeto.
+     * @return representação textual da pessoa.
      */
     @Override
     public String toString() {
