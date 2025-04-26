@@ -10,7 +10,6 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 # Padronização
 
 - Tipos devem sempre ser compatíveis, logo conversões devem ser sempre explicitas, mesmo que a conversão implicita seja garantida;
-- Apenas expressões com resultado booleano são premitidas dentro das condições de if's, while's e for's;
 - Todo if's, while's e for's deve ter um bloco delimitado por chaves associado, mesmo que seja composto por uma única sentença;
 - Caso uma função tenha mais de duas sentenças significativas, this é obrigatório para referênciar variáveis de instância;
 - Caso um atributo tenha mais de um getter/setter, o getter/setter padrão deve vir primeiro e imediatamente abaixo todos os outros deve ser postos;
@@ -24,8 +23,8 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
     - enums,
     - atributos de classe (constantes ou não),
     - getters e setters,
+    - outros métodos (que não são getters nem setters),
     - a substituição do metodo toString,
-    - métodos parametrizados (que não são getters nem setters),
     - estruturas auxiliáres (classes, interfaces, exceções, etc).
 
 # Estrutura do Projeto
@@ -44,7 +43,6 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
         - Invoice.java
     - common\
         - Cpf.java
-        <!-- - Decimal.java -->
         - Person.java
         - Phone.java
         - Vehicle.java
@@ -57,6 +55,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - Manager.java
             - Shift.java
         - service\
+            - Elevator.java
             - Maintenance.java
             - Part.java
             - Scheduler.java
@@ -91,32 +90,20 @@ class Invoice {
         + Cpf()
         + Cpf(String)
 
-        + getFullCpf() String
         + getCpf() String
+        + getFullCpf() String
         + setCpf(String)
     }
 
-    class Decimal {
-        - decimal: long
-
-        + Decimal()
-        + Decimal(long)
-        + Decimal(double)
-        + Decimal(String)
-
-        + add(Decimal) Decimal
-        + sub(Decimal) Decimal
-        + mul(Decimal) Decimal
-        + div(Decimal) Decimal
-
-        + getDecimal() double
-        + setDecimal(double)
-    }
-
+    Person *-- Cpf  
+    Person *-- Phone
     class Person {
         - name: String
         - phone: Phone
         - cpf: Cpf
+
+        + Person()
+        + Person(String, String, String)
 
         + getName() String
         + setName(String)
@@ -129,27 +116,87 @@ class Invoice {
     class Phone {
         - phone: long
 
+        + Phone()
+        + Phone(String)
+
         + getPhone() String
         + setPhone(String)
     }
 
-class Vehicle {
-    ...
-}
+    class Vehicle {
+        - model: String
+        - plate: String
+        - year: int
 
-class Customer {
-    ...
-}
+        + Vehicle()
+        + Vehicle(String, String, int)
 
-class Employee {
-    ...
-}
+        + getModel() String
+        + setModel(String)
+        + getPlate() String
+        + setPlate(String)
+        + getYear() int
+        + setYear(int)
+    }
 
-class Manager {
-    ...
-}
+    Customer --|> Person
+    class Customer {
+        - address: String
 
-class Shift {
+        + Customer()
+        + Customer(String, String, String, String)
+
+        + getAddress() String
+        + setAddress(String)
+    }
+
+    Employee --|> Person
+    class Employee {
+        - shifts: ArrayList<Shift>
+        - salary: double
+
+        + Employee()
+        + Employee(String, String, String, double)
+
+        + getShifts() ArrayList<Shift>
+        + getShifts(long, long) ArrayList<Shift>
+        + getRecentShift() Shift
+        + getSalary() double
+        + setSalary(double)
+    }
+
+    Manager --|> Person
+    class Manager {
+        - proLabore: double
+
+        + Manager()
+        + Manager(String, String, String, String, double)
+        
+        + getProLabore() double
+        + setProLabore(double)
+    }
+
+    class Shift {
+        - start: long
+        - end: long
+
+        + Shift()
+        + Shift(long)
+        + Shift(long, long)
+
+        + getStart() long
+        + getStartDate() Date
+        + setStart(long)
+        + setStartNow(long)
+        + getEnd() long
+        + getEndDate() Date
+        + setEnd(long)
+        + setEndNow(long)
+
+        + now() long $
+    }
+
+class Elevator {
     ...
 }
 
@@ -175,19 +222,6 @@ class Service {
 
 class Workshop {
     ...
-}
-
-class Vehicle {
-    - modelo: String
-    - placa: String
-    - ano: int
-
-    + getModelo() String
-    + setModelo(String)
-    + getPlaca() String
-    + setPlaca(String)
-    + getAno() int
-    + setAno(int)
 }
 ```
 
