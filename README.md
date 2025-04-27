@@ -29,10 +29,6 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 
 # Estrutura do Projeto
 
-- visual\
-    - gui\
-    - tui\
-    - Strings.java
 - main\
     - auth\
         - [ ] Account.java
@@ -61,6 +57,10 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - [ ] Scheduling.java
             - [ ] Service.java
         - [ ] Workshop.java
+- visual\
+    - gui\
+    - tui\
+    - Strings.java
     
 ## Diagrama de Classes
 
@@ -232,3 +232,4 @@ https://docs.oracle.com/javase/tutorial/extra/generics/methods.html
 https://github.com/AlanLima287/Binary_Tree/
 https://github.com/dialex/JColor/
 https://www.debuggex.com/
+https://github.com/google/gson

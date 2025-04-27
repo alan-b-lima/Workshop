@@ -1,29 +1,26 @@
 package json;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 public class Json {
+
+    private static final Gson GSON = new Gson();
 
     private Json() {
 
     }
 
-    public static String stringify(String element) {
-        return "\"" + element
-                .replaceAll("\\\\([\\\\\"/])", "\\$1")
-                .replaceAll("\\\\n", "\\n")
-                .replaceAll("\\\\t", "\\t")
-                .replaceAll("\\\\x08", "\\t")
-                .replaceAll("\\\\x0C", "\\t") + "\"";
+    public static String stringify(Object object) {
+        return GSON.toJson(object);
     }
 
-    public static String stringify(Number element) {
-        return String.valueOf(element);
+    public static <T> T parse(String json) {
+        TypeToken<T> type = new TypeToken<>() {};
+        return GSON.fromJson(json, type);
     }
 
-    public static String stringify(Character element) {
-        return Json.stringify(String.valueOf(element));
-    }
-
-    public static String stringify(Boolean element) {
-        return String.valueOf(element);
+    public static <T> T parse(String json, Class<T> clazz) {
+        return GSON.fromJson(json, clazz);
     }
 }

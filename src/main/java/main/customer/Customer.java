@@ -1,7 +1,5 @@
 package main.customer;
 
-import json.JsonObject;
-import json.JsonSerializable;
 import main.common.Person;
 
 /**
@@ -9,7 +7,7 @@ import main.common.Person;
  * 
  * @author Alan Lima
  */
-public class Customer extends Person implements JsonSerializable {
+public class Customer extends Person {
 
     /**
      * Endereço do cliente.
@@ -52,16 +50,6 @@ public class Customer extends Person implements JsonSerializable {
      */
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    @Override
-    public String toJson() {
-        return new JsonObject()
-                .add("name", this.getName())
-                .add("phone", this.getPhone())
-                .add("cpf", this.getFullCpf())
-                .add("address", this.getAddress())
-                .toJson();
     }
 
     /**
