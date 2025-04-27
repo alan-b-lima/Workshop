@@ -53,7 +53,7 @@ public class Cpf {
     }
 
     /**
-     * Altera o CPF a partir de uma string.
+     * Define o CPF a partir de uma string.
      * 
      * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx".
      */
@@ -63,7 +63,7 @@ public class Cpf {
             return;
         }
 
-        if (cpf.matches("^(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{11})$") == false) {
+        if (cpf.matches("^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$") == false) {
             // error
             return;
         }

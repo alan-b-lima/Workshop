@@ -57,6 +57,6 @@ public class Manager extends main.common.Person {
      */
     @Override
     public String toString() {
-        return "";
+        return String.format("{%s, %s, %s, %.2f}", this.getName(), this.getPhone(), this.getCpf(), this.getProLabore());
     }
 }

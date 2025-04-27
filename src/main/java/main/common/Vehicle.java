@@ -20,7 +20,7 @@ public class Vehicle {
     /**
      * Ano do veículo.
      */
-    private short year;
+    private int year;
 
     /**
      * Construtor padrão.
@@ -36,7 +36,7 @@ public class Vehicle {
      * @param plate placa do veículo.
      * @param year  ano do veículo.
      */
-    public Vehicle(String model, String plate, short year) {
+    public Vehicle(String model, String plate, int year) {
         this.setModel(model);
         this.setPlate(plate);
         this.setYear(year);
@@ -83,7 +83,7 @@ public class Vehicle {
      * 
      * @return ano do veículo.
      */
-    public short getYear() {
+    public int getYear() {
         return year;
     }
 
@@ -92,7 +92,17 @@ public class Vehicle {
      * 
      * @param year ano do veículo.
      */
-    public void setYear(short year) {
+    public void setYear(int year) {
         this.year = year;
+    }
+
+    /**
+     * Retorna uma representação textual do veículo.
+     * 
+     * @return representação textual do veículo.
+     */
+    @Override
+    public String toString() {
+        return String.format("{%s, %s, %d}", this.getModel(), this.getPlate(), this.getYear());
     }
 }

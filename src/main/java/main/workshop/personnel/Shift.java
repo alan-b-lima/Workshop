@@ -11,11 +11,15 @@ public class Shift {
 
     /**
      * UNIX timestamp que representa o início do turno.
+     * 
+     * O valor padrão, 0, significa que o turno não tem início definido.
      */
     private long start;
 
     /**
      * UNIX timestamp que representa o fim do turno.
+     * 
+     * O valor padrão, 0, significa que o turno não tem fim definido.
      */
     private long end;
 
@@ -66,7 +70,7 @@ public class Shift {
     }
 
     /**
-     * Altera o início do turno.
+     * Define o início do turno.
      * 
      * @param start UNIX timestamp que representa o início do turno.
      */
@@ -75,7 +79,7 @@ public class Shift {
     }
 
     /**
-     * Altera o início do turno para o horário atual.
+     * Define o início do turno para o horário atual.
      */
     public void setStartNow() {
         this.end = Shift.now();
@@ -101,7 +105,7 @@ public class Shift {
     }
 
     /**
-     * Altera o fim do turno.
+     * Define o fim do turno.
      * 
      * @param end UNIX timestamp que representa o fim do turno.
      */
@@ -110,7 +114,7 @@ public class Shift {
     }
 
     /**
-     * Altera o fim do turno para o horário atual.
+     * Define o fim do turno para o horário atual.
      */
     public void setEndNow() {
         this.end = Shift.now();
@@ -123,5 +127,15 @@ public class Shift {
      */
     public static long now() {
         return System.currentTimeMillis();
+    }
+
+    /**
+     * Retorna uma representação textual do turno.
+     * 
+     * @return representação textual do turno.
+     */
+    @Override
+    public String toString() {
+        return String.format("{%s, %s}", getStartDate(), getEndDate());
     }
 }

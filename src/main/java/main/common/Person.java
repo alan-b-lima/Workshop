@@ -33,9 +33,9 @@ public abstract class Person {
     /**
      * Construtor parametrizado.
      * 
-     * @param name Nome da pessoa.
+     * @param name  Nome da pessoa.
      * @param phone Telefone da pessoa.
-     * @param cpf CPF da pessoa.
+     * @param cpf   CPF da pessoa.
      */
     public Person(String name, String phone, String cpf) {
         this.name = name;
@@ -71,9 +71,9 @@ public abstract class Person {
     }
 
     /**
-     * Retorna o telefone da pessoa.
+     * Define o telefone da pessoa.
      * 
-     * @return telefone da pessoa.
+     * @param phone telefone da pessoa.
      */
     public void setPhone(String phone) {
         this.phone.setPhone(phone);
