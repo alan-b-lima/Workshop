@@ -4,7 +4,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 
 # Autores
 
-- Alan Barbosa Lima [@AlanLima287](https://github.com/AlanLima287)
+- Alan Barbosa Lima [@alan-b-lima](https://github.com/alan-b-lima)
 - Juan Pablo Ferreira Costa [@juan-ferreirax](https://github.com/juan-ferreirax)
 
 # Padronização
@@ -29,11 +29,14 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 
 # Estrutura do Projeto
 
+- json\
+    - [ ] Json.java
 - main\
     - auth\
         - [ ] Account.java
         - [ ] Authenticator.java
     - financial\
+        - [ ] IncomeExpenseManeger.java
         - [ ] Expense.java
         - [ ] Invoice.java
     - common\
@@ -52,39 +55,22 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
         - service\
             - [ ] Elevator.java
             - [ ] Maintenance.java
-            - [ ] Part.java
             - [ ] Scheduler.java
             - [ ] Scheduling.java
             - [ ] Service.java
+        - stock\
+            - [ ] Shipment.java
+            - [ ] Stock.java
+            - [ ] Part.java
         - [ ] Workshop.java
-- visual\
-    - gui\
-    - tui\
-    - Strings.java
     
 ## Diagrama de Classes
 
 ```mermaid
 classDiagram
 
-class Account {
-    ...
-}
-
-class Authenticator {
-    ...
-}
-
-class Expense {
-    ...
-}
-
-class Invoice {
-    ...
-}
-
     class Cpf {
-        - cpf long
+        - cpf: long
 
         + Cpf()
         + Cpf(String)
@@ -96,7 +82,7 @@ class Invoice {
 
     Person *-- Cpf  
     Person *-- Phone
-    class Person {
+    class Person["_Pessoa_"] {
         - name: String
         - phone: Phone
         - cpf: Cpf
@@ -149,6 +135,7 @@ class Invoice {
         + setAddress(String)
     }
 
+    Employee *-- Shift
     Employee --|> Person
     class Employee {
         - shifts: ArrayList<Shift>
@@ -169,8 +156,8 @@ class Invoice {
         - proLabore: double
 
         + Manager()
-        + Manager(String, String, String, String, double)
-        
+        + Manager(String, String, String, double)
+    
         + getProLabore() double
         + setProLabore(double)
     }
@@ -191,37 +178,49 @@ class Invoice {
         + getEndDate() Date
         + setEnd(long)
         + setEndNow(long)
-
-        + now() long $
     }
 
-class Elevator {
-    ...
-}
+    Shipment *-- Part
+    class Shipment {
+        + id: long
+        - parts: ArrayList<Part>
+        - arrival: long
 
-class Maintenance {
-    ...
-}
+        + Shipment()
+        
+        + getQuantity() int
+        + setQuantity(int)
+        + getArrival() long
+        + getArrivalDate() Date
+        + setArrival(long)
+        + setArrivalNow()
+    }
 
-class Part {
-    ...
-}
+    class Stock {
+        - parts: HashMap<String, Part>
 
-class Scheduler {
-    ...
-}
+        + stock: Stock $
 
-class Scheduling {
-    ...
-}
+        + Stock()
+    }
 
-class Service {
-    ...
-}
+    class Part {
+        - name: String
+        - unitValue: double
+        - quantity: int
 
-class Workshop {
-    ...
-}
+        + Part()
+        + Part(String, double, int)
+
+        + getName() String
+        + setName(String)
+        + getUnitValue() double
+        + getTotalValue() double
+        + setUnitValue(double)
+        + setTotalValue(double)
+        + getQuantity() int
+        + setQuantity(int)
+    }
 ```
 
 # Referências

@@ -1,5 +1,6 @@
 package main.workshop.personnel;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -51,6 +52,13 @@ public class Shift {
     }
 
     /**
+     * Formato de data utilizado para representar o início e o fim do turno.
+     * 
+     * @see java.text.SimpleDateFormat
+     */
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+    /**
      * Retorna o início do turno.
      * 
      * @return UNIX timestamp que representa o início do turno.
@@ -82,7 +90,7 @@ public class Shift {
      * Define o início do turno para o horário atual.
      */
     public void setStartNow() {
-        this.end = Shift.now();
+        this.start = System.currentTimeMillis();
     }
 
     /**
@@ -117,16 +125,7 @@ public class Shift {
      * Define o fim do turno para o horário atual.
      */
     public void setEndNow() {
-        this.end = Shift.now();
-    }
-
-    /**
-     * Retorna a duração o UNIX timestamp atual.
-     * 
-     * @return UNIX timestamp atual em milissegundos.
-     */
-    public static long now() {
-        return System.currentTimeMillis();
+        this.end = System.currentTimeMillis();
     }
 
     /**
@@ -136,6 +135,17 @@ public class Shift {
      */
     @Override
     public String toString() {
-        return String.format("{%s, %s}", getStartDate(), getEndDate());
+        String start = "...";
+        String end = "...";
+
+        if (this.start != 0) {
+            start = sdf.format(this.start);
+        }
+        
+        if (this.end != 0) {
+            end = sdf.format(this.end);
+        }
+
+        return String.format("{%s, %s}", start, end);
     }
 }
