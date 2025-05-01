@@ -37,7 +37,7 @@ public class Shift {
      * @param start UNIX timestamp que representa o início do turno.
      */
     public Shift(long start) {
-        this.setStart(start);
+        this(start, 0L);
     }
 
     /**
@@ -49,6 +49,29 @@ public class Shift {
     public Shift(long start, long end) {
         this.setStart(start);
         this.setEnd(end);
+    }
+
+    /**
+     * Construtor que recebe o início do turno como objeto {@code Date}.
+     * 
+     * @param start objeto {@code Date} que representa o início do turno.
+     * 
+     * @see java.util.Date
+     */
+    public Shift(Date start) {
+        this(start.getTime(), 0L);
+    }
+
+    /**
+     * Construtor que recebe o início e o fim do turno como objetos {@code Date}.
+     * 
+     * @param start objeto {@code Date} que representa o início do turno.
+     * @param end   objeto {@code Date} que representa o fim do turno.
+     * 
+     * @see java.util.Date
+     */
+    public Shift(Date start, Date end) {
+        this(start.getTime(), end.getTime());
     }
 
     /**
@@ -68,9 +91,10 @@ public class Shift {
     }
 
     /**
-     * Retorna o início do turno como um objeto Date.
+     * Retorna o início do turno como um objeto {@code Date}.
      * 
-     * @return objeto Date que representa o início do turno.
+     * @return objeto {@code Date} que representa o início do turno.
+     * 
      * @see java.util.Date
      */
     public Date getStartDate() {
@@ -84,6 +108,17 @@ public class Shift {
      */
     public void setStart(long start) {
         this.start = start;
+    }
+
+    /**
+     * Define o início do turno como um objeto {@code Date}.
+     * 
+     * @param start objeto {@code Date} que representa o início do turno.
+     * 
+     * @see java.util.Date
+     */
+    public void setStart(Date start) {
+        this.start = start.getTime();
     }
 
     /**
@@ -106,6 +141,7 @@ public class Shift {
      * Retorna o fim do turno como um objeto {@code Date}.
      * 
      * @return objeto {@code Date} que representa o fim do turno.
+     * 
      * @see java.util.Date
      */
     public Date getEndDate() {
@@ -122,6 +158,17 @@ public class Shift {
     }
 
     /**
+     * Define o fim do turno como um objeto {@code Date}.
+     * 
+     * @param end objeto {@code Date} que representa o fim do turno.
+     * 
+     * @see java.util.Date
+     */
+    public void setEnd(Date end) {
+        this.end = end.getTime();
+    }
+
+    /**
      * Define o fim do turno para o horário atual.
      */
     public void setEndNow() {
@@ -135,13 +182,12 @@ public class Shift {
      */
     @Override
     public String toString() {
-        String start = "...";
-        String end = "...";
+        String start = "...", end = "...";
 
         if (this.start != 0) {
             start = sdf.format(this.start);
         }
-        
+
         if (this.end != 0) {
             end = sdf.format(this.end);
         }
