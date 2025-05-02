@@ -1,6 +1,6 @@
-package main.common;
+package main.workshop.common;
 
-import main.exception.WorkshopException;
+import main.workshop.exception.WorkshopException;
 
 /**
  * Classe que representa um telefone.
@@ -28,7 +28,7 @@ public class Phone {
      * 
      * @param phone telefone no formato "(xx) 9xxxx-xxxx".
      * 
-     * @throws WorkshopException
+     * @throws WorkshopException caso o telefone seja inválido.
      */
     public Phone(String phone) throws WorkshopException {
         this.setPhone(phone);
@@ -50,7 +50,7 @@ public class Phone {
      * 
      * @param phone telefone no formato.
      * 
-     * @throws WorkshopException
+     * @throws WorkshopException caso o telefone seja inválido.
      */
     public void setPhone(String phone) throws WorkshopException {
         if (phone == null) {

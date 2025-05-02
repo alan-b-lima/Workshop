@@ -1,6 +1,6 @@
-package main.common;
+package main.workshop.common;
 
-import main.exception.WorkshopException;
+import main.workshop.exception.WorkshopException;
 
 /**
  * Classe abstrata que representa uma pessoa.
@@ -39,7 +39,7 @@ public abstract class Person {
      * @param phone Telefone da pessoa.
      * @param cpf   CPF da pessoa.
      * 
-     * @throws WorkshopException
+     * @throws WorkshopException Caso o telefone ou CPF sejam inválidos.
      */
     public Person(String name, String phone, String cpf) throws WorkshopException {
         this.name = name;

@@ -1,7 +1,7 @@
-package main.customer;
+package main.workshop.customer;
 
-import main.common.Person;
-import main.exception.WorkshopException;
+import main.workshop.common.Person;
+import main.workshop.exception.WorkshopException;
 
 /**
  * Classe que representa um cliente.
@@ -30,7 +30,7 @@ public class Customer extends Person {
      * @param cpf     CPF do cliente.
      * @param address endereço do cliente.
      * 
-     * @throws WorkshopException
+     * @throws WorkshopException caso o telefone ou CPF sejam inválidos.
      */
     public Customer(String name, String phone, String cpf, String address) throws WorkshopException {
         super(name, phone, cpf);

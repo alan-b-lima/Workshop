@@ -39,6 +39,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
         - [ ] IncomeExpenseManeger.java
         - [x] Expense.java
         - [ ] Invoice.java
+        - [ ] Shipment.java
     - common\
         - [x] Cpf.java
         - [x] Person.java
@@ -59,7 +60,6 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - [ ] Scheduling.java
             - [ ] Service.java
         - stock\
-            - [ ] Shipment.java
             - [ ] Stock.java
             - [ ] Part.java
         - [ ] Workshop.java
@@ -85,8 +85,36 @@ classDiagram
         + getValue() double
         + setValue(double)
         + getDate() long
-        + getDateDate() Date
         + setDate(long)
+    }
+
+    class Invoice {
+        + id: long
+        - parts: Part[]
+        - services: Service[]
+        - value: double
+        - date: long
+
+        + Invoice()
+
+        ...
+    }
+
+    Shipment *-- Part
+    class Shipment {
+        + id: long
+        - parts: ArrayList<Part>
+        - arrival: long
+
+        + Shipment()
+        
+        + getParts() ArrayList<Part>
+        + getPart(String) Part
+        + addPart(Part)
+        + addPart(Part, int)
+        + getArrival() long
+        + setArrival(long)
+        + setArrivalNow()
     }
 
     class Cpf {
@@ -102,7 +130,7 @@ classDiagram
 
     Person *-- Cpf  
     Person *-- Phone
-    class Person["_Pessoa_"] {
+    class Person["_Person_"] {
         - name: String
         - phone: Phone
         - cpf: Cpf
@@ -192,32 +220,43 @@ classDiagram
         + Shift(long, long)
 
         + getStart() long
-        + getStartDate() Date
         + setStart(long)
         + setStartNow(long)
         + getEnd() long
-        + getEndDate() Date
         + setEnd(long)
         + setEndNow(long)
     }
 
-    Shipment *-- Part
-    class Shipment {
-        - parts: ArrayList<Part>
-        - arrival: long
+    class Elevator {
+        - activities: ArrayList<String>
 
-        + Shipment()
-        
-        + getParts() ArrayList<Part>
-        + getPart() Part
-        + addPart(Part)
-        + addPart(Part, int)
-        + getArrival() long
-        + getArrivalDate() Date
-        + setArrival(long)
-        + setArrivalNow()
+        + elevators: Elevator[] $
+
+        + Elevator()
+
+        + getActivities() ArrayList<String>
+        + addActivity(String)
+        + removeActivity(String)
     }
 
+    class Maintenance {
+        ...
+    }
+
+    class Scheduler {
+        ...
+    }
+
+    class Scheduling {
+        customer: long
+    }
+
+    class Service {
+        ...
+    }
+
+    Stock *-- Part
+    Stock *-- Shipment
     class Stock {
         - parts: HashMap<String, Part>
         - shipments: ArrayList<Shipment>
@@ -226,12 +265,14 @@ classDiagram
 
         + Stock()
 
-        + getPart(String) Part
         + getPartQuantity(String) int
+        + addPartQuantity(String) int
+        + removePartQuantity(String, int)
         + getPartUnitValue(String) double
         + getPartTotalValue(String) double
+        + setPartUnitValue(String) double
+        + getShipment(Shipment)
         + addShipment(Shipment)
-        + addPart(Part)
     }
 
     class Part {

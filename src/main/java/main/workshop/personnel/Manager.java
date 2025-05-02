@@ -1,13 +1,14 @@
 package main.workshop.personnel;
 
-import main.exception.WorkshopException;
+import main.workshop.common.Person;
+import main.workshop.exception.WorkshopException;
 
 /**
  * Classe que representa um gerente de oficina.
  * 
  * @author Alan Lima
  */
-public class Manager extends main.common.Person {
+public class Manager extends Person {
 
     /**
      * Pro labore do gerente.

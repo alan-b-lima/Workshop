@@ -1,6 +1,6 @@
-package main.common;
+package main.workshop.common;
 
-import main.exception.WorkshopException;
+import main.workshop.exception.WorkshopException;
 
 /**
  * Classe que representa um CPF.
@@ -61,23 +61,42 @@ public class Cpf {
      * 
      * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx".
      * 
-     * @throws WorkshopException
+     * @throws WorkshopException caso o CPF seja inválido.
      */
     public void setCpf(String cpf) throws WorkshopException {
 
+        // Verifica se o CPF é nulo ou vazio.
         if (cpf == null) {
             throw new WorkshopException("CPF inválido - CPF não pode ser nulo!");
         }
 
+        // Verifica se o CPF pertence a um superconjunto do formato padrão.
         if (cpf.matches("^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$") == false) {
             throw new WorkshopException("CPF inválido - CPF deve ter 11 dígitos!");
         }
 
+        // Remove todos os caracteres não numéricos do CPF.
         String stripedCpf = cpf.replaceAll("[^\\d]", "");
 
+        // Verifica se o CPF é composto por dígitos repetidos
         if (stripedCpf.matches("^(\\d)\\1{10}$") == true) {
             throw new WorkshopException("CPF inválido - CPF não pode ser composto por dígitos repetidos!");
         }
+
+        /*
+         * Algoritmo de validação do CPF:
+         * 
+         * Considere o CPF ABC.DEF.GHI-JK, sendo A, B, C, D, E, F, G, H, I, J e K
+         * digitos decimais de 0 a 9.
+         * 
+         * x := (10A + 9B + 8C + 7D + 6E + 5F + 4G + 3H + 2I) % 11
+         * y := x < 2 ? 0 : 11 - x
+         * 
+         * z := (10B + 9C + 8D + 7E + 6F + 5G + 4H + 3I + 2y) % 11
+         * w := z < 2 ? 0 : 11 - z
+         * 
+         * Se x != J ou y != K, CPF inválido.
+         */
 
         int[] check_sum = { 0, 0 };
         for (int i = 10; i >= 2; i--) {

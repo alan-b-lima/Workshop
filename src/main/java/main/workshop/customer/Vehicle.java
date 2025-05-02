@@ -1,4 +1,6 @@
-package main.common;
+package main.workshop.customer;
+
+import main.workshop.exception.WorkshopException;
 
 /**
  * Classe que representa um veículo.
@@ -35,8 +37,10 @@ public class Vehicle {
      * @param model modelo do veículo.
      * @param plate placa do veículo.
      * @param year  ano do veículo.
+     * 
+     * @throws WorkshopException caso a placa seja inválida.
      */
-    public Vehicle(String model, String plate, int year) {
+    public Vehicle(String model, String plate, int year) throws WorkshopException {
         this.setModel(model);
         this.setPlate(plate);
         this.setYear(year);
@@ -73,9 +77,24 @@ public class Vehicle {
      * Define a placa do veículo.
      * 
      * @param plate placa do veículo.
+     * 
+     * @throws WorkshopException caso a placa seja inválida.
      */
-    public void setPlate(String plate) {
-        this.plate = plate;
+    public void setPlate(String plate) throws WorkshopException {
+
+        if (plate == null) {
+            throw new WorkshopException("Placa inválida - placa não pode ser nula!");
+        }
+
+        if (plate.matches("^[A-Z]{3}-?\\d{4}$") == true) {
+            this.plate = plate.replaceAll("-", "");
+        }
+
+        if (plate.matches("^[A-Z]{3}\\d[A-Z]\\d{2}$") == true) {
+            this.plate = plate;
+        }
+
+        throw new WorkshopException("Placa inválida - placa deve ser no formato \"ABC1234\" ou \"ABC1D23\"!");
     }
 
     /**

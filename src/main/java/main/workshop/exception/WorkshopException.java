@@ -1,4 +1,4 @@
-package main.exception;
+package main.workshop.exception;
 
 /**
  * Classe que representa uma exceção personalizada para o sistema de

@@ -2,8 +2,8 @@ package main.workshop.personnel;
 
 import java.util.ArrayList;
 
-import main.common.Person;
-import main.exception.WorkshopException;
+import main.workshop.common.Person;
+import main.workshop.exception.WorkshopException;
 
 /**
  * Classe que representa um funcionário.
@@ -14,8 +14,6 @@ public class Employee extends Person {
 
     /**
      * Lista de turnos do funcionário.
-     * 
-     * @see main.workshop.personnel.Shift
      */
     private ArrayList<Shift> shifts;
 
@@ -59,8 +57,8 @@ public class Employee extends Person {
     /**
      * Retorna os turnos do funcionário dentro do intervalo de tempo especificado.
      * 
-     * @param start UNIX timestamp que representa o início do intervalo.
-     * @param end   UNIX timestamp que representa o fim do intervalo.
+     * @param start timestamp UNIX que representa o início do intervalo.
+     * @param end   timestamp UNIX que representa o fim do intervalo.
      * @return lista de turnos dentro do intervalo especificado.
      */
     public ArrayList<Shift> getShifts(long start, long end) {
@@ -122,7 +120,7 @@ public class Employee extends Person {
 
     /**
      * Define o salário do funcionário.
-     * 
+     *
      * @param salary salário do funcionário.
      */
     public void setSalary(double salary) {
