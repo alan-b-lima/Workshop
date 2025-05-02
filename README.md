@@ -69,6 +69,26 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 ```mermaid
 classDiagram
 
+    class Expense {
+        - name: String
+        - description: String
+        - value: double
+        - date: long
+
+        + Expense()
+        + Expense(String, String, double, long)
+
+        + getName() String
+        + setName(String)
+        + getDescription() String
+        + setDescription(String)
+        + getValue() double
+        + setValue(double)
+        + getDate() long
+        + getDateDate() Date
+        + setDate(long)
+    }
+
     class Cpf {
         - cpf: long
 
@@ -147,7 +167,7 @@ classDiagram
         + getShifts() ArrayList<Shift>
         + getShifts(long, long) ArrayList<Shift>
         + getRecentShift() Shift
-        + addShift(Shift) 
+        + addShift(Shift)
         + getSalary() double
         + setSalary(double)
     }
@@ -183,14 +203,15 @@ classDiagram
 
     Shipment *-- Part
     class Shipment {
-        + id: long
         - parts: ArrayList<Part>
         - arrival: long
 
         + Shipment()
         
-        + getQuantity() int
-        + setQuantity(int)
+        + getParts() ArrayList<Part>
+        + getPart() Part
+        + addPart(Part)
+        + addPart(Part, int)
         + getArrival() long
         + getArrivalDate() Date
         + setArrival(long)
@@ -199,10 +220,18 @@ classDiagram
 
     class Stock {
         - parts: HashMap<String, Part>
+        - shipments: ArrayList<Shipment>
 
         + stock: Stock $
 
         + Stock()
+
+        + getPart(String) Part
+        + getPartQuantity(String) int
+        + getPartUnitValue(String) double
+        + getPartTotalValue(String) double
+        + addShipment(Shipment)
+        + addPart(Part)
     }
 
     class Part {

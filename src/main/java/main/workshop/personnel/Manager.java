@@ -20,7 +20,7 @@ public class Manager extends main.common.Person {
     }
 
     /**
-     * Construtor parametrizado.
+     * Construtor que recebe o nome, telefone, CPF e pro labore do gerente.
      * 
      * @param name      nome do gerente.
      * @param phone     telefone do gerente.

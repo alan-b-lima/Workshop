@@ -31,7 +31,7 @@ public abstract class Person {
     }
 
     /**
-     * Construtor parametrizado.
+     * Construtor que recebe o nome, telefone e CPF da pessoa.
      * 
      * @param name  Nome da pessoa.
      * @param phone Telefone da pessoa.

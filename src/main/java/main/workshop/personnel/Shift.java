@@ -1,5 +1,6 @@
 package main.workshop.personnel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -75,11 +76,34 @@ public class Shift {
     }
 
     /**
+     * Construtor que recebe o início do turno como uma string formato "dd/MM/yyyy HH:mm.
+     * 
+     * @param start string que representa o início do turno no formato "dd/MM/yyyy HH:mm".
+     * 
+     * @throws ParseException
+     */
+    public Shift(String start) throws ParseException {
+        this(sdf.parse(start).getTime(), 0L);
+    }
+
+    /**
+     * Construtor que recebe o início e o fim do turno como strings no formato "dd/MM/yyyy HH:mm".
+     * 
+     * @param start string que representa o início do turno no formato "dd/MM/yyyy HH:mm".
+     * @param end   string que representa o fim do turno no formato "dd/MM/yyyy HH:mm".
+     * 
+     * @throws ParseException
+     */
+    public Shift(String start, String end) throws ParseException {
+        this(sdf.parse(start).getTime(), sdf.parse(end).getTime());
+    }
+
+    /**
      * Formato de data utilizado para representar o início e o fim do turno.
      * 
      * @see java.text.SimpleDateFormat
      */
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     /**
      * Retorna o início do turno.

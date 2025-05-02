@@ -30,7 +30,7 @@ public class Vehicle {
     }
 
     /**
-     * Construtor com parâmetros.
+     * Construtor que recebe o modelo, placa e ano do veículo.
      * 
      * @param model modelo do veículo.
      * @param plate placa do veículo.

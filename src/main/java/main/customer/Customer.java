@@ -22,7 +22,7 @@ public class Customer extends Person {
     }
 
     /**
-     * Construtor parametrizado.
+     * Construtor que recebe o nome, telefone, CPF e endereço do cliente.
      * 
      * @param name    nome do cliente.
      * @param phone   telefone do cliente.
