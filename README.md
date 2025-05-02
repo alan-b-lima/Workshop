@@ -37,7 +37,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
         - [ ] Authenticator.java
     - financial\
         - [ ] IncomeExpenseManeger.java
-        - [ ] Expense.java
+        - [x] Expense.java
         - [ ] Invoice.java
     - common\
         - [x] Cpf.java
