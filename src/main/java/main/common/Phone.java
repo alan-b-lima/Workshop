@@ -1,5 +1,7 @@
 package main.common;
 
+import main.exception.WorkshopException;
+
 /**
  * Classe que representa um telefone.
  * 
@@ -8,31 +10,34 @@ package main.common;
 public class Phone {
 
     /**
-     * Cada dígito do telefone é armazenado em 4 bits, totalizando 40 bits (10 dígitos)
-     * Assim, essa variável funciona com um vetor de dígitos decimais.
+     * Representa um número de telefone. Cada dígito do telefone é armazenado em 4
+     * bits, totalizando 40 bits (10 dígitos). Assim, essa variável funciona com um
+     * vetor de dígitos decimais.
      */
     private long phone;
 
     /**
-     * Construtor padrão
+     * Construtor padrão.
      */
     public Phone() {
 
     }
 
     /**
-     * Construtor que recebe o telefone no formato "(xx) 9xxxx-xxxx"
+     * Construtor que recebe o telefone no formato "(xx) 9xxxx-xxxx".
      * 
-     * @param phone telefone no formato "(xx) 9xxxx-xxxx"
+     * @param phone telefone no formato "(xx) 9xxxx-xxxx".
+     * 
+     * @throws WorkshopException
      */
-    public Phone(String phone) {
+    public Phone(String phone) throws WorkshopException {
         this.setPhone(phone);
     }
 
     /**
-     * Retorna o telefone no formato "(xx) 9xxxx-xxxx"
+     * Retorna o telefone no formato "(xx) 9xxxx-xxxx".
      * 
-     * @return telefone no formato "(xx) 9xxxx-xxxx"
+     * @return telefone no formato "(xx) 9xxxx-xxxx".
      */
     public String getPhone() {
         return String
@@ -41,19 +46,19 @@ public class Phone {
     }
 
     /**
-     * Define o telefone a partir de uma string
+     * Define o telefone a partir de uma string.
      * 
-     * @param phone telefone no formato
+     * @param phone telefone no formato.
+     * 
+     * @throws WorkshopException
      */
-    public void setPhone(String phone) {
+    public void setPhone(String phone) throws WorkshopException {
         if (phone == null) {
-            // error
-            return;
+            throw new WorkshopException("Telefone inválido - telefone não pode ser nulo!");
         }
 
         if (phone.matches("^(\\(\\d{2}\\)|\\d{2}) ?9?\\d{4}[- ]?\\d{4}$") == false) {
-            // error
-            return;
+            throw new WorkshopException("Telefone inválido - telefone deve estar no formato (xx) 9xxxx-xxxx!");
         }
 
         String stripedPhone = phone.replaceAll("[^\\d]", "");
@@ -75,6 +80,8 @@ public class Phone {
 
     /**
      * Retorna a representação textual do telefone no formato "(xx) 9xxxx-xxxx".
+     * 
+     * @return telefone no formato "(xx) 9xxxx-xxxx".
      */
     @Override
     public String toString() {

@@ -1,5 +1,7 @@
 package main.common;
 
+import main.exception.WorkshopException;
+
 /**
  * Classe abstrata que representa uma pessoa.
  * 
@@ -36,8 +38,10 @@ public abstract class Person {
      * @param name  Nome da pessoa.
      * @param phone Telefone da pessoa.
      * @param cpf   CPF da pessoa.
+     * 
+     * @throws WorkshopException
      */
-    public Person(String name, String phone, String cpf) {
+    public Person(String name, String phone, String cpf) throws WorkshopException {
         this.name = name;
         this.phone = new Phone(phone);
         this.cpf = new Cpf(cpf);
@@ -74,8 +78,10 @@ public abstract class Person {
      * Define o telefone da pessoa.
      * 
      * @param phone telefone da pessoa.
+     * 
+     * @throws WorkshopException 
      */
-    public void setPhone(String phone) {
+    public void setPhone(String phone) throws WorkshopException {
         this.phone.setPhone(phone);
     }
 
@@ -101,8 +107,10 @@ public abstract class Person {
      * Define o CPF da pessoa.
      * 
      * @param cpf CPF da pessoa.
+     * 
+     * @throws WorkshopException 
      */
-    public void setCpf(String cpf) {
+    public void setCpf(String cpf) throws WorkshopException {
         this.cpf.setCpf(cpf);
     }
 

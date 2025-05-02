@@ -1,6 +1,7 @@
 package main.customer;
 
 import main.common.Person;
+import main.exception.WorkshopException;
 
 /**
  * Classe que representa um cliente.
@@ -28,8 +29,10 @@ public class Customer extends Person {
      * @param phone   telefone do cliente.
      * @param cpf     CPF do cliente.
      * @param address endereço do cliente.
+     * 
+     * @throws WorkshopException
      */
-    public Customer(String name, String phone, String cpf, String address) {
+    public Customer(String name, String phone, String cpf, String address) throws WorkshopException {
         super(name, phone, cpf);
         this.setAddress(address);
     }

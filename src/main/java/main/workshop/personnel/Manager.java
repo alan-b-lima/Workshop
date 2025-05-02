@@ -1,5 +1,7 @@
 package main.workshop.personnel;
 
+import main.exception.WorkshopException;
+
 /**
  * Classe que representa um gerente de oficina.
  * 
@@ -26,8 +28,10 @@ public class Manager extends main.common.Person {
      * @param phone     telefone do gerente.
      * @param cpf       CPF do gerente.
      * @param proLabore pro labore do gerente.
+     * 
+     * @throws WorkshopException
      */
-    public Manager(String name, String phone, String cpf, double proLabore) {
+    public Manager(String name, String phone, String cpf, double proLabore) throws WorkshopException {
         super(name, phone, cpf);
         this.setProLabore(proLabore);
     }

@@ -3,6 +3,7 @@ package main.workshop.personnel;
 import java.util.ArrayList;
 
 import main.common.Person;
+import main.exception.WorkshopException;
 
 /**
  * Classe que representa um funcionário.
@@ -38,8 +39,10 @@ public class Employee extends Person {
      * @param phone  telefone do funcionário.
      * @param cpf    CPF do funcionário.
      * @param salary salário do funcionário.
+     * 
+     * @throws WorkshopException
      */
-    public Employee(String name, String phone, String cpf, double salary) {
+    public Employee(String name, String phone, String cpf, double salary) throws WorkshopException {
         super(name, phone, cpf);
         this.salary = salary;
     }
@@ -61,13 +64,18 @@ public class Employee extends Person {
      * @return lista de turnos dentro do intervalo especificado.
      */
     public ArrayList<Shift> getShifts(long start, long end) {
-        ArrayList<Shift> points = new ArrayList<>();
-        for (Shift shift : this.shifts) { // verifica o ponto na lista
+        ArrayList<Shift> shifts = new ArrayList<>();
+
+        for (Shift shift : this.shifts) {
+            // verifica o ponto na lista
             if (shift.getStart() >= start && shift.getEnd() <= end) {
-                points.add(shift); // adiciona a lista local se a condição for satisfeita
+                // adiciona a lista local se a condição for satisfeita
+                shifts.add(shift);
             }
         }
-        return points; // retorna os pontos
+
+        // retorna os pontos
+        return shifts;
     }
 
     /**
@@ -82,22 +90,25 @@ public class Employee extends Person {
     /**
      * Adiciona um turno à lista de turnos do funcionário.
      * 
-     * @param newShift turno a ser adicionado.
+     * @param shift turno a ser adicionado.
      */
-    public void addShift(Shift newShift) {
+    public void addShift(Shift shift) {
         // se tiver vazia apenas adiciona o turno
         if (shifts.isEmpty()) {
-            shifts.add(newShift);
+            shifts.add(shift);
         }
+
         // itera sobre a lista para encontrar a posição correta do final para o início
         for (int i = shifts.size() - 1; i >= 0; i--) {
-            if (newShift.getStart() >= shifts.get(i).getStart()) {
-                shifts.add(i + 1, newShift); // adiciona na posição correta
+            if (shift.getStart() >= shifts.get(i).getStart()) {
+                // adiciona na posição correta
+                shifts.add(i + 1, shift);
                 return;
             }
         }
 
-        shifts.add(0, newShift); // se o turno for mais recente que os outros adiciona no inicio
+        // se o turno for mais recente que os outros adiciona no inicio
+        shifts.add(0, shift);
     }
 
     /**

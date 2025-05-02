@@ -1,5 +1,7 @@
 package main.common;
 
+import main.exception.WorkshopException;
+
 /**
  * Classe que representa um CPF.
  * 
@@ -22,11 +24,13 @@ public class Cpf {
     }
 
     /**
-     * Construtor que recebe o CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx"
+     * Construtor que recebe o CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx".
      * 
-     * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx"
+     * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx".
+     * 
+     * @throws WorkshopException
      */
-    public Cpf(String cpf) {
+    public Cpf(String cpf) throws WorkshopException {
         this.setCpf(cpf);
     }
 
@@ -56,23 +60,23 @@ public class Cpf {
      * Define o CPF a partir de uma string.
      * 
      * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx".
+     * 
+     * @throws WorkshopException
      */
-    public void setCpf(String cpf) {
+    public void setCpf(String cpf) throws WorkshopException {
+
         if (cpf == null) {
-            // error
-            return;
+            throw new WorkshopException("CPF inválido - CPF não pode ser nulo!");
         }
 
         if (cpf.matches("^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$") == false) {
-            // error
-            return;
+            throw new WorkshopException("CPF inválido - CPF deve ter 11 dígitos!");
         }
 
         String stripedCpf = cpf.replaceAll("[^\\d]", "");
 
         if (stripedCpf.matches("^(\\d)\\1{10}$") == true) {
-            // error
-            return;
+            throw new WorkshopException("CPF inválido - CPF não pode ser composto por dígitos repetidos!");
         }
 
         int[] check_sum = { 0, 0 };
@@ -85,8 +89,8 @@ public class Cpf {
         if (false
                 || (byte) (stripedCpf.charAt(9) - '0') != (remainder[0] < 2 ? 0 : 11 - remainder[0])
                 || (byte) (stripedCpf.charAt(10) - '0') != (remainder[1] < 2 ? 0 : 11 - remainder[1])) {
-            // error
-            return;
+
+            throw new WorkshopException("CPF inválido - digitos verificadores inválidos!");
         }
 
         this.cpf = 0L;
