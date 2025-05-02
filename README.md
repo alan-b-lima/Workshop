@@ -49,7 +49,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
     - exceptions\
     - workshop\
         - personnel\
-            - [ ] Employee.java
+            - [x] Employee.java
             - [x] Manager.java
             - [x] Shift.java
         - service\
@@ -147,6 +147,7 @@ classDiagram
         + getShifts() ArrayList<Shift>
         + getShifts(long, long) ArrayList<Shift>
         + getRecentShift() Shift
+        + addShift(Shift) 
         + getSalary() double
         + setSalary(double)
     }
