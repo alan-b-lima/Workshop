@@ -29,30 +29,32 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 
 # Estrutura do Projeto
 
-- json\
-    - [ ] Json.java
 - main\
-    - auth\
-        - [ ] Account.java
-        - [ ] Authenticator.java
-    - financial\
-        - [ ] IncomeExpenseManeger.java
-        - [x] Expense.java
-        - [ ] Invoice.java
-        - [ ] Shipment.java
-    - common\
-        - [x] Cpf.java
-        - [x] Person.java
-        - [x] Phone.java
-        - [x] Vehicle.java
-    - customer\
-        - [x] Customer.java
-    - exceptions\
+    - json\
+        - [ ] Json.java
+    - util\
+        - [ ] WDate.java
     - workshop\
+        - auth\
+            - [ ] Account.java
+            - [ ] Session.java
+        - financial\
+            - [ ] IncomeExpenseManager.java
+            - [x] Expense.java
+            - [ ] Invoice.java
+        - common\
+            - [x] Cpf.java
+            - [x] DateSpan.java
+            - [x] Person.java
+            - [x] Phone.java
+        - customer\
+            - [x] Customer.java
+            - [x] Vehicle.java
+        - exceptions\
+            - [x] WorkshopException.java
         - personnel\
             - [x] Employee.java
             - [x] Manager.java
-            - [x] Shift.java
         - service\
             - [ ] Elevator.java
             - [ ] Maintenance.java
@@ -60,6 +62,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - [ ] Scheduling.java
             - [ ] Service.java
         - stock\
+            - [ ] Shipment.java
             - [ ] Stock.java
             - [ ] Part.java
         - [ ] Workshop.java
@@ -100,23 +103,6 @@ classDiagram
         ...
     }
 
-    Shipment *-- Part
-    class Shipment {
-        + id: long
-        - parts: ArrayList<Part>
-        - arrival: long
-
-        + Shipment()
-        
-        + getParts() ArrayList<Part>
-        + getPart(String) Part
-        + addPart(Part)
-        + addPart(Part, int)
-        + getArrival() long
-        + setArrival(long)
-        + setArrivalNow()
-    }
-
     class Cpf {
         - cpf: long
 
@@ -126,6 +112,22 @@ classDiagram
         + getCpf() String
         + getFullCpf() String
         + setCpf(String)
+    }
+
+    class DateSpan {
+        - start: long
+        - end: long
+
+        + DateSpan()
+        + DateSpan(long)
+        + DateSpan(long, long)
+
+        + getStart() long
+        + setStart(long)
+        + setStartNow(long)
+        + getEnd() long
+        + setEnd(long)
+        + setEndNow(long)   
     }
 
     Person *-- Cpf  
@@ -186,7 +188,7 @@ classDiagram
     Employee *-- Shift
     Employee --|> Person
     class Employee {
-        - shifts: ArrayList<Shift>
+        - shifts: ArrayList<DateSpan>
         - salary: double
 
         + Employee()
@@ -211,32 +213,8 @@ classDiagram
         + setProLabore(double)
     }
 
-    class Shift {
-        - start: long
-        - end: long
-
-        + Shift()
-        + Shift(long)
-        + Shift(long, long)
-
-        + getStart() long
-        + setStart(long)
-        + setStartNow(long)
-        + getEnd() long
-        + setEnd(long)
-        + setEndNow(long)
-    }
-
     class Elevator {
-        - activities: ArrayList<String>
-
-        + elevators: Elevator[] $
-
         + Elevator()
-
-        + getActivities() ArrayList<String>
-        + addActivity(String)
-        + removeActivity(String)
     }
 
     class Maintenance {
@@ -244,15 +222,47 @@ classDiagram
     }
 
     class Scheduler {
-        ...
+        
     }
 
     class Scheduling {
-        customer: long
+        - customer: long
+        - vehicle: Vehicle
+        - elevador: byte
+        - date: long
     }
 
     class Service {
-        ...
+        - name: String
+        - description: String
+        - value: double
+
+        + Service()
+        + Service(String, String, double)
+
+        + getName() String
+        + setName(String)
+        + getDescription() String
+        + setDescription(String)
+        + getValue() double
+        + setValue(double)
+    }
+
+    Shipment *-- Part
+    class Shipment {
+        + id: long
+        - parts: ArrayList<Part>
+        - arrival: long
+
+        + Shipment()
+        
+        + getParts() ArrayList<Part>
+        + getPart(String) Part
+        + addPart(Part)
+        + addPart(Part, int)
+        + getArrival() long
+        + setArrival(long)
+        + setArrivalNow()
     }
 
     Stock *-- Part
@@ -263,14 +273,15 @@ classDiagram
 
         + stock: Stock $
 
-        + Stock()
+        - Stock()
 
         + getPartQuantity(String) int
-        + addPartQuantity(String) int
+        + addPartQuantity(String, int) int
         + removePartQuantity(String, int)
         + getPartUnitValue(String) double
         + getPartTotalValue(String) double
         + setPartUnitValue(String) double
+        + getPartTotalValue(String) double
         + getShipment(Shipment)
         + addShipment(Shipment)
     }

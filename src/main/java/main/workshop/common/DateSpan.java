@@ -1,4 +1,6 @@
-package main.workshop.personnel;
+package main.workshop.common;
+
+import java.util.Comparator;
 
 import main.util.WDate;
 
@@ -7,7 +9,7 @@ import main.util.WDate;
  * 
  * @author Alan Lima
  */
-public class Shift {
+public class DateSpan implements Comparator<DateSpan> {
 
     /**
      * Timestamp UNIX que representa o início do turno.
@@ -26,7 +28,7 @@ public class Shift {
     /**
      * Construtor padrão.
      */
-    public Shift() {
+    public DateSpan() {
 
     }
 
@@ -35,7 +37,7 @@ public class Shift {
      * 
      * @param start timestamp UNIX que representa o início do turno.
      */
-    public Shift(long start) {
+    public DateSpan(long start) {
         this(start, 0L);
     }
 
@@ -45,7 +47,7 @@ public class Shift {
      * @param start timestamp UNIX que representa o início do turno.
      * @param end   timestamp UNIX que representa o fim do turno.
      */
-    public Shift(long start, long end) {
+    public DateSpan(long start, long end) {
         this.setStart(start);
         this.setEnd(end);
     }
@@ -98,6 +100,40 @@ public class Shift {
      */
     public void setEndNow() {
         this.end = WDate.now();
+    }
+
+    @Override
+    public int compare(DateSpan o1, DateSpan o2) {
+        if (o1 == null && o2 == null) {
+            return 0;
+        }
+
+        if (o1 == null) {
+            return 1;
+        }
+
+        if (o2 == null) {
+            return -1;
+        }
+
+        if (o1.getStart() == o2.getStart()) {
+            return Long.compare(o1.getEnd(), o2.getEnd());
+        }
+
+        return Long.compare(o1.getStart(), o2.getStart());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return compare(this, (DateSpan) obj) == 0;
     }
 
     /**

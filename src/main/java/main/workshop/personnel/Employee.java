@@ -2,6 +2,7 @@ package main.workshop.personnel;
 
 import java.util.ArrayList;
 
+import main.workshop.common.DateSpan;
 import main.workshop.common.Person;
 import main.workshop.exception.WorkshopException;
 
@@ -15,7 +16,7 @@ public class Employee extends Person {
     /**
      * Lista de turnos do funcionário.
      */
-    private ArrayList<Shift> shifts;
+    private ArrayList<DateSpan> shifts;
 
     /**
      * Salário do funcionário.
@@ -26,9 +27,9 @@ public class Employee extends Person {
      * Construtor padrão.
      */
     public Employee() {
-
+        this.shifts = new ArrayList<>();
     }
-
+    
     /**
      * Construtor parametrizado que recebe o nome, telefone, CPF e salário do
      * funcionário.
@@ -42,6 +43,7 @@ public class Employee extends Person {
      */
     public Employee(String name, String phone, String cpf, double salary) throws WorkshopException {
         super(name, phone, cpf);
+        this.shifts = new ArrayList<>();
         this.salary = salary;
     }
 
@@ -50,7 +52,7 @@ public class Employee extends Person {
      * 
      * @return lista de turnos do funcionário.
      */
-    public ArrayList<Shift> getShifts() {
+    public ArrayList<DateSpan> getShifts() {
         return shifts;
     }
 
@@ -61,10 +63,10 @@ public class Employee extends Person {
      * @param end   timestamp UNIX que representa o fim do intervalo.
      * @return lista de turnos dentro do intervalo especificado.
      */
-    public ArrayList<Shift> getShifts(long start, long end) {
-        ArrayList<Shift> shifts = new ArrayList<>();
+    public ArrayList<DateSpan> getShifts(long start, long end) {
+        ArrayList<DateSpan> shifts = new ArrayList<>();
 
-        for (Shift shift : this.shifts) {
+        for (DateSpan shift : this.shifts) {
             // verifica o ponto na lista
             if (shift.getStart() >= start && shift.getEnd() <= end) {
                 // adiciona a lista local se a condição for satisfeita
@@ -81,7 +83,7 @@ public class Employee extends Person {
      * 
      * @return turno mais recente do funcionário.
      */
-    public Shift getRecentShift() {
+    public DateSpan getRecentShift() {
         return shifts.getLast();
     }
 
@@ -90,7 +92,7 @@ public class Employee extends Person {
      * 
      * @param shift turno a ser adicionado.
      */
-    public void addShift(Shift shift) {
+    public void addShift(DateSpan shift) {
         // se tiver vazia apenas adiciona o turno
         if (shifts.isEmpty()) {
             shifts.add(shift);
