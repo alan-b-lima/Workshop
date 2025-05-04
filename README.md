@@ -280,8 +280,8 @@ classDiagram
         + removePartQuantity(String, int)
         + getPartUnitValue(String) double
         + getPartTotalValue(String) double
-        + setPartUnitValue(String) double
-        + getPartTotalValue(String) double
+        + setPartUnitValue(String) 
+        + setPartTotalValue(String)
         + getShipment(Shipment)
         + addShipment(Shipment)
     }
