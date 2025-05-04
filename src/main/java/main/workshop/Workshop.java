@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import main.workshop.auth.Session;
 import main.workshop.customer.Customer;
 import main.workshop.customer.Vehicle;
 import main.workshop.personnel.Employee;
@@ -31,11 +30,6 @@ public final class Workshop {
      * Instância do estoque da oficina.
      */
     private Stock stock;
-
-    /**
-     * Instância da sessão atual.
-     */
-    private Session session;
 
     /**
      * Lista de clientes da oficina.
@@ -85,7 +79,7 @@ public final class Workshop {
     /**
      * Caminho de estado da oficina.
      */
-    private static final String jsonPath = String.format("data%sWorkshop.json", File.separator);
+    private static final String JSON_PATH = String.format("data%sWorkshop.json", File.separator);
 
     /**
      * Gson para serialização e deserialização de objetos.
@@ -108,24 +102,6 @@ public final class Workshop {
      */
     public Stock getStock() {
         return stock;
-    }
-
-    /**
-     * Retorna a sessão atual.
-     * 
-     * @return sessão atual.
-     */
-    public Session getSession() {
-        return session;
-    }
-
-    /**
-     * Define a sessão atual.
-     * 
-     * @param session sessão a ser definida.
-     */
-    public void setSession(Session session) {
-        this.session = session;
     }
 
     /**
@@ -203,7 +179,7 @@ public final class Workshop {
      */
     public void saveState() {
 
-        try (FileWriter file = new FileWriter(jsonPath)) {
+        try (FileWriter file = new FileWriter(JSON_PATH)) {
 
             GSON.toJson(workshop, file);
             file.close();
@@ -218,9 +194,9 @@ public final class Workshop {
      */
     public void loadState() {
 
-        try (FileReader file = new FileReader(jsonPath)) {
+        try (FileReader file = new FileReader(JSON_PATH)) {
 
-            GSON.fromJson(file, new TypeToken<Workshop>() {});
+            workshop = GSON.fromJson(file, new TypeToken<Workshop>() {});
             file.close();
 
         } catch (IOException err) {
