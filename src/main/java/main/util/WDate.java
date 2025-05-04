@@ -48,7 +48,8 @@ public final class WDate {
      * @param dateString data no formato "dd/MM/yyyy" ou "dd/MM/yyyy HH:mm"
      * @return timestamp UNIX correspondente à data
      * 
-     * @throws WorkshopException
+     * @throws WorkshopException caso a data não esteja no formato esperado ou
+     *                           seja inválida.
      */
     public static long parse(String dateString) throws WorkshopException {
         if (dateString == null || dateString.isEmpty()) {
@@ -74,6 +75,16 @@ public final class WDate {
         throw new WorkshopException(INVALID_DATE);
     }
 
+    /**
+     * Converte um objeto {@code Date} para um UNIX timestamp.
+     * Um timestamp UNIX é o número de milissegundos desde 1 de janeiro de 1970,
+     * 00:00:00.
+     * 
+     * @param date objeto {@code Date} correspondente à data
+     * @return timestamp UNIX correspondente à data
+     * 
+     * @throws WorkshopException caso a data seja nula.
+     */
     public static long parse(Date date) throws WorkshopException {
         if (date == null) {
             throw new WorkshopException("Data inválida - data não pode ser nula!");
