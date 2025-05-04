@@ -1,5 +1,7 @@
 package main.workshop.financial;
 
+import main.util.WDate;
+
 /**
  * Classe que representa uma despesa.
  * 
@@ -119,5 +121,10 @@ public class Expense {
      */
     public void setDate(long date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{%s, %s, %.2f, %s}", name, description, value, WDate.formatDateTime(date));
     }
 }

@@ -1,5 +1,8 @@
 package main.json;
 
+import java.io.Reader;
+import java.io.Writer;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,6 +45,19 @@ public class Json {
     }
 
     /**
+     * Converte um objeto para um JSON.
+     * 
+     * @param <T>    tipo do objeto a ser convertido.
+     * @param object objeto a ser convertido.
+     * @return JSON convertido.
+     * 
+     * @see com.google.gson.Gson#toJson(T)
+     */
+    public static <T> void stringify(T object, Writer writer) {
+        GSON.toJson(object, writer);
+    }
+
+    /**
      * Converte um JSON para um objeto do tipo T.
      * O tipo T deve ser conhecido em tempo de execução.
      * O tipo T deve ser uma classe plana.
@@ -70,6 +86,21 @@ public class Json {
      */
     public static <T> T parse(String json, Class<T> clazz) {
         return GSON.fromJson(json, clazz);
+    }
+    
+    /**
+     * Converte um JSON para um objeto do tipo T.
+     * O tipo T deve ser conhecido em tempo de execução.
+     * 
+     * @param <T>   tipo do objeto a ser convertido.
+     * @param json  JSON a ser convertido.
+     * @param type classe do objeto a ser convertido.
+     * @return objeto convertido.
+     * 
+     * @see com.google.gson.Gson#fromJson(String, Class)
+     */
+    public static <T> T parse(Reader json, TypeToken<T> type) {
+        return GSON.fromJson(json, type);
     }
 
     /**

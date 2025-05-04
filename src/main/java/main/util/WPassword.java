@@ -21,7 +21,7 @@ public final class WPassword {
      * @return hash da senha.
      */
     public static long hash(String password) {
-        return password.hashCode();
+        return (long) password.hashCode() * 0x1F1F1F1F_1F1F1F1FL;
     }
 
     /**

@@ -1,5 +1,7 @@
 package main.workshop.stock;
 
+import main.workshop.exception.WorkshopException;
+
 /**
  * Classe que representa uma peça.
  * 
@@ -26,7 +28,7 @@ public class Part {
      * Construtor padrão.
      */
     public Part() {
-
+        
     }
 
     /**
@@ -50,7 +52,7 @@ public class Part {
     public String getName() {
         return name;
     }
-    
+
     /**
      * Define o nome da peça.
      * 
@@ -69,10 +71,15 @@ public class Part {
         return unitValue;
     }
 
+    /**
+     * Retorna o valor total da peça.
+     * 
+     * @return valor total da peça.
+     */
     public double getTotalValue() {
         return unitValue * (double) quantity;
     }
-    
+
     /**
      * Define o valor unitário da peça.
      * 
@@ -82,6 +89,11 @@ public class Part {
         this.unitValue = unitValue;
     }
 
+    /**
+     * Define o valor total da peça.
+     * 
+     * @param totalValue valor total da peça.
+     */
     public void setTotalValue(double totalValue) {
         this.unitValue = totalValue / (double) quantity;
     }
@@ -102,5 +114,50 @@ public class Part {
      */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    /**
+     * Aciona à quantidade de peças.
+     * 
+     * @param quantity quantidade de peças a serem adicionadas.
+     * 
+     * @throws WorkshopException caso a quantidade a ser adicionada seja negativa.
+     */
+    public void addQuantity(int quantity) throws WorkshopException {
+        if (quantity < 0) {
+            throw new WorkshopException("Quantidade inválida - não é possível adicionar uma quantidade negativa.");
+        }
+
+        this.quantity += quantity;
+    }
+
+    /**
+     * Remove à quantidade de peças.
+     * 
+     * @param quantity quantidade de peças a serem removidas.
+     * 
+     * @throws WorkshopException caso a quantidade a ser removida seja maior que a
+     *                           quantidade disponível ou negativa.
+     */
+    public void removeQuantity(int quantity) throws WorkshopException {
+        if (quantity > this.quantity) {
+            throw new WorkshopException("Estoque insuficiente - não há peças suficientes para remover.");
+        }
+
+        if (quantity < 0) {
+            throw new WorkshopException("Quantidade inválida - não é possível remover uma quantidade negativa.");
+        }
+
+        this.quantity -= quantity;
+    }
+
+    /** 
+     * Retorna uma representação textual da peça.
+     * 
+     * @return representação textual da peça.
+     */
+    @Override
+    public String toString() {
+        return String.format("{%s, %.2f, %d}", name, unitValue, quantity);
     }
 }

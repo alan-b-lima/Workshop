@@ -1,5 +1,10 @@
 package main.workshop.auth;
 
+/**
+ * Interface que representa um objeto que pode ser autenticado.
+ * 
+ * @author Alan Lima
+ */
 public interface Authenticatable {
 
     /**

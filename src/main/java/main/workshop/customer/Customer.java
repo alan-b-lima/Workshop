@@ -1,5 +1,7 @@
 package main.workshop.customer;
 
+import java.util.Comparator;
+
 import main.workshop.common.Person;
 import main.workshop.exception.WorkshopException;
 
@@ -8,7 +10,7 @@ import main.workshop.exception.WorkshopException;
  * 
  * @author Alan Lima
  */
-public class Customer extends Person {
+public class Customer extends Person implements Comparator<Customer> {
 
     /**
      * Endereço do cliente.
@@ -78,6 +80,47 @@ public class Customer extends Person {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * Compara dois clientes.
+     * 
+     * @param one   primeiro cliente a ser comparado.
+     * @param other segundo cliente a ser comparado.
+     * @return {@code 0} se os clientes forem iguais, {@code -1} se o primeiro
+     *         cliente for menor que o segundo, {@code 1} caso contrário.
+     */
+    @Override
+    public int compare(Customer one, Customer other) {
+        int comparisonName = one.getName().compareTo(other.getName());
+
+        if (comparisonName != 0) {
+            return comparisonName;
+        }
+
+        return one.getCpf().compareTo(other.getCpf());
+    }
+
+    /**
+     * Compara dois clientes.
+     * 
+     * @param obj objeto a ser comparado.
+     * @return {@code true} se os clientes forem iguais, {@code false} caso
+     *         contrário.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Customer other = (Customer) obj;
+
+        return compare(this, other) == 0;
     }
 
     /**

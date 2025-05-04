@@ -11,10 +11,16 @@ public final class AuthLevel {
      * Construtor privado para evitar instâncias.
      */
     private AuthLevel() {
-        // Não deve ser instanciado
+        
     }
 
+    /**
+     * Nível de autenticação do gerente.
+     */
     public static final byte MANAGER = 0;
-    public static final byte EMPLOYEE = 1;
 
+    /**
+     * Nível de autenticação do funcionário.
+     */
+    public static final byte EMPLOYEE = 1;
 }

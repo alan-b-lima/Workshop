@@ -88,10 +88,12 @@ public class Vehicle {
 
         if (plate.matches("^[A-Z]{3}-?\\d{4}$") == true) {
             this.plate = plate.replaceAll("-", "");
+            return;
         }
 
         if (plate.matches("^[A-Z]{3}\\d[A-Z]\\d{2}$") == true) {
             this.plate = plate;
+            return;
         }
 
         throw new WorkshopException("Placa inválida - placa deve ser no formato \"ABC1234\" ou \"ABC1D23\"!");

@@ -46,6 +46,7 @@ public class Employee extends Person implements Authenticatable {
      * @param phone  telefone do funcionário.
      * @param cpf    CPF do funcionário.
      * @param salary salário do funcionário.
+     * @param password senha do funcionário.
      * 
      * @throws WorkshopException caso o telefone ou CPF sejam inválidos.
      */

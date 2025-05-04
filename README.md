@@ -31,7 +31,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 
 - main\
     - json\
-        - [ ] Json.java
+        - [x] Json.java
     - util\
         - [ ] WDate.java
     - workshop\
@@ -56,15 +56,15 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - [x] Employee.java
             - [x] Manager.java
         - service\
-            - [ ] Elevator.java
+            - [x] Elevator.java
             - [ ] Maintenance.java
             - [ ] Scheduler.java
             - [ ] Scheduling.java
             - [ ] Service.java
         - stock\
-            - [ ] Shipment.java
+            - [x] Shipment.java
             - [ ] Stock.java
-            - [ ] Part.java
+            - [x] Part.java
         - [ ] Workshop.java
     
 ## Diagrama de Classes
@@ -185,7 +185,7 @@ classDiagram
         + setAddress(String)
     }
 
-    Employee *-- Shift
+    Employee *-- DateSpan
     Employee --|> Person
     class Employee {
         - shifts: ArrayList<DateSpan>
@@ -194,10 +194,10 @@ classDiagram
         + Employee()
         + Employee(String, String, String, double)
 
-        + getShifts() ArrayList<Shift>
-        + getShifts(long, long) ArrayList<Shift>
-        + getRecentShift() Shift
-        + addShift(Shift)
+        + getShifts() ArrayList<DateSpan>
+        + getShifts(long, long) ArrayList<DateSpan>
+        + getRecentShift() DateSpan
+        + addShift(DateSpan)
         + getSalary() double
         + setSalary(double)
     }
@@ -214,36 +214,81 @@ classDiagram
     }
 
     class Elevator {
+        TreeSet<DateSpan> shifts
+
         + Elevator()
+
+        + get() DateSpan[]
+        + get(long, long) DateSpan[]
+        + set(DateSpan)
+        + set(long, long)
     }
 
+    Maintenance --|> Scheduling
     class Maintenance {
-        ...
+        - status: byte
+        - mechanic: Employee
+        - parts: HashMap<String, Part>
+        - services: ArrayList<Service>
+
+        + Maintenance()
+        + Maintenance(long, Vehicle, byte, long, byte, Employee)
+
+        + getStatus() String
+        + getStatusCode() byte
+        + setStatus(byte)
+        + getMechanic() Employee
+        + setMechanic(Employee)
+        + getParts() Part[]
+        + getParts(Part) Part
+        + getPartQuantity(String) int
+        + getPartUnitValue(String) double
+        + getPartTotalValue(String) double
+        + getPart(String) Part
+        + addPart(String, int)
+        + getServices() Service[]
+        + addService(Service)
+        + getServiceValue() double
     }
 
     class Scheduler {
-        
+        - elevator: Elevator[]
+        - schedule: ArrayList<Scheduling>
+        - maxWeight: double
     }
 
     class Scheduling {
         - customer: long
         - vehicle: Vehicle
         - elevador: byte
-        - date: long
+        - date: DataSpan
+
+        + Scheduling()
+        + Scheduling(long, Vehicle, byte, long)
+
+        + getCustomer() long
+        + setCustomer(long)
+        + getVehicle() Vehicle
+        + setVehicle(Vehicle)
+        + getElevator() byte
+        + setElevator(byte)
+        + getDate() long
+        + setDate(long)
+        + toMaintenance() Maintenance
     }
 
     class Service {
         - name: String
-        - description: String
+        - done: boolean
         - value: double
 
         + Service()
-        + Service(String, String, double)
+        + Service(String, boolean, double)
 
         + getName() String
         + setName(String)
-        + getDescription() String
-        + setDescription(String)
+        + getDone() boolean
+        + setDone(boolean)
         + getValue() double
         + setValue(double)
     }
@@ -280,7 +325,7 @@ classDiagram
         + removePartQuantity(String, int)
         + getPartUnitValue(String) double
         + getPartTotalValue(String) double
-        + setPartUnitValue(String) 
+        + setPartUnitValue(String)
         + setPartTotalValue(String)
         + getShipment(Shipment)
         + addShipment(Shipment)
