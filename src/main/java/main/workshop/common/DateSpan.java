@@ -12,14 +12,14 @@ import main.util.WDate;
 public class DateSpan implements Comparator<DateSpan> {
 
     /**
-     * Timestamp UNIX que representa o início do turno.
+     * Timestamp UNIX que representa o início do turno de trabalho.
      * 
      * O valor padrão, 0, significa que o turno não tem início definido.
      */
     private long start;
 
     /**
-     * Timestamp UNIX que representa o fim do turno.
+     * Timestamp UNIX que representa o fim do turno de trabalho.
      * 
      * O valor padrão, 0, significa que o turno não tem fim definido.
      */
@@ -102,6 +102,12 @@ public class DateSpan implements Comparator<DateSpan> {
         this.end = WDate.now();
     }
 
+    /**
+     * Compara dois turnos de trabalho.
+     * 
+     * Uma comparação é feita primeiro pelo início do turno e, em caso de empate,
+     * pelo fim do turno.
+     */
     @Override
     public int compare(DateSpan o1, DateSpan o2) {
         if (o1 == null && o2 == null) {
@@ -116,20 +122,26 @@ public class DateSpan implements Comparator<DateSpan> {
             return -1;
         }
 
-        if (o1.getStart() == o2.getStart()) {
-            return Long.compare(o1.getEnd(), o2.getEnd());
+        if (o1.start == o2.start) {
+            return Long.compare(o1.end, o2.end);
         }
 
-        return Long.compare(o1.getStart(), o2.getStart());
+        return Long.compare(o1.start, o2.start);
     }
 
+    /**
+     * Compara dois turnos de trabalho.
+     * 
+     * Uma comparação é feita primeiro pelo início do turno e, em caso de empate,
+     * pelo fim do turno.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null || this.getClass() != obj.getClass()) {
             return false;
         }
 

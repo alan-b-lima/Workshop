@@ -79,7 +79,7 @@ public abstract class Person {
      * 
      * @param phone telefone da pessoa.
      * 
-     * @throws WorkshopException 
+     * @throws WorkshopException Caso o telefone seja inválido.
      */
     public void setPhone(String phone) throws WorkshopException {
         this.phone.setPhone(phone);
@@ -104,11 +104,20 @@ public abstract class Person {
     }
 
     /**
+     * Retorna o CPF numérico da pessoa.
+     * 
+     * @return CPF numérico da pessoa.
+     */
+    public long getNumericCpf() {
+        return cpf.getNumericCpf();
+    }
+
+    /**
      * Define o CPF da pessoa.
      * 
      * @param cpf CPF da pessoa.
      * 
-     * @throws WorkshopException 
+     * @throws WorkshopException Caso o CPF seja inválido.
      */
     public void setCpf(String cpf) throws WorkshopException {
         this.cpf.setCpf(cpf);

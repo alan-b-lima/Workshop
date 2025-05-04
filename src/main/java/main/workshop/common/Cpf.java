@@ -28,10 +28,21 @@ public class Cpf {
      * 
      * @param cpf CPF no formato "xxx.xxx.xxx-xx" ou "xxxxxxxxxxx".
      * 
-     * @throws WorkshopException
+     * @throws WorkshopException caso o CPF seja inválido.
      */
     public Cpf(String cpf) throws WorkshopException {
         this.setCpf(cpf);
+    }
+
+    /**
+     * Retorna o CPF pseudo-anomizado no formato "***.xxx.xxx-**".
+     * 
+     * @return CPF pseudo-anomizado no formato "***.xxx.xxx-**".
+     */
+    public String getCpf() {
+        return String
+                .format("%06x", (this.cpf & 0x000_FFF_FFF_00L) >> 8)
+                .replaceAll("(\\d{3})(\\d{3})", "***.$1.$2-**");
     }
 
     /**
@@ -46,14 +57,12 @@ public class Cpf {
     }
 
     /**
-     * Retorna o CPF pseudo-anomizado no formato "***.xxx.xxx-**".
+     * Retorna o CPF como um número inteiro. Cada 4 bits representa um dígito.
      * 
-     * @return CPF pseudo-anomizado no formato "***.xxx.xxx-**".
+     * @return CPF como um número inteiro.
      */
-    public String getCpf() {
-        return String
-                .format("%06x", (this.cpf & 0x000_FFF_FFF_00L) >> 8)
-                .replaceAll("(\\d{3})(\\d{3})", "***.$1.$2-**");
+    public long getNumericCpf() {
+        return this.cpf;
     }
 
     /**

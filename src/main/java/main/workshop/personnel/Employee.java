@@ -2,6 +2,9 @@ package main.workshop.personnel;
 
 import java.util.ArrayList;
 
+import main.util.WPassword;
+import main.workshop.auth.AuthLevel;
+import main.workshop.auth.Authenticatable;
 import main.workshop.common.DateSpan;
 import main.workshop.common.Person;
 import main.workshop.exception.WorkshopException;
@@ -11,7 +14,7 @@ import main.workshop.exception.WorkshopException;
  * 
  * @author Juan Pablo
  */
-public class Employee extends Person {
+public class Employee extends Person implements Authenticatable {
 
     /**
      * Lista de turnos do funcionário.
@@ -22,6 +25,11 @@ public class Employee extends Person {
      * Salário do funcionário.
      */
     private double salary;
+
+    /**
+     * Senha do funcionário.
+     */
+    private long password;
 
     /**
      * Construtor padrão.
@@ -39,12 +47,13 @@ public class Employee extends Person {
      * @param cpf    CPF do funcionário.
      * @param salary salário do funcionário.
      * 
-     * @throws WorkshopException
+     * @throws WorkshopException caso o telefone ou CPF sejam inválidos.
      */
-    public Employee(String name, String phone, String cpf, double salary) throws WorkshopException {
+    public Employee(String name, String phone, String cpf, double salary, String password) throws WorkshopException {
         super(name, phone, cpf);
         this.shifts = new ArrayList<>();
         this.salary = salary;
+        this.password = WPassword.hash(password);
     }
 
     /**
@@ -127,6 +136,21 @@ public class Employee extends Person {
      */
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+    
+    @Override
+    public long getIdentification() {
+        return this.getNumericCpf();
+    }
+
+    @Override
+    public long getPassword() {
+        return password;
+    }
+
+    @Override
+    public byte getAuthLevel() {
+        return AuthLevel.EMPLOYEE;
     }
 
     /**
