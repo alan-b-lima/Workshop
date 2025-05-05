@@ -37,6 +37,7 @@ public class Manager extends Person implements Authenticatable {
      * @param phone     telefone do gerente.
      * @param cpf       CPF do gerente.
      * @param proLabore pro labore do gerente.
+     * @param password  senha do gerente.
      * 
      * @throws WorkshopException caso o telefone ou CPF sejam inválidos.
      */
@@ -77,7 +78,7 @@ public class Manager extends Person implements Authenticatable {
     /**
      * Retorna a senha do gerente.
      * 
-     * @return senha do gerente.
+     * @param password senha do gerente.
      */
     public void setPassword(String password) {
         this.password = WPassword.hash(password);

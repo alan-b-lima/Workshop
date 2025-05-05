@@ -87,7 +87,7 @@ public class Scheduler {
     /**
      * Adiciona um novo turno de trabalho à agenda.
      * 
-     * @param scheduling turno de trabalho a ser adicionado.
+     * @return true se o turno de trabalho foi adicionado com sucesso
      */
     public Elevator[] getElevators() {
         return elevators;

@@ -68,9 +68,25 @@ public class Maintenance extends Scheduling {
      * Enumeração que representa os status da manutenção.
      */
     public static enum Status {
+
+        /**
+         * Status da manutenção pendente.
+         */
         PENDING,
+
+        /**
+         * Status da manutenção em progresso.
+         */
         IN_PROGRESS,
+
+        /**
+         * Status da manutenção pronta para entrega.
+         */
         READY_FOR_DELIVERY,
+
+        /**
+         * Status da manutenção entregue.
+         */
         DELIVERED
     }
 

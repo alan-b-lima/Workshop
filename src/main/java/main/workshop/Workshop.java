@@ -169,6 +169,8 @@ public final class Workshop {
 
     /**
      * Retorna o gerente da oficina.
+     * 
+     * @param manager gerente da oficina.
      */
     public void setManager(Manager manager) {
         this.manager = manager;

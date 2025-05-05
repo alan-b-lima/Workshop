@@ -44,10 +44,9 @@ public class Service {
     }
 
     /**
-     * Construtor que recebe o nome do serviço e o valor do serviço.
+     * Retorna o nome do serviço.
      * 
-     * @param name  nome do serviço.
-     * @param value valor do serviço.
+     * @return nome do serviço.
      */
     public String getName() {
         return name;
@@ -57,7 +56,6 @@ public class Service {
      * Construtor que recebe o nome do serviço e o valor do serviço.
      * 
      * @param name  nome do serviço.
-     * @param value valor do serviço.
      */
     public void setName(String name) {
         this.name = name;

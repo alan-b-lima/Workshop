@@ -49,7 +49,7 @@ public class Json {
      * 
      * @param <T>    tipo do objeto a ser convertido.
      * @param object objeto a ser convertido.
-     * @return JSON convertido.
+     * @param writer Writer para o qual o JSON será escrito.
      * 
      * @see com.google.gson.Gson#toJson(T)
      */

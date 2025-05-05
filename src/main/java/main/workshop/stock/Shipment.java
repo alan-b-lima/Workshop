@@ -70,7 +70,7 @@ public class Shipment {
      * Adiciona uma peça ao envio. Se a peça já existir, atualiza a
      * quantidade e o valor unitário da peça.
      * 
-     * @param newPart
+     * @param newPart peça a ser adicionada.
      */
     public void addPart(Part newPart) {
 

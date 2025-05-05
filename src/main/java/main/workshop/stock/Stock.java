@@ -31,7 +31,7 @@ public class Stock {
     /**
      * Retorna a quantidade de peças do estoque.
      * 
-     * @param partName
+     * @param partName nome da peça.
      * @return quantidade de peças do estoque.
      */
     public int getPartQuantity(String partName) {
@@ -90,7 +90,7 @@ public class Stock {
     /**
      * Define o valor unitário da peça.
      * 
-     * @param partName
+     * @param partName nome da peça.
      */
     public void setPartUnitValue(String partName) {
         if (parts.containsKey(partName)) {
@@ -109,7 +109,7 @@ public class Stock {
     /**
      * Define o valor total das peças.
      * 
-     * @param partName
+     * @param partName nome da peça.
      */
     public void setPartTotalValue(String partName) {
         if (parts.containsKey(partName)) {
@@ -128,8 +128,7 @@ public class Stock {
     /**
      * Retorna a remessa.
      * 
-     * @param shipment
-     * @return
+     * @return remessa.
      */
     public ArrayList<Shipment> getShipments() {
         return shipments;
@@ -137,7 +136,7 @@ public class Stock {
 
     /**
      * Adiciona uma remessa ao estoque.
-     * @param shipment
+     * @param shipment remessa a ser adicionada.
      */
     public void addShipment(Shipment shipment) {
         if (shipment == null) {
