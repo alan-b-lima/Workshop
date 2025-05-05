@@ -32,7 +32,7 @@ public class Stock {
      * Retorna a quantidade de peças do estoque.
      * 
      * @param partName
-     * @return
+     * @return quantidade de peças do estoque.
      */
     public int getPartQuantity(String partName) {
         if (parts.containsKey(partName)) {
