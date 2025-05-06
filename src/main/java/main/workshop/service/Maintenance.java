@@ -6,7 +6,6 @@ import java.util.HashMap;
 import main.workshop.common.DateSpan;
 import main.workshop.customer.Customer;
 import main.workshop.customer.Vehicle;
-import main.workshop.exception.WorkshopException;
 import main.workshop.personnel.Employee;
 import main.workshop.stock.Part;
 
@@ -165,11 +164,11 @@ public class Maintenance extends Scheduling {
             return;
         }
 
-        try {
-            existingPart.addQuantity(existingPart.getQuantity());
-        } catch (WorkshopException err) {
-            return;
-        }
+        // try {
+        //     existingPart.addQuantity(existingPart.getQuantity());
+        // } catch (WorkshopException err) {
+        //     return;
+        // }
     }
 
     /**
