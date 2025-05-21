@@ -29,7 +29,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 
 # Estrutura do Projeto
 
-- main\
+- model\
     - json\
         - [ ] Json.java
     - util\
@@ -40,21 +40,21 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - [ ] Session.java
         - financial\
             - [ ] IncomeExpenseManager.java
-            - [x] Expense.java
+            - [ ] Expense.java
             - [ ] Invoice.java
         - common\
-            - [x] Cpf.java
-            - [x] DateSpan.java
-            - [x] Person.java
-            - [x] Phone.java
+            - [ ] Cpf.java
+            - [ ] DateSpan.java
+            - [ ] Person.java
+            - [ ] Phone.java
         - customer\
-            - [x] Customer.java
-            - [x] Vehicle.java
+            - [ ] Customer.java
+            - [ ] Vehicle.java
         - exceptions\
-            - [x] WorkshopException.java
+            - [ ] WorkshopException.java
         - personnel\
-            - [x] Employee.java
-            - [x] Manager.java
+            - [ ] Employee.java
+            - [ ] Manager.java
         - service\
             - [ ] Elevator.java
             - [ ] Maintenance.java
@@ -123,11 +123,11 @@ classDiagram
         + DateSpan(long, long)
 
         + getStart() long
-        + setStart(long)
-        + setStartNow(long)
+        + setStart(long) void
+        + setStartNow() void
         + getEnd() long
-        + setEnd(long)
-        + setEndNow(long)   
+        + setEnd(long) void
+        + setEndNow() void
     }
 
     Person *-- Cpf  
@@ -197,9 +197,9 @@ classDiagram
         + getShifts() ArrayList<Shift>
         + getShifts(long, long) ArrayList<Shift>
         + getRecentShift() Shift
-        + addShift(Shift)
+        + addShift(Shift) void
         + getSalary() double
-        + setSalary(double)
+        + setSalary(double) void
     }
 
     Manager --|> Person
@@ -226,13 +226,30 @@ classDiagram
     }
 
     class Scheduling {
+        + id: long
         - customer: long
-        - vehicle: Vehicle
+        - vehicle: long
         - elevador: byte
         - date: long
+
+        + Scheduling()
+        + Scheduling(Customer, Vehicle, byte, long)
+
+        - instanceCount: long $
+        - nextId() long $
+
+        + getCustomer() long
+        + setCustomer(long) void
+        + getVehicle() Vehicle
+        + setVehicle(Vehicle) void
+        + getElevador() byte
+        + setElevador(byte) void
+        + getDate() long
+        + setDate(long) void
     }
 
     class Service {
+        + id: long
         - name: String
         - description: String
         - value: double
@@ -240,12 +257,15 @@ classDiagram
         + Service()
         + Service(String, String, double)
 
+        + instanceCount: long $
+        + nextId() long $
+
         + getName() String
-        + setName(String)
+        + setName(String) void
         + getDescription() String
-        + setDescription(String)
+        + setDescription(String) void
         + getValue() double
-        + setValue(double)
+        + setValue(double) void
     }
 
     Shipment *-- Part
@@ -255,53 +275,71 @@ classDiagram
         - arrival: long
 
         + Shipment()
+
+        + instanceCount: long $
+        + nextId() long $
         
         + getParts() ArrayList<Part>
         + getPart(String) Part
         + addPart(Part)
-        + addPart(Part, int)
+        + addPart(Part, int) void
         + getArrival() long
-        + setArrival(long)
-        + setArrivalNow()
+        + setArrival(long) void
+        + setArrivalNow() void
     }
 
     Stock *-- Part
     Stock *-- Shipment
     class Stock {
-        - parts: HashMap<String, Part>
+        - parts: HashMap<long, Part>
         - shipments: ArrayList<Shipment>
 
-        + stock: Stock $
+        + Stock()
 
-        - Stock()
-
-        + getPartQuantity(String) int
-        + addPartQuantity(String, int) int
-        + removePartQuantity(String, int)
-        + getPartUnitValue(String) double
-        + getPartTotalValue(String) double
-        + setPartUnitValue(String) 
-        + setPartTotalValue(String)
-        + getShipment(Shipment)
-        + addShipment(Shipment)
+        + getPartQuantity(PartKind) int
+        + addPartQuantity(PartKind, int)
+        + removePartQuantity(PartKind, int)
+        + getPartUnitValue(PartKind) double
+        + getPartTotalValue(PartKind) double
+        + setPartUnitValue(PartKind) void
+        + setPartTotalValue(PartKind) void
+        + getShipment(Shipment) void
+        + addShipment(Shipment) void
     }
 
     class Part {
-        - name: String
+        - partKind: long
         - unitValue: double
         - quantity: int
 
         + Part()
-        + Part(String, double, int)
+        + Part(PartKind, double, int)
 
-        + getName() String
-        + setName(String)
+        + getPartKind() PartKind
+        + setPartKind(PartKind) void
         + getUnitValue() double
         + getTotalValue() double
-        + setUnitValue(double)
-        + setTotalValue(double)
+        + setUnitValue(double) void
+        + setTotalValue(double) void
         + getQuantity() int
-        + setQuantity(int)
+        + setQuantity(int) void
+    }
+
+    class PartKind {
+        + id: long
+        - name: String
+        - description: String
+
+        + PartKind()
+        + PartKind(String, String)
+
+        + instanceCount: long $
+        + nextId() long $
+
+        + getName() String
+        + setName(String) void
+        + getDescription() String
+        + setDescription(String) void
     }
 ```
 
