@@ -66,6 +66,7 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
             - [ ] PartKind.java
             - [ ] Shipment.java
             - [ ] Stock.java
+            - [ ] Supplier.java
         - [ ] Workshop.java
 - visual\
 
@@ -278,7 +279,6 @@ classDiagram
 
         - instanceCount: int $
 
-        + getId() long
         + getSalary() double
         + setSalary(double) void
         + getPassword() String
@@ -291,20 +291,124 @@ classDiagram
         + toString() String
     }
 
+    Part *-- PartKind
     class Part {
-        ...
+        + id: int 
+        - partKind: int
+        - unitValue: double
+        - quantity: int
+
+        + Part()
+        + Part(PartKind, double, int)
+
+        - instanceCount: int $
+
+        + getPartKind() int
+        + setPartKind(int) void
+        + getUnitValue() double
+        + getTotalValue() double
+        + setUnitValue(double) void
+        + setTotalValue(double) void
+        + getQuantity() int
+        + setQuantity(int) void
+        + addQuantity(int) void
+        + removeQuantity(int) void
+
+        - getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - nextId() int $
+
+        + toString() String
     }
 
     class PartKind {
-        ...
+        + id: int
+        - name: String
+
+        + PartKind()
+        + PartKind(String)
+
+        - instanceCount: int $
+
+        + getName() String
+        + setName(String) void
+
+        - getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - nextId() int $
+
+        + toString() String
     }
 
+    Shipment *-- Part
+    Shipment *-- Supplier
     class Shipment {
-        ...
+        + id: int
+        - supplier: int
+        - parts: ArrayList<Part>
+        - arrival: long
+
+        + Shipment()
+        + Shipment(Supplier, long)
+
+        - instanceCount: int $
+
+        + getSupplier() int
+        + setSupplier(Supplier) void
+        + getParts() Part[]
+        + addPart(Part) void
+        + removePart(Part) void
+        + getArrival() long
+        + setArrival(long) void
+        + setArrivalNow() void
+
+        - getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - nextId() int $
+
+        + toString() String
     }
 
+    Stock *-- Part
+    Stock *-- Shipment
     class Stock {
-        ...
+        - parts: HashMap<Integer, Part>
+        - shipments: ArrayList<Shipment>
+
+        + Stock()
+        
+        + getParts() Part[]
+        + getPart(int) Part
+        + addPart(Part) void
+        + removePart(Part) void
+        + getShipments() Shipment[]
+        + getShipment(int) Shipment
+        + addShipment(Shipment) void
+        + removeShipment(Shipment) void
+
+        + toString() String
+    }
+        
+    class Supplier {
+        + id: int
+        - tradeName: String
+        - cnpj: String
+
+        + Supplier()
+        + Supplier(String, String)
+
+        - instanceCount: int $
+
+        + getTradeName() String
+        + setTradeName(String) void
+        + getCnpj() String
+        + setCnpj(String) void
+
+        - getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - nextId() int $
+
+        + toString() String
     }
 
     class Workshop {
