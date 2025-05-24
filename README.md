@@ -29,77 +29,64 @@ Esse é um Trabalho Prático desenvolvido como parte da disciplina de Programaç
 
 # Estrutura do Projeto
 
+- controller\
+- exceptions\
 - model\
-    - json\
-        - [ ] Json.java
+    - auth\
+        - [ ] AuthLevel.java
+        - [ ] Session.java
     - util\
+        - [ ] WJson.java
         - [ ] WDate.java
     - workshop\
-        - auth\
-            - [ ] Account.java
-            - [ ] Session.java
+        - common\
+            - [x] Cpf.java
+            - [x] DateSpan.java
+            - [x] Person.java
+            - [x] Phone.java
+        - customer\
+            - [x] Customer.java
+            - [x] Vehicle.java
         - financial\
-            - [ ] IncomeExpenseManager.java
+            - [ ] FinancialManager.java
             - [ ] Expense.java
             - [ ] Invoice.java
-        - common\
-            - [ ] Cpf.java
-            - [ ] DateSpan.java
-            - [ ] Person.java
-            - [ ] Phone.java
-        - customer\
-            - [ ] Customer.java
-            - [ ] Vehicle.java
-        - exceptions\
-            - [ ] WorkshopException.java
-        - personnel\
-            - [ ] Employee.java
-            - [ ] Manager.java
         - service\
             - [ ] Elevator.java
-            - [ ] Maintenance.java
             - [ ] Scheduler.java
             - [ ] Scheduling.java
             - [ ] Service.java
+            - [ ] ServiceOrder.java
+        - staff\
+            - [ ] Employee.java
+            - [ ] Manager.java
+            - [ ] StaffMember.java
         - stock\
+            - [ ] Part.java
+            - [ ] PartKind.java
             - [ ] Shipment.java
             - [ ] Stock.java
-            - [ ] Part.java
         - [ ] Workshop.java
-    
+- visual\
+
 ## Diagrama de Classes
 
 ```mermaid
 classDiagram
 
-    class Expense {
-        - name: String
-        - description: String
-        - value: double
-        - date: long
-
-        + Expense()
-        + Expense(String, String, double, long)
-
-        + getName() String
-        + setName(String)
-        + getDescription() String
-        + setDescription(String)
-        + getValue() double
-        + setValue(double)
-        + getDate() long
-        + setDate(long)
+    class AuthLevel {
+        ...
     }
 
-    class Invoice {
-        + id: long
-        - parts: Part[]
-        - services: Service[]
-        - value: double
-        - date: long
+    class Session {
+        ...
+    }
 
-        + Invoice()
+    class WJson {
+        ...
+    }
 
+    class WDate {
         ...
     }
 
@@ -111,7 +98,10 @@ classDiagram
 
         + getCpf() String
         + getFullCpf() String
-        + setCpf(String)
+        + getNumericCpf() String
+        + setCpf(String) void
+
+        + toString() String
     }
 
     class DateSpan {
@@ -128,10 +118,12 @@ classDiagram
         + getEnd() long
         + setEnd(long) void
         + setEndNow() void
+
+        + toString() String
     }
 
-    Person *-- Cpf  
-    Person *-- Phone
+    Cpf *-- Person
+    Phone *-- Person
     class Person["_Person_"] {
         - name: String
         - phone: Phone
@@ -141,11 +133,15 @@ classDiagram
         + Person(String, String, String)
 
         + getName() String
-        + setName(String)
+        + setName(String) void
         + getPhone() String
-        + setPhone(String) 
+        + setPhone(String) void
         + getCpf() String
-        + setCpf(String)
+        + getFullCpf() String
+        + getNumericCpf() long
+        + setCpf(String) void
+
+        + toString() String
     }
 
     class Phone {
@@ -155,7 +151,21 @@ classDiagram
         + Phone(String)
 
         + getPhone() String
-        + setPhone(String)
+        + setPhone(String) void
+
+        + toString() String
+    }
+
+    class Customer {
+        - address: String
+
+        + Customer()
+        + Customer(String, String, String, String)
+
+        + getAddress() String
+        + setAddress(String) void
+
+        + toString() String
     }
 
     class Vehicle {
@@ -167,98 +177,27 @@ classDiagram
         + Vehicle(String, String, int)
 
         + getModel() String
-        + setModel(String)
+        + setModel(String) void
         + getPlate() String
-        + setPlate(String)
+        + setPlate(String) void
         + getYear() int
-        + setYear(int)
+        + setYear(int) void
+
+        + toString() String
     }
 
-    Customer --|> Person
-    class Customer {
-        - address: String
+    class FinancialManager {
 
-        + Customer()
-        + Customer(String, String, String, String)
-
-        + getAddress() String
-        + setAddress(String)
     }
 
-    Employee *-- Shift
-    Employee --|> Person
-    class Employee {
-        - shifts: ArrayList<DateSpan>
-        - salary: double
-
-        + Employee()
-        + Employee(String, String, String, double)
-
-        + getShifts() ArrayList<Shift>
-        + getShifts(long, long) ArrayList<Shift>
-        + getRecentShift() Shift
-        + addShift(Shift) void
-        + getSalary() double
-        + setSalary(double) void
-    }
-
-    Manager --|> Person
-    class Manager {
-        - proLabore: double
-
-        + Manager()
-        + Manager(String, String, String, double)
-    
-        + getProLabore() double
-        + setProLabore(double)
-    }
-
-    class Elevator {
-        + Elevator()
-    }
-
-    class Maintenance {
-        ...
-    }
-
-    class Scheduler {
-        
-    }
-
-    class Scheduling {
-        + id: long
-        - customer: long
-        - vehicle: long
-        - elevador: byte
-        - date: long
-
-        + Scheduling()
-        + Scheduling(Customer, Vehicle, byte, long)
-
-        - instanceCount: long $
-        - nextId() long $
-
-        + getCustomer() long
-        + setCustomer(long) void
-        + getVehicle() Vehicle
-        + setVehicle(Vehicle) void
-        + getElevador() byte
-        + setElevador(byte) void
-        + getDate() long
-        + setDate(long) void
-    }
-
-    class Service {
-        + id: long
+    class Expense {
         - name: String
         - description: String
         - value: double
+        - date: long
 
-        + Service()
-        + Service(String, String, double)
-
-        + instanceCount: long $
-        + nextId() long $
+        + Expense()
+        + Expense(String, String, double, long)
 
         + getName() String
         + setName(String) void
@@ -266,89 +205,119 @@ classDiagram
         + setDescription(String) void
         + getValue() double
         + setValue(double) void
+        + getDate() long
+        + setDate(long) void
+
+        + toString() String
     }
 
-    Shipment *-- Part
-    class Shipment {
-        + id: long
-        - parts: ArrayList<Part>
-        - arrival: long
-
-        + Shipment()
-
-        + instanceCount: long $
-        + nextId() long $
-        
-        + getParts() ArrayList<Part>
-        + getPart(String) Part
-        + addPart(Part)
-        + addPart(Part, int) void
-        + getArrival() long
-        + setArrival(long) void
-        + setArrivalNow() void
+    class Invoice {
+        ...
     }
 
-    Stock *-- Part
-    Stock *-- Shipment
-    class Stock {
-        - parts: HashMap<long, Part>
-        - shipments: ArrayList<Shipment>
+    class Elevator {
+        - tasks: TreeSet<DateSpan>
+        - weightLimit: double
 
-        + Stock()
+        + Elevator()
+        + Elevator(double)
 
-        + getPartQuantity(PartKind) int
-        + addPartQuantity(PartKind, int)
-        + removePartQuantity(PartKind, int)
-        + getPartUnitValue(PartKind) double
-        + getPartTotalValue(PartKind) double
-        + setPartUnitValue(PartKind) void
-        + setPartTotalValue(PartKind) void
-        + getShipment(Shipment) void
-        + addShipment(Shipment) void
+        + getSchedule() DateSpan[]
+        + getSchedule(long, long) DateSpan[]
+        + getRecentSchedule() DateSpan
+        + addSchedule(DateSpan) void
+        + getWeightLimit() double
+        + setWeightLimit(double) void
+
+        + toString() String
+    }
+
+    class Scheduler {
+        ...
+    }
+
+    class Scheduling {
+        ...
+    }
+
+    class Service {
+        ...
+    }
+
+    class ServiceOrder {
+        ...
+    }
+
+    Employee --|> StaffMember
+    class Employee {
+        - shifts: TreeSet<DateSpan>
+
+        + Employee()
+        + Employee(String, String, String, String, double, String)
+
+        + getShifts() DateSpan[]
+        + getShifts(long, long) DateSpan[]
+        + getRecentShift() DateSpan
+        + addShift(DateSpan) void
+        + removeShift(DateSpan) void
+    }
+
+    Manager --|> StaffMember
+    class Manager {
+        ...
+    }
+
+    StaffMember --|> Person
+    class StaffMember["_StaffMember_"] {
+        + id: int
+        - salary: double
+        - password: long
+
+        + StaffMember()
+        + StaffMember(String, String, String, String, double, String)
+
+        - instanceCount: int $
+
+        + getId() long
+        + getSalary() double
+        + setSalary(double) void
+        + getPassword() String
+        + setPassword(String) void
+
+        - getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - nextId() int $
+
+        + toString() String
     }
 
     class Part {
-        - partKind: long
-        - unitValue: double
-        - quantity: int
-
-        + Part()
-        + Part(PartKind, double, int)
-
-        + getPartKind() PartKind
-        + setPartKind(PartKind) void
-        + getUnitValue() double
-        + getTotalValue() double
-        + setUnitValue(double) void
-        + setTotalValue(double) void
-        + getQuantity() int
-        + setQuantity(int) void
+        ...
     }
 
     class PartKind {
-        + id: long
-        - name: String
-        - description: String
+        ...
+    }
 
-        + PartKind()
-        + PartKind(String, String)
+    class Shipment {
+        ...
+    }
 
-        + instanceCount: long $
-        + nextId() long $
+    class Stock {
+        ...
+    }
 
-        + getName() String
-        + setName(String) void
-        + getDescription() String
-        + setDescription(String) void
+    class Workshop {
+        ...
     }
 ```
 
 # Referências
 
-https://docs.oracle.com/javase/tutorial/java/concepts/interface.html
-https://docs.oracle.com/javase/tutorial/java/generics/types.html
-https://docs.oracle.com/javase/tutorial/extra/generics/methods.html
-https://github.com/AlanLima287/Binary_Tree/
-https://github.com/dialex/JColor/
-https://www.debuggex.com/
-https://github.com/google/gson
+- https://docs.oracle.com/javase/tutorial/java/concepts/interface.html
+- https://docs.oracle.com/javase/tutorial/java/generics/types.html
+- https://docs.oracle.com/javase/tutorial/extra/generics/methods.html
+- https://github.com/AlanLima287/Binary_Tree/
+- https://github.com/dialex/JColor/
+- https://www.debuggex.com/
+- https://github.com/google/gson
