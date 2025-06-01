@@ -1,6 +1,8 @@
 package model.workshop.common;
 
-import model.workshop.exception.WorkshopException;
+import java.util.regex.Pattern;
+
+import model.exception.WorkshopException;
 
 /**
  * Classe que representa um telefone.
@@ -24,7 +26,7 @@ public class Phone {
     }
 
     /**
-     * Construtor que recebe o telefone no formato "(xx) 9xxxx-xxxx".
+     * Construtor que recebe o telefone.
      * 
      * @param phone telefone no formato "(xx) 9xxxx-xxxx".
      * 
@@ -35,14 +37,29 @@ public class Phone {
     }
 
     /**
-     * Retorna o telefone no formato "(xx) 9xxxx-xxxx".
+     * Padrão regex para capturar 1 grupo de 2 dígitos, 2 grupos de 4 dígitos.
+     */
+    private static final Pattern STRIGIFICATION_PHONE_PATTERN = Pattern.compile("^(\\d{2})(\\d{4})(\\d{4})$");
+
+    /**
+     * Padrão regex para validar formato válido de telefone.
+     */
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^(\\(\\d{2}\\)|\\d{2}) ?9?\\d{4}[- ]?\\d{4}$");
+
+    /**
+     * Padrão regex para remover caracteres não numéricos do telefone.
+     */
+    private static final Pattern STRIP_PHONE_PATTERN = Pattern.compile("[^\\d]");
+
+    /**
+     * Retorna o telefone.
      * 
      * @return telefone no formato "(xx) 9xxxx-xxxx".
      */
     public String getPhone() {
-        return String
-                .format("%010x", this.phone)
-                .replaceAll("^(\\d{2})(\\d{4})(\\d{4})$", "($1) 9$2-$3");
+        return STRIGIFICATION_PHONE_PATTERN
+                .matcher(String.format("%010x", this.phone))
+                .replaceAll("$1 9$2-$3");
     }
 
     /**
@@ -53,33 +70,33 @@ public class Phone {
      * @throws WorkshopException caso o telefone seja inválido.
      */
     public void setPhone(String phone) throws WorkshopException {
+
+        // Verifica se o telefone é nulo.
         if (phone == null) {
             throw new WorkshopException("Telefone inválido - telefone não pode ser nulo!");
         }
 
-        if (phone.matches("^(\\(\\d{2}\\)|\\d{2}) ?9?\\d{4}[- ]?\\d{4}$") == false) {
+        // Verifica se o telefone pertence ao formato padrão.
+        if (PHONE_PATTERN.matcher(phone).matches() == false) {
             throw new WorkshopException("Telefone inválido - telefone deve estar no formato (xx) 9xxxx-xxxx!");
         }
 
-        String stripedPhone = phone.replaceAll("[^\\d]", "");
+        String stripedPhone = STRIP_PHONE_PATTERN.matcher(phone).replaceAll("");
 
         this.phone = 0L
                 | ((long) (stripedPhone.charAt(0) - '0') << ((9 - 0) << 2))
                 | ((long) (stripedPhone.charAt(1) - '0') << ((9 - 1) << 2));
 
-        if (stripedPhone.length() == 10) {
-            for (int i = 2; i < stripedPhone.length(); i++) {
-                this.phone |= (long) (stripedPhone.charAt(i) - '0') << ((9 - i) << 2);
-            }
-        } else {
-            for (int i = 3; i < stripedPhone.length(); i++) {
-                this.phone |= (long) (stripedPhone.charAt(i) - '0') << ((10 - i) << 2);
-            }
+        int account_nine = stripedPhone.length() != 10 ? 1 : 0;
+        int end = 9 + account_nine;
+
+        for (int i = 2 + account_nine; i < stripedPhone.length(); i++) {
+            this.phone |= (long) (stripedPhone.charAt(i) - '0') << ((end - i) << 2);
         }
     }
 
     /**
-     * Retorna a representação textual do telefone no formato "(xx) 9xxxx-xxxx".
+     * Retorna a representação textual do telefone.
      * 
      * @return telefone no formato "(xx) 9xxxx-xxxx".
      */

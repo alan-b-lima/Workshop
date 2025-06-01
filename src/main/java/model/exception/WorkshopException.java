@@ -1,11 +1,5 @@
-package model.workshop.exception;
+package model.exception;
 
-/**
- * Classe que representa uma exceção personalizada para o sistema de
- * gerenciamento de oficina.
- * 
- * @author Alan Lima
- */
 public class WorkshopException extends Exception {
 
     /**

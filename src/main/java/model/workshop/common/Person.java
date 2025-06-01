@@ -1,6 +1,6 @@
 package model.workshop.common;
 
-import model.workshop.exception.WorkshopException;
+import model.exception.WorkshopException;
 
 /**
  * Classe abstrata que representa uma pessoa.
@@ -35,16 +35,16 @@ public abstract class Person {
     /**
      * Construtor que recebe o nome, telefone e CPF da pessoa.
      * 
-     * @param name  Nome da pessoa.
-     * @param phone Telefone da pessoa.
+     * @param name  nome da pessoa.
+     * @param phone telefone da pessoa.
      * @param cpf   CPF da pessoa.
      * 
-     * @throws WorkshopException Caso o telefone ou CPF sejam inválidos.
+     * @throws WorkshopException caso o telefone ou CPF sejam inválidos.
      */
     public Person(String name, String phone, String cpf) throws WorkshopException {
-        this.name = name;
-        this.phone = new Phone(phone);
-        this.cpf = new Cpf(cpf);
+        this.setName(name);
+        this.setPhone(phone);
+        this.setCpf(cpf);
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class Person {
      * 
      * @param phone telefone da pessoa.
      * 
-     * @throws WorkshopException Caso o telefone seja inválido.
+     * @throws WorkshopException caso o telefone seja inválido.
      */
     public void setPhone(String phone) throws WorkshopException {
         this.phone.setPhone(phone);
@@ -130,6 +130,6 @@ public abstract class Person {
      */
     @Override
     public String toString() {
-        return String.format("{%s, %s, %s}", name, phone, cpf);
+        return String.format("Person{%s, %s, %s}", name, phone, cpf);
     }
 }
