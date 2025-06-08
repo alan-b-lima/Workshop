@@ -1,14 +1,14 @@
 package visual.tui.shell.entry;
 
 import visual.tui.shell.Command;
-import visual.tui.shell.Commands;
+import visual.tui.shell.commands.Empty;
 
 public class CommandEntry extends Entry {
     
     private final Command command;
 
     public CommandEntry() {
-        command = Commands.EMPTY_COMMAND;
+        command = new Empty();
     }
 
     public CommandEntry(String context, Command command) {
@@ -16,7 +16,7 @@ public class CommandEntry extends Entry {
         this.command = command;
     }
 
-    public void execute(String[] args) {
-        command.execute(args);
+    public Command command() {
+        return command;
     }
 }

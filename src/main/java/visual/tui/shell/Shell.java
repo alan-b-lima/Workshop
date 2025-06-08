@@ -3,6 +3,9 @@ package visual.tui.shell;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import visual.tui.shell.exit.ExitCode;
+import visual.tui.shell.exit.ExitMessage;
+
 /**
  * Uma interface de linha de comando simples para executar comandos.
  * 
@@ -16,10 +19,16 @@ public class Shell {
     private String context;
 
     /**
+     * Indica se o shell está em execução.
+     */
+    private boolean running;
+
+    /**
      * Construtor padrão do Shell, inicializa o contexto como uma string vazia.
      */
     public Shell() {
-        context = "";
+        this.context = "";
+        this.running = true;
     }
 
     /**
@@ -39,8 +48,8 @@ public class Shell {
     public void launch() {
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            System.out.printf("%s> ", context);
+        while (this.running) {
+            System.out.printf("%s> ", this.context);
             String rawPrompt = scanner.nextLine();
 
             String[] prompt = decodePrompt(rawPrompt);
@@ -49,8 +58,9 @@ public class Shell {
                 continue;
             }
 
-            if (prompt[0].equals("exit")) {
-                break;
+            if (prompt[0].equals("\\q")) {
+                this.running = false;
+                continue;
             }
 
             runCommand(prompt);
@@ -64,9 +74,52 @@ public class Shell {
      * 
      * @param args argumentos do comando a ser executado.
      */
-    public static void runCommand(String... args) {
-        Command command = Commands.getCommand(args[0]);
-        command.execute(args);
+    public void runCommand(String... args) {
+        Command command = Commands.getCommand(context, args[0]);
+        ExitMessage msg = command.execute(args);
+        applyExitMessage(msg);
+    }
+
+    /**
+     * Aplica uma mensagem de saída ao shell, alterando o contexto ou encerrando-o.
+     * 
+     * @param msg a mensagem de saída a ser aplicada.
+     */
+    public void applyExitMessage(ExitMessage msg) {
+
+        switch (msg.code()) {
+
+            case ExitCode.EXIT_CONTEXT:
+                if (this.context.isEmpty()) {
+                    this.running = false;
+                    break;
+                }
+
+                int lastContextIndex = context.lastIndexOf('.');
+                if (lastContextIndex == -1) {
+                    this.context = "";
+                    break;
+                }
+
+                this.context = context.substring(0, lastContextIndex);
+                break;
+
+            case ExitCode.ENTER_CONTEXT:
+                if (this.context.isEmpty()) {
+                    context = msg.context();
+                    break;
+                }
+
+                context = String.format("%s.%s", this.context, msg.context());
+                break;
+
+            case ExitCode.EXIT_SHELL:
+                running = false;
+                break;
+
+            default:
+                break;
+        }
     }
 
     /**

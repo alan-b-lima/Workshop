@@ -5,10 +5,14 @@ package visual.tui.shell.exit;
  * 
  * @author Alan Lima
  */
-public record ExitMessage(ExitCode code, String msg) {
+public record ExitMessage(ExitCode code, String context) {
     
+    public ExitMessage(ExitCode code) {
+        this(code, null);
+    }
+
     /**
-     * Default exit message indicating a successful operation.
+     * Mensagem de saída padrão.
      */
-    public static final ExitMessage DEFAULT = new ExitMessage(ExitCode.SUCCESS, null);
+    public static final ExitMessage DEFAULT = new ExitMessage(ExitCode.SUCCESS);
 }
