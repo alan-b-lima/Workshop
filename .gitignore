@@ -1,7 +1,6 @@
 .vscode
 data
 doc
-src/main/java/visual
 src/test
 target
 *_old
