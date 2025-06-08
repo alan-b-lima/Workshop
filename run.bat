@@ -1,29 +1,30 @@
 @echo off
 
-if "%~1"=="" (
-    echo No argument provided. Usage: run.bat [option]
-    exit /b 1
-)
+setlocal
+set "LIB=lib\gson-2.13.1.jar"
 
-set "arg=%~1"
-if /i "%arg%"=="start" (
-
-    echo Starting the application...
-
-) else if /i "%arg%"=="stop" (
-
-    echo Stopping the application...
-
-) else if /i "%arg%"=="status" (
+if /i "%~1"=="doc" (
     
-    echo Checking the application status...
+    javadoc -d "%~dp0doc" -sourcepath src/main/java -subpackages model -classpath "%~dp0%LIB%"
+
+    if /i "%~2"=="open" (
+        start "" "%~dp0doc\index.html"
+    )
+
+) else if /i "%~1"=="run" (
+
+    java -XX:+ShowCodeDetailsInExceptionMessages -cp "target/classes;%LIB%" visual.tui.Main
+
+) else if /i "%~1"=="test" (
+
+    if /i "%~2"=="" (
+        java -XX:+ShowCodeDetailsInExceptionMessages -cp "target/test-classes;%LIB%" Main
+    ) else (
+        java -XX:+ShowCodeDetailsInExceptionMessages -cp "target/test-classes;%LIB%" "%~2"
+    )
 
 ) else (
 
-    echo Invalid option: %arg%
-    echo Valid options are: start, stop, status
-    exit /b 1
+    java -XX:+ShowCodeDetailsInExceptionMessages -cp "target/classes;%LIB%" "%~1"
     
 )
-
-exit /b 0
