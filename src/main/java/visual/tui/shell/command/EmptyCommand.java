@@ -1,10 +1,10 @@
-package visual.tui.shell.commands;
+package visual.tui.shell.command;
 
 import visual.tui.shell.Command;
 import visual.tui.shell.exit.ExitCode;
 import visual.tui.shell.exit.ExitMessage;
 
-public class Empty implements Command {
+public class EmptyCommand implements Command {
 
     @Override
     public ExitMessage execute(String[] args) {

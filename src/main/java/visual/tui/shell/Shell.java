@@ -1,5 +1,6 @@
 package visual.tui.shell;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -46,7 +47,7 @@ public class Shell {
      * Inicia o shell, permitindo que o usuário insira comandos.
      */
     public void launch() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
 
         while (this.running) {
             System.out.printf("%s> ", this.context);

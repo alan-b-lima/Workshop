@@ -46,7 +46,7 @@ public abstract class Entry implements Comparable<Entry>, Comparator<Entry> {
     /**
      * Padrão regex para validar nomes de contexto.
      */
-    private static final Pattern CONTEXT_PATTERN = Pattern.compile("[-a-z0-9]*");
+    private static final Pattern CONTEXT_PATTERN = Pattern.compile("[-a-z0-9áàâãéêíóôõúüç]*");
 
     /**
      * Retorna o nome do contexto ao qual a entrada pertence.
