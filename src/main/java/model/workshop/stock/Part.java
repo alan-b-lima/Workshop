@@ -45,6 +45,17 @@ public class Part {
     }
 
     /**
+     * Construtor de clonagem.
+     * 
+     * @param part peça a ser clonada.
+     */
+    private Part(Part part) {
+        this.partKind = part.partKind;
+        this.unitValue = part.unitValue;
+        this.quantity = part.quantity;
+    }
+
+    /**
      * Retorna o tipo da peça.
      * 
      * @return tipo da peça.
@@ -144,14 +155,21 @@ public class Part {
     }
 
     /**
+     * Faz uma cópia profunda da peça
+     * 
+     * @return cópia da peça
+     */
+    public Part deepClone() {
+        return new Part(this);
+    }
+
+    /**
      * Retorna uma representação textual da peça.
      * 
      * @return representação textual da peça.
      */
     @Override
     public String toString() {
-        return String.format("Part{partKind: %d, unitValue: %.2f, quantity: %d}",
-                this.partKind, this.unitValue, this.quantity);
+        return String.format("Part{partKind: %d, unitValue: %.2f, quantity: %d}", partKind, unitValue, quantity);
     }
-
 }

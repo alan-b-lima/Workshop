@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import model.workshop.stock.transaction.Transaction;
+
 /**
  * Classe que representa o estoque de peças, remessas e fornecedores.
  * 
@@ -31,6 +33,8 @@ public class Stock {
      */
     private HashMap<Integer, PartKind> partKinds;
 
+    private static Stock instance = new Stock();
+
     /**
      * Construtor padrão.
      */
@@ -39,6 +43,10 @@ public class Stock {
         shipments = new ArrayList<>();
         suppliers = new ArrayList<>();
         partKinds = new HashMap<>();
+    }
+
+    public static Stock stock() {
+        return instance;
     }
 
     /**
@@ -206,11 +214,21 @@ public class Stock {
      *
      * @return um memento do estoque.
      */
-    // public Memento createMemento() {
-    //     Part[] partsArray = parts.values().toArray(new Part[0]);
-    //     Shipment[] shipmentsArray = shipments.toArray(new Shipment[0]);
-    //     return new Memento(partsArray, shipmentsArray);
-    // }
+    public Transaction createTransaction() {
+        return new Transaction(parts, shipments);
+    }
+
+    /**
+     * Restaura o estoque a partir de um memento, substituindo as partes e remessas
+     * atuais pelas partes e remessas do memento.
+     * 
+     * @param transaction o memento que contém as partes e remessas a serem
+     *                    restauradas.
+     */
+    public void restoreTransaction(Transaction transaction) {
+        this.parts = transaction.parts();
+        this.shipments = transaction.shipments();
+    }
 
     /**
      * Retorna uma representação textual do estoque.
@@ -220,6 +238,6 @@ public class Stock {
     @Override
     public String toString() {
         return String.format("Stock{parts: %s, shipments: %s, suppliers: %s, partKinds: %s}",
-                this.parts, this.shipments, this.suppliers, this.partKinds);
+                parts, shipments, suppliers, partKinds);
     }
 }

@@ -2,7 +2,6 @@ package model.workshop.stock.transaction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import model.workshop.stock.Part;
 import model.workshop.stock.Shipment;
@@ -38,11 +37,16 @@ public class Transaction {
      * @param shipments uma lista de remessas associadas a esta transação.
      */
     public Transaction(HashMap<Integer, Part> parts, ArrayList<Shipment> shipments) {
-        this.parts = new Part[parts.size()];
-        this.shipments = new Shipment[shipments.size()];
 
-        for (int i = 0; i < parts.size(); i++) {
-            
+        this.parts = (Part[]) parts.values().toArray();
+        this.shipments = (Shipment[]) shipments.toArray();
+
+        for (int i = 0; i < this.parts.length; i++) {
+            this.parts[i] = this.parts[i].deepClone();
+        }
+        
+        for (int i = 0; i < this.shipments.length; i++) {
+            this.shipments[i] = this.shipments[i].deepClone();
         }
     }
 
@@ -51,7 +55,7 @@ public class Transaction {
      * 
      * @return um mapa que associa o ID de uma peça a uma peça correspondente.
      */
-    public HashMap<Integer, Part> getParts() {
+    public HashMap<Integer, Part> parts() {
 
         HashMap<Integer, Part> partMap = new HashMap<>();
         for (Part part : parts) {
@@ -66,7 +70,7 @@ public class Transaction {
      * 
      * @return uma lista de remessas.
      */
-    public ArrayList<Shipment> getShipments() {
+    public ArrayList<Shipment> shipments() {
 
         ArrayList<Shipment> shipmentList = new ArrayList<>();
         for (Shipment shipment : shipments) {

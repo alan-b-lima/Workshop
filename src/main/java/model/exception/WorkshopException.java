@@ -11,7 +11,8 @@ public class WorkshopException extends RuntimeException {
      * @param msg mensagem da exceção a ser lançada
      */
     public WorkshopException(String msg) {
-        super(String.format("\033[31m%s\033[m", msg));
+        // super(String.format("\033[31m%s\033[m", msg));
+        super(msg);
     }
 
     /**

@@ -18,7 +18,7 @@ if /i "%~1"=="doc" (
 ) else if /i "%~1"=="test" (
 
     if /i "%~2"=="" (
-        java -XX:+ShowCodeDetailsInExceptionMessages -cp "target/test-classes;%LIB%" Main
+        java -XX:+ShowCodeDetailsInExceptionMessages -cp "target/test-classes;%LIB%" Test
     ) else (
         java -XX:+ShowCodeDetailsInExceptionMessages -cp "target/test-classes;%LIB%" "%~2"
     )

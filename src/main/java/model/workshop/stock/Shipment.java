@@ -51,6 +51,22 @@ public class Shipment {
     }
 
     /**
+     * Construtor de clonagem.
+     * 
+     * @param shipment remessa a ser clonada.
+     */
+    private Shipment(Shipment shipment) {
+        this.id = shipment.id;
+        this.supplier = shipment.supplier;
+        this.arrival = shipment.arrival;
+        
+        this.parts = new ArrayList<>();
+        for (Part part : shipment.parts) {
+            this.parts.add(part.deepClone());
+        }
+    }
+
+    /**
      * Contador de instâncias da classe Supplier.
      */
     private static int instanceCount = 0;
@@ -170,6 +186,15 @@ public class Shipment {
     private static int generateNextId() {
         incrementInstanceCount();
         return instanceCount;
+    }
+
+    /**
+     * Faz uma cópia profunda da remessa
+     * 
+     * @return cópia da remessa
+     */
+    public Shipment deepClone() {
+        return new Shipment(this);
     }
 
     /**

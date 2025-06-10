@@ -28,6 +28,15 @@ public class PartKind {
     public PartKind() {
         this.id = generateNextId();
     }
+    
+    /**
+     * Construtor parametrizado.
+     * 
+     * @param name nome do tipo de peça.
+     */
+    public PartKind(String name) {
+        this(name, "");
+    }
 
     /**
      * Construtor parametrizado.
