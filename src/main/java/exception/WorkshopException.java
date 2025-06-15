@@ -1,4 +1,4 @@
-package model.exception;
+package exception;
 
 /**
  * Classe que representa uma exceção personalizada.

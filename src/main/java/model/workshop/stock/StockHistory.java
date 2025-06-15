@@ -1,8 +1,9 @@
-package model.workshop.stock.transaction;
+package model.workshop.stock;
 
 import java.util.Stack;
 
-import model.exception.WorkshopException;
+import exception.WorkshopException;
+import model.workshop.stock.Stock.Transaction;
 
 /**
  * Classe que representa o histórico de transações de estoque.
@@ -12,7 +13,7 @@ import model.exception.WorkshopException;
 public class StockHistory {
 
     /**
-     * Lista ligada que armazena as transações de estoque.
+     * Coleção que armazena as transações de estoque.
      */
     private Stack<Transaction> history;
 
@@ -44,16 +45,20 @@ public class StockHistory {
     }
 
     /**
-     * Retorna o tamanho do histórico de transações.
-     * 
-     * @return o tamanho do histórico.
+     * Registra uma transação do estado atual do estoque e adiciona ao histórico.
      */
-    public Transaction get(int index) {
-        try {
-            return history.get(index);
-        } catch (IndexOutOfBoundsException err) {
-            throw new WorkshopException("indíce [%d] fora dos limites para tamanho %d", index, history.size());
-        }
+    public void record() {
+        append(Stock.stock().createTransaction());
+    }
+
+    /**
+     * Aplica uma transação ao estoque, restaurando o estado do estoque para o
+     * estado da transação.
+     * 
+     * @param transaction a transação a ser aplicada.
+     */
+    private void apply(Transaction transaction) {
+        Stock.stock().restoreTransaction(transaction);
     }
 
     /**
@@ -61,7 +66,7 @@ public class StockHistory {
      * 
      * @param transaction a transação a ser adicionada.
      */
-    public void append(Transaction transaction) {
+    private void append(Transaction transaction) {
         clearEnd(index);
 
         history.add(transaction);
@@ -69,34 +74,29 @@ public class StockHistory {
     }
 
     /**
-     * Desfaz a última transação, se possível.
+     * Reverte para a última transação, se possível.
      * 
-     * @return a transação desfeita.
-     * @throws WorkshopException se não houver transações para desfazer.
+     * @throws WorkshopException se não houver transações para reverter.
      */
-    public Transaction undo() {
+    public void undo() {
         if (index <= 0) {
             throw new WorkshopException("não há transações para reverter");
         }
 
-        index--;
-        return history.get(index);
+        apply(history.get(--index));
     }
 
     /**
      * Refaz a última transação desfeita, se possível.
      * 
-     * @return a transação refeita.
      * @throws WorkshopException se não houver transações para refazer.
      */
-    public Transaction redo() {
+    public void redo() {
         if (index >= history.size()) {
             throw new WorkshopException("não há transações para refazer");
         }
 
-        Transaction transaction = history.get(index);
-        index++;
-        return transaction;
+        apply(history.get(index++));
     }
 
     /**
@@ -108,5 +108,15 @@ public class StockHistory {
         for (int i = history.size() - 1; i >= index; i--) {
             history.remove(i);
         }
+    }
+
+    /**
+     * Retorna uma representação textual do histórico de transações.
+     * 
+     * @return representação textual do histórico de transações.
+     */
+    @Override
+    public String toString() {
+        return String.format("(%s, %d)", history, index);
     }
 }

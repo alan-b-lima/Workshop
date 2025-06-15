@@ -3,8 +3,7 @@ package model.workshop.stock;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import model.workshop.stock.transaction.Transaction;
+import java.util.Map.Entry;
 
 /**
  * Classe que representa o estoque de peças, remessas e fornecedores.
@@ -103,7 +102,7 @@ public class Stock {
      */
     public Shipment getShipment(int id) {
         for (Shipment shipment : this.shipments) {
-            if (shipment.id == id) {
+            if (shipment.id() == id) {
                 return shipment;
             }
         }
@@ -146,7 +145,7 @@ public class Stock {
      */
     public Supplier getSupplier(int id) {
         for (Supplier supplier : this.suppliers) {
-            if (supplier.id == id) {
+            if (supplier.id() == id) {
                 return supplier;
             }
         }
@@ -192,12 +191,28 @@ public class Stock {
     }
 
     /**
+     * Retorna um tipo de peça do estoque pelo nome.
+     *
+     * @param id o ID do tipo de peça.
+     * @return o tipo de peça correspondente ao ID, ou null se não existir.
+     */
+    public PartKind getPartKind(String name) {
+        for (Entry<Integer, PartKind> pKindEntry : this.partKinds.entrySet()) {
+            if (pKindEntry.getValue().getName().equals(name)) {
+                return pKindEntry.getValue();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Adiciona um tipo de peça ao estoque.
      *
      * @param partKind o tipo de peça a ser adicionado.
      */
     public void addPartKind(PartKind partKind) {
-        partKinds.put(partKind.id, partKind);
+        partKinds.put(partKind.id(), partKind);
     }
 
     /**
@@ -215,7 +230,7 @@ public class Stock {
      * @return um memento do estoque.
      */
     public Transaction createTransaction() {
-        return new Transaction(parts, shipments);
+        return this.new Transaction();
     }
 
     /**
@@ -237,7 +252,84 @@ public class Stock {
      */
     @Override
     public String toString() {
-        return String.format("Stock{parts: %s, shipments: %s, suppliers: %s, partKinds: %s}",
-                parts, shipments, suppliers, partKinds);
+        return String.format("(%s, %s, %s, %s)", parts, shipments, suppliers, partKinds);
+        // return String.format("Stock{parts: %s, shipments: %s, suppliers: %s, partKinds: %s}", parts, shipments, suppliers, partKinds);
+    }
+
+    /**
+     * Classe que representa uma transação de estoque, contendo peças e remessas.
+     */
+    public class Transaction {
+
+        /**
+         * Lista de peças associadas a esta transação.
+         */
+        private final Part[] parts;
+
+        /**
+         * Lista de remessas associadas a esta transação.
+         */
+        private final Shipment[] shipments;
+
+        /**
+         * Construtor padrão.
+         */
+        public Transaction() {
+
+            int i = 0;
+
+            this.parts = new Part[Stock.this.parts.size()];
+            for (Entry<Integer, Part> entry : Stock.this.parts.entrySet()) {
+                this.parts[i++] = entry.getValue().deepClone();
+            }
+
+            i = 0;
+
+            this.shipments = new Shipment[Stock.this.shipments.size()];
+            for (Shipment shipment : Stock.this.shipments) {
+                this.shipments[i++] = shipment.deepClone();
+            }
+        }
+
+        /**
+         * Retorna as partes associadas a esta transação.
+         * 
+         * @return um mapa que associa o ID de uma peça a uma peça correspondente.
+         */
+        public HashMap<Integer, Part> parts() {
+
+            HashMap<Integer, Part> partMap = new HashMap<>(parts.length);
+            for (Part part : parts) {
+                partMap.put(part.getPartKind(), part);
+            }
+
+            return partMap;
+        }
+
+        /**
+         * Retorna as remessas associadas a esta transação.
+         * 
+         * @return uma lista de remessas.
+         */
+        public ArrayList<Shipment> shipments() {
+
+            ArrayList<Shipment> shipmentList = new ArrayList<>(shipments.length);
+            for (Shipment shipment : shipments) {
+                shipmentList.add(shipment);
+            }
+
+            return shipmentList;
+        }
+
+        /**
+         * Retorna uma representação textual da transação
+         * 
+         * @return representação textual da transação
+         */
+        @Override
+        public String toString() {
+            return String.format("(%s, %s)", parts, shipments);
+            // return String.format("Transaction{parts: %s, shipments: %s}", parts, shipments);
+        }
     }
 }

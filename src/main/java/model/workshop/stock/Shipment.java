@@ -3,17 +3,19 @@ package model.workshop.stock;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import custom.DeepClonable;
+
 /**
  * Classe que representa uma remessa de peças.
  * 
  * @author Juan Pablo
  */
-public class Shipment {
+public class Shipment implements DeepClonable<Shipment> {
 
     /**
      * Identificador único da remessa.
      */
-    public final int id;
+    private final int id;
 
     /**
      * Identificador do fornecedor que enviou a remessa.
@@ -59,8 +61,8 @@ public class Shipment {
         this.id = shipment.id;
         this.supplier = shipment.supplier;
         this.arrival = shipment.arrival;
-        
-        this.parts = new ArrayList<>();
+
+        this.parts = new ArrayList<>(shipment.parts.size());
         for (Part part : shipment.parts) {
             this.parts.add(part.deepClone());
         }
@@ -70,6 +72,15 @@ public class Shipment {
      * Contador de instâncias da classe Supplier.
      */
     private static int instanceCount = 0;
+
+    /**
+     * Retorna o ID da remessa.
+     * 
+     * @return ID da remessa.
+     */
+    public int id() {
+        return id;
+    }
 
     /**
      * Retorna o ID da remessa.
@@ -204,6 +215,7 @@ public class Shipment {
      */
     @Override
     public String toString() {
-        return String.format("Shipment{id: %d, supplier: %d, arrival: %d}", id, supplier, arrival);
+        return String.format("(%d, %d, %d)", id, supplier, arrival);
+        // return String.format("Shipment{id: %d, supplier: %d, arrival: %d}", id, supplier, arrival);
     }
 }

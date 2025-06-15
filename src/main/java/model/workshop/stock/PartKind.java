@@ -6,11 +6,11 @@ package model.workshop.stock;
  * @author Alan Lima
  */
 public class PartKind {
-    
+
     /**
      * Identificador único do tipo de peça.
      */
-    public final int id;
+    private final int id;
 
     /**
      * Nome do tipo de peça.
@@ -28,14 +28,14 @@ public class PartKind {
     public PartKind() {
         this.id = generateNextId();
     }
-    
+
     /**
      * Construtor parametrizado.
      * 
      * @param name nome do tipo de peça.
      */
     public PartKind(String name) {
-        this(name, "");
+        this(name, "un");
     }
 
     /**
@@ -54,6 +54,15 @@ public class PartKind {
      * Contador de instâncias da classe PartKind.
      */
     private static int instanceCount = 0;
+
+    /**
+     * Retorna o ID do tipo de peça
+     * 
+     * @return ID do tipo de peça
+     */
+    public int id() {
+        return id;
+    }
 
     /**
      * Retorna o nome do tipo de peça.
@@ -108,7 +117,8 @@ public class PartKind {
     }
 
     /**
-     * Gera o próximo ID para o tipo de peça, incrementando o contador de instâncias.
+     * Gera o próximo ID para o tipo de peça, incrementando o contador de
+     * instâncias.
      * 
      * @return próximo ID.
      */
@@ -124,6 +134,6 @@ public class PartKind {
      */
     @Override
     public String toString() {
-        return String.format("PartKind{id: %d, name: %s, unit: %s}", id, name, unit);
+        return String.format("(%d, %s, %s)", id, name, unit);
     }
 }

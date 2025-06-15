@@ -7,8 +7,19 @@ package model.workshop.stock;
  */
 public class Supplier {
 
-    public final int id;
+    /**
+     * Identificador único do fornecedor.
+     */
+    private final int id;
+
+    /**
+     * Nome fantasia do fornecedor.
+     */
     private String tradeName;
+
+    /**
+     * CNPJ do fornecedor.
+     */
     private String cnpj;
 
     /**
@@ -34,6 +45,15 @@ public class Supplier {
      * Contador de instâncias da classe Supplier.
      */
     private static int instanceCount = 0;
+
+    /**
+     * Retorna o ID do fornecedor.
+     * 
+     * @return ID do fornecedor.
+     */
+    public int id() {
+        return id;
+    }
 
     /**
      * Retorna o nome fantasia do fornecedor.
@@ -104,6 +124,7 @@ public class Supplier {
      */
     @Override
     public String toString() {
-        return String.format("Supplier{id: %d, tradeName: %s, cnpj: %s}", id, tradeName, cnpj);
+        return String.format("(%d, %s, %s)", id, tradeName, cnpj);
+        // return String.format("Supplier{id: %d, tradeName: %s, cnpj: %s}", id, tradeName, cnpj);
     }
 }

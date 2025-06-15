@@ -1,13 +1,14 @@
 package model.workshop.stock;
 
-import model.exception.WorkshopException;
+import custom.DeepClonable;
+import exception.WorkshopException;
 
 /**
  * Classe que representa uma peça.
  * 
  * @author Juan Pablo
  */
-public class Part {
+public class Part implements DeepClonable<Part> {
 
     /**
      * Tipo da peça.
@@ -170,6 +171,7 @@ public class Part {
      */
     @Override
     public String toString() {
-        return String.format("Part{partKind: %d, unitValue: %.2f, quantity: %d}", partKind, unitValue, quantity);
+        return String.format("(%d, %.2f, %d)", partKind, unitValue, quantity);
+        // return String.format("Part{partKind: %d, unitValue: %.2f, quantity: %d}", partKind, unitValue, quantity);
     }
 }
