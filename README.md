@@ -24,14 +24,16 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
 - O bloco de getters de um atributo deve vir imediatamente antes do bloco de setters;
 - Os blocos de getters e setters devem aparecer na mesma ordem que a declaração de seus atributos;
 - A ordem de estruturação de uma classe deve ser:
+    - atributos de classe (constantes ou não),
     - atributos (constantes ou não),
     - instância da própria classe (para singletons),
     - construtores,
     - método getInstance ou equivalente (para singletons),
-    - atributos de classe (constantes ou não),
     - getters e setters,
     - outros métodos (que não são getters nem setters),
-    - a substituição do metodo toString.
+    - substituições em geral,
+    - a substituição do método toString,
+    - classes internas (se houver).
 
 ## Modelo
 
@@ -39,15 +41,19 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
     - auth\
         - [ ] AuthLevel.java
         - [ ] Session.java
-    - util\
+    - custom\
+        - [ ] DeepClonable.java
+        - [ ] WorkshopObject.java
+    - exception\
+        - [ ] WorkshopException.java
+    - snapshot\
+        - [ ] History.java
+        - [ ] Snapshot.java
         - [ ] WJson.java
     - workshop\
         - common\
-            - [x] Cpf.java
-            - [x] Person.java
-            - [x] Phone.java
-        - customer\
             - [ ] Customer.java
+            - [ ] Person.java
             - [ ] Vehicle.java
         - date\
             - [ ] DateSpan.java
@@ -60,7 +66,6 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
         - service\
             - [ ] Elevator.java
             - [ ] Scheduler.java
-            - [ ] Scheduling.java
             - [ ] Service.java
             - [ ] ServiceOrder.java
         - staff\
@@ -68,62 +73,44 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
             - [ ] Manager.java
             - [ ] StaffMember.java
         - stock\
-            - [ ] Part.java
-            - [x] PartKind.java
+            - [ ] Product.java
             - [ ] Shipment.java
+            - [ ] ShipmentItem.java
             - [ ] Stock.java
             - [ ] Supplier.java
         - [ ] Workshop.java
+    - [ ] WorkshopSystem.java
 
 ### Diagrama de Classes
 
 ```mermaid
 classDiagram
 
-    class AccountmentPolicy {
-        <<enumeration>>
+    class Product {
+        - instanceCount: int $
 
-        LAST_IN_FIRST_OUT
-        FIRST_IN_FIRST_OUT
-        AVERAGE_VALUE
-        HIGHER_VALUE
-    }
-
-    Part *-- PartKind
-    class Part {
-        - partKind: int
+        - id: final int
+        - name: String
         - unitValue: double
         - quantity: int
+        - unit: String
 
-        + Part()
-        + Part(PartKind, double, int)
+        + Product()
+        + Product(String)
+        + Product(String, double)
+        + Product(String, double, int)
+        + Product(String, double, int, String)
+        - Product(Product)
 
-        + getPartKind() int
-        + setPartKind(int) void
+        + id() int
+        + getName() String
+        + setName(String) void
         + getUnitValue() double
         + getTotalValue() double
         + setUnitValue(double) void
         + setTotalValue(double) void
         + getQuantity() int
         + setQuantity(int) void
-        + addQuantity(int) void
-        + removeQuantity(int) void
-
-        + toString() String
-    }
-
-    class PartKind {
-        + id: int
-        - name: String
-        - unit: String
-
-        + PartKind()
-        + PartKind(String, String)
-
-        - instanceCount: int $
-
-        + getName() String
-        + setName(String) void
         + getUnit() String
         + setUnit(String) void
 
@@ -131,61 +118,126 @@ classDiagram
         - incrementInstanceCount() void $
         - generateNextId() int $
 
+        + deepClone() Product
         + toString() String
     }
 
-    Shipment *-- Part
-    Shipment *-- Supplier
+    class ShipmentItem {
+        - product: int
+        - unitValue: double
+        - quantity: int
+
+        + ShipmentItem()
+        + ShipmentItem(int, double, int)
+        - ShipmentItem(ShipmentItem)
+
+        + getProductId() int
+        + getProduct() Product
+        + setProduct(int) void
+        + setProduct(Product) void
+        + getUnitValue() double
+        + getTotalValue() double
+        + setUnitValue(double) void
+        + setTotalValue(double) void
+        + getQuantity() int
+        + setQuantity(int) void
+
+        + deepClone() ShipmentItem
+        + toString() String
+    }
+
+    Shipment *-- ShipmentItem
+    Shipment --|> WorkshopObject
     class Shipment {
-        + id: int
+        - instanceCount: int $
+        
+        - id: final int
         - supplier: int
-        - parts: ArrayList~Part~
-        - aditionalValue: double
+        - parts: ArrayList~ShipmentItem~
         - arrival: long
         - paymentDate: long
         - accounted: boolean
 
         + Shipment()
-        + Shipment(Supplier, long)
+        + Shipment(String)
+        + Shipment(String, String)
+        - Shipment(Shipment)
 
-        - instanceCount: int $
-
+        + id() int
         + getSupplier() int
-        + setSupplier(Supplier) void
-        + getParts() Iterator~Part~
-        + getPart(PartKind) Part
-        + addPart(Part) void
-        + removePart(Part) void
-        + getAditionalValue() double
-        + getTotalValue() double
-        + setAditionalValue(double) void
+        + setSupplier(int) void
+        + getProducts() Iterable~Product~
+        + getProductStream() Stream~Product~
+        + getProduct(int) Product
+        + addProduct(Product) void
+        + addProducts(Product...) void
+        + removeProduct(int) void
+        + removeProducts(int...) void
         + getArrival() long
+        + hasArrived() boolean
         + setArrival(long) void
-        + setArrivalNow() void
-        + isPaid() boolean
         + getPaymentDate() long
+        + isPaid() boolean
         + setPaymentDate(long) void
-        + setPaymentDateNow() void
         + isAccounted() boolean
+        + setAccounted() void
         + setAccounted(boolean) void
 
         + getInstanceCount() int $
         - incrementInstanceCount() void $
         - generateNextId() int $
 
+        + deepClone() Shipment
+        + toString() String
+    }
+
+    class Stock {
+        - products: HashMap~Integer, Product~
+        - shipments: ArrayList~Shipment~
+        - suppliers: ArrayList~Supplier~
+
+        + Stock()
+        - Stock(Stock)
+
+        + getProducts() Iterable~Product~
+        + getProductStream() Stream~Product~
+        + getProduct(int) Product
+        + addProduct(Product) void
+        + addProducts(Product...) void
+        + removeProduct(int) void
+        + removeProducts(int...) void
+        + getShipments() Iterable~Shipment~
+        + getShipmentStream() Stream~Shipment~
+        + getShipment(int) Shipment
+        + addShipment(Shipment) void
+        + addShipments(Shipment...) void
+        + removeShipment(int) void
+        + removeShipments(int...) void        
+        + getSuppliers() Iterable~Supplier~
+        + getSupplierStream() Stream~Supplier~
+        + getSupplier(int) Supplier
+        + addSupplier(Supplier) void
+        + addSuppliers(Supplier...) void
+        + removeSupplier(int) void
+        + removeSuppliers(int...) void
+
+        + deepClone() Stock
         + toString() String
     }
 
     class Supplier {
-        + id: int
+        - instanceCount: int $
+
+        - id: final int
         - tradeName: String
         - cnpj: String
 
         + Supplier()
+        + Supplier(String)
         + Supplier(String, String)
+        - Supplier(Supplier)
 
-        - instanceCount: int $
-
+        + id() int
         + getTradeName() String
         + setTradeName(String) void
         + getCnpj() String
@@ -195,45 +247,8 @@ classDiagram
         - incrementInstanceCount() void $
         - generateNextId() int $
 
+        + deepClone() Supplier
         + toString() String
-    }
-
-    Stock *-- Part
-    Stock *-- Shipment
-    class Stock {
-        - parts: HashMap~Integer, Part~
-        - shipments: ArrayList~Shipment~
-
-        + Stock()
-        
-        + getParts() Iterator~Part~
-        + getPart(int) Part
-        + addPart(Part) void
-        + removePart(Part) void
-        + getShipments() Iterator~Shipment~
-        + getShipment(int) Shipment
-        + addShipment(Shipment) void
-        + removeShipment(Shipment) void
-
-        + toString() String
-    }
-
-    Workshop *-- Customer
-    Workshop *-- StaffMember
-    Workshop *-- Finance
-    Workshop *-- Scheduler
-    Workshop *-- Stock
-    class Workshop {
-        ...
-
-        - workshop: Workshop
-
-        - Workshop()
-
-        + getInstance() Workshop
-        
-        + saveState() void
-        + loadState() void
     }
 ```
 
@@ -242,14 +257,25 @@ classDiagram
 - visual\
     - gui\
     - tui\
-        - command\
-            - [ ] Help.java
-            - [ ] Login.java
-            - ...
-        - [ ] Command.java
-        - [ ] CommandLine.java
-        - [ ] Main.java
+        - entry\
+            - CommandEntry.java
+            - ContextEntry.java
+            - Entry.java
+        - exit\
+            - ExitCode.java
+            - ExitMessage.java
+        - Command.java
+        - Commands.java
+        - Shell.java
+        - Main.java
+```
 
+### Diagrama de classes
+
+```mermaid
+classDiagram
+
+```
 
 ## Referências
 
@@ -261,3 +287,4 @@ classDiagram
 - https://www.debuggex.com/
 - https://github.com/google/gson
 - https://mermaid.js.org/syntax/classDiagram.html
+- https://www.javier8a.com/itc/bd1/articulo.pdf
