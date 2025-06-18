@@ -1,4 +1,4 @@
-package model.custom;
+package edu.ajan.model.custom;
 
 /**
  * Interface para objetos que podem ser clonados profundamente.

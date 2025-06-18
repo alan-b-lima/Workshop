@@ -1,10 +1,10 @@
-package model.workshop.stock;
+package edu.ajan.model.workshop.stock;
 
-import model.custom.DeepClonable;
-import model.custom.WorkshopObject;
+import edu.ajan.model.custom.DeepClonable;
+import edu.ajan.model.custom.WorkshopObject;
 
 /**
- * Classe que representa um produto no estoque do workshop.
+ * Classe que representa um produto no estoque.
  * 
  * @author Alan Lima
  */
@@ -227,7 +227,8 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     }
 
     /**
-     * Gera o próximo identificador único para um produto.
+     * Gera o próximo identificador único para um novo produto e incrementa o
+     * contador de instâncias.
      * 
      * @return próximo identificador único.
      */
@@ -253,6 +254,6 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      */
     @Override
     public String toString() {
-        return String.format("(%d, '%s', %.2f, %d, '%s')", id, name, unitValue, quantity, unit);
+        return String.format("(%d \"%s\" %.2f %d \"%s\")", id, name, unitValue, quantity, unit);
     }
 }

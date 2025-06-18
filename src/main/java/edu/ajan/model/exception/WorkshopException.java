@@ -1,4 +1,4 @@
-package model.exception;
+package edu.ajan.model.exception;
 
 /**
  * Classe que representa uma exceção personalizada.
