@@ -20,7 +20,7 @@ public class WorkshopException extends RuntimeException {
     public WorkshopException(String msg) {
         super(msg);
     }
-    
+
     /**
      * Construtor parametrizado variádico.
      * 
@@ -29,5 +29,10 @@ public class WorkshopException extends RuntimeException {
      */
     public WorkshopException(String msg, Object... args) {
         super(String.format(msg, args));
+    }
+
+    // Temporary
+    public static WorkshopException methodNotImplemented(String methodName) {
+        return new WorkshopException("método '%s' não implementado", methodName);
     }
 }

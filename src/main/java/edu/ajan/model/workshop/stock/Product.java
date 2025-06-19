@@ -2,6 +2,7 @@ package edu.ajan.model.workshop.stock;
 
 import edu.ajan.model.custom.DeepClonable;
 import edu.ajan.model.custom.WorkshopObject;
+import edu.ajan.model.exception.WorkshopException;
 
 /**
  * Classe que representa um produto no estoque.
@@ -92,10 +93,10 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      */
     public Product(String name, double unitValue, int quantity, String unit) {
         this();
-        this.name = name;
-        this.unitValue = unitValue;
-        this.quantity = quantity;
-        this.unit = unit;
+        this.setName(name);
+        this.setUnitValue(unitValue);
+        this.setQuantity(quantity);
+        this.setUnit(unit);
     }
 
     /**
@@ -133,8 +134,14 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      * Define o nome do produto.
      * 
      * @param name nome do produto.
+     * 
+     * @throws WorkshopException se o nome for nulo.
      */
     public void setName(String name) {
+        if (name == null) {
+            throw new WorkshopException("nome não pode ser nulo");
+        }
+
         this.name = name;
     }
 
@@ -160,8 +167,14 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      * Define o valor unitário do produto.
      * 
      * @param unitValue valor unitário do produto.
+     * 
+     * @throws WorkshopException se o valor unitário for negativo.
      */
     public void setUnitValue(double unitValue) {
+        if (unitValue < 0) {
+            throw new WorkshopException("valor unitário não pode ser negativo");
+        }
+
         this.unitValue = unitValue;
     }
 
@@ -169,8 +182,14 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      * Define o valor total do produto em estoque, recalculando o valor unitário.
      * 
      * @param totalValue valor total do produto em estoque.
+     * 
+     * @throws WorkshopException se o valor total for negativo.
      */
     public void setTotalValue(double totalValue) {
+        if (totalValue < 0) {
+            throw new WorkshopException("valor total não pode ser negativo");
+        }
+
         this.unitValue = totalValue / (double) quantity;
     }
 
@@ -205,8 +224,14 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      * Define a unidade de medida do produto.
      * 
      * @param unit unidade de medida do produto.
+     * 
+     * @throws WorkshopException se a unidade de medida for nula.
      */
     public void setUnit(String unit) {
+        if (unit == null) {
+            throw new WorkshopException("unidade de medida não pode ser nula");
+        }
+
         this.unit = unit;
     }
 

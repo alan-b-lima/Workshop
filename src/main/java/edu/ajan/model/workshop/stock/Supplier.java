@@ -1,5 +1,6 @@
 package edu.ajan.model.workshop.stock;
 
+import edu.ajan.model.custom.DeepClonable;
 import edu.ajan.model.custom.WorkshopObject;
 
 /**
@@ -7,7 +8,7 @@ import edu.ajan.model.custom.WorkshopObject;
  * 
  * @author Alan Lima
  */
-public class Supplier extends WorkshopObject {
+public class Supplier extends WorkshopObject implements DeepClonable<Supplier> {
 
     /**
      * Contador de instâncias de fornecedores.
@@ -30,17 +31,16 @@ public class Supplier extends WorkshopObject {
     private String cnpj;
 
     /**
-     * Construtor padrão que inicializa o ID do fornecedor.
+     * Construtor padrão.
      */
     public Supplier() {
         this.id = generateNextId();
     }
 
     /**
-     * Construtor parametrizado que inicializa o nome fantasia e o CNPJ do
-     * fornecedor.
+     * Construtor parametrizado.
      * 
-     * @param tradeName Nome fantasia do fornecedor.
+     * @param tradeName nome fantasia do fornecedor.
      * @param cnpj      CNPJ do fornecedor.
      */
     public Supplier(String tradeName, String cnpj) {

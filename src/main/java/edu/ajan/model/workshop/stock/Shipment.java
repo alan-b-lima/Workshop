@@ -1,16 +1,17 @@
 package edu.ajan.model.workshop.stock;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
+import edu.ajan.model.custom.DeepClonable;
 import edu.ajan.model.custom.WorkshopObject;
+import edu.ajan.model.exception.WorkshopException;
 
 /**
  * Classe que representa uma remessa de produtos.
  * 
  * @author Alan Lima
  */
-public class Shipment extends WorkshopObject {
+public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
 
     /**
      * Contador de instâncias de Shipment.
@@ -81,19 +82,19 @@ public class Shipment extends WorkshopObject {
     }
 
     /**
-     * Construtor de cópia.
+     * Construtor de clonagem.
      * 
-     * @param shipment objeto Shipment a ser copiado.
+     * @param shipment remessa a ser clonada.
      */
     private Shipment(Shipment shipment) {
         this.id = shipment.id;
         this.supplier = shipment.supplier;
+        this.items = new ArrayList<>(shipment.items.size());
         this.additional = shipment.additional;
         this.arrival = shipment.arrival;
         this.paymentDate = shipment.paymentDate;
         this.accounted = shipment.accounted;
 
-        this.items = new ArrayList<>(shipment.items.size());
         for (ShipmentItem item : items) {
             this.items.add(item.deepClone());
         }
@@ -127,21 +128,12 @@ public class Shipment extends WorkshopObject {
     }
 
     /**
-     * Retorna a lista de itens da remessa.
+     * Retorna uma estrutura iterável de itens da remessa.
      * 
-     * @return lista de itens da remessa.
+     * @return estrutura iterável de itens da remessa.
      */
     public Iterable<ShipmentItem> getItems() {
         return items;
-    }
-
-    /**
-     * Retorna um fluxo de itens da remessa.
-     * 
-     * @return um fluxo de itens da remessa.
-     */
-    public Stream<ShipmentItem> getItemStream() {
-        return items.stream();
     }
 
     /**
@@ -152,7 +144,7 @@ public class Shipment extends WorkshopObject {
      *         encontrado.
      */
     public ShipmentItem getItem(int product) {
-        throw new UnsupportedOperationException("method not implemented");
+        throw WorkshopException.methodNotImplemented("getItem");
     }
 
     /**
@@ -161,14 +153,14 @@ public class Shipment extends WorkshopObject {
      * @param item o item a ser adicionado.
      */
     public void addItem(ShipmentItem item) {
-        ShipmentItem foundItem = getItem(item.getProduct());
-        if (foundItem == null) {
-            this.items.add(item);
-            return;
-        }
+        // ShipmentItem foundItem = getItem(item.getProduct());
+        // if (foundItem == null) {
+        //     this.items.add(item);
+        //     return;
+        // }
 
-        foundItem.addQuantity(item.getQuantity());
-        throw new UnsupportedOperationException("accountance policy not implemented");
+        // foundItem.addQuantity(item.getQuantity());
+        throw WorkshopException.methodNotImplemented("addItem");
     }
 
     /**
@@ -188,7 +180,7 @@ public class Shipment extends WorkshopObject {
      * @param product identificador do produto a ser removido.
      */
     public void removeItem(int product) {
-        throw new UnsupportedOperationException("accountance policy not implemented");
+        throw WorkshopException.methodNotImplemented("removeItem");
     }
 
     /**
@@ -197,7 +189,7 @@ public class Shipment extends WorkshopObject {
      * @param product identificadores dos produtos a serem removidos.
      */
     public void removeItems(int... product) {
-        throw new UnsupportedOperationException("accountance policy not implemented");
+        throw WorkshopException.methodNotImplemented("removeItems");
     }
 
     /**
@@ -233,7 +225,7 @@ public class Shipment extends WorkshopObject {
      * @return {@code true} se a remessa chegou, {@code false} caso contrário.
      */
     public boolean hasArrived() {
-        throw new UnsupportedOperationException("accountance policy not implemented");
+        throw WorkshopException.methodNotImplemented("hasArrived");
     }
 
     /**
@@ -260,7 +252,7 @@ public class Shipment extends WorkshopObject {
      * @return {@code true} se a remessa foi paga, {@code false} caso contrário.
      */
     public boolean isPaid() {
-        throw new UnsupportedOperationException("accountance policy not implemented");
+        throw WorkshopException.methodNotImplemented("isPaid");
     }
 
     /**

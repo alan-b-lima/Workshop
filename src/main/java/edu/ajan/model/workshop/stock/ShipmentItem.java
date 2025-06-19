@@ -1,5 +1,6 @@
 package edu.ajan.model.workshop.stock;
 
+import edu.ajan.model.custom.DeepClonable;
 import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.exception.WorkshopException;
 
@@ -8,7 +9,7 @@ import edu.ajan.model.exception.WorkshopException;
  * 
  * @author Alan Lima
  */
-public class ShipmentItem extends WorkshopObject {
+public class ShipmentItem extends WorkshopObject implements DeepClonable<ShipmentItem> {
 
     /**
      * ID do produto associado a este item de remessa.
@@ -36,21 +37,21 @@ public class ShipmentItem extends WorkshopObject {
      * Construtor parametrizado.
      * 
      * @param product   ID do produto associado a este item de remessa.
-     * @param unitValue Valor unitário do produto.
-     * @param quantity  Quantidade do produto neste item de remessa.
+     * @param unitValue valor unitário do produto.
+     * @param quantity  quantidade do produto neste item de remessa.
      * 
      * @throws WorkshopException se a quantidade for negativa.
      */
     public ShipmentItem(int product, double unitValue, int quantity) {
-        this.product = product;
-        this.unitValue = unitValue;
+        this.setProduct(product);
+        this.setUnitValue(unitValue);
         this.setQuantity(quantity);
     }
 
     /**
-     * Construtor de cópia.
+     * Construtor de clonagem.
      * 
-     * @param item Item de remessa a ser copiado.
+     * @param item item de remessa a ser clonado.
      */
     private ShipmentItem(ShipmentItem item) {
         this.product = item.product;
@@ -103,7 +104,7 @@ public class ShipmentItem extends WorkshopObject {
      */
     public void setUnitValue(double unitValue) {
         if (unitValue < 0) {
-            throw new WorkshopException("não é possível definir valor unitário negativo");
+            throw new WorkshopException("valor unitário não pode ser negativo");
         }
 
         this.unitValue = unitValue;
@@ -118,7 +119,7 @@ public class ShipmentItem extends WorkshopObject {
      */
     public void setTotalValue(double totalValue) {
         if (totalValue < 0) {
-            throw new WorkshopException("não é possível definir valor total negativo");
+            throw new WorkshopException("valor total não pode ser negativo");
         }
 
         this.unitValue = totalValue / (double) quantity;
@@ -142,7 +143,7 @@ public class ShipmentItem extends WorkshopObject {
      */
     public void setQuantity(int quantity) {
         if (quantity < 0) {
-            throw new WorkshopException("não é possível definir quantidade negativa");
+            throw new WorkshopException("quantidade não pode ser negativa");
         }
 
         this.quantity = quantity;
@@ -156,7 +157,7 @@ public class ShipmentItem extends WorkshopObject {
      */
     public void addQuantity(int quantity) {
         if (quantity < 0) {
-            throw new WorkshopException("não é possível adicionar quantidade negativa");
+            throw new WorkshopException("quantidade adicionada não pode ser negativa");
         }
 
         this.quantity += quantity;
@@ -166,12 +167,16 @@ public class ShipmentItem extends WorkshopObject {
      * Remove uma quantidade do item de remessa.
      * 
      * @param quantity quantidade a ser removida.
-     * @throws WorkshopException se a quantidade a ser removida for maior que a
-     *                           quantidade atual.
+     * @throws WorkshopException se a quantidade a ser removida for negativa ou
+     *                           maior que a quantidade atual.
      */
     public void removeQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new WorkshopException("quantidade removida não pode ser negativa");
+        }
+
         if (this.quantity < quantity) {
-            throw new WorkshopException("não há quantidade suficiente para remover");
+            throw new WorkshopException("quantidade %d insufiencente para a remoção de %d", this.quantity, quantity);
         }
 
         this.quantity -= quantity;
