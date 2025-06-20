@@ -53,7 +53,7 @@ public class ShipmentItem extends WorkshopObject implements DeepClonable<Shipmen
      * 
      * @param item item de remessa a ser clonado.
      */
-    private ShipmentItem(ShipmentItem item) {
+    protected ShipmentItem(ShipmentItem item) {
         this.product = item.product;
         this.unitValue = item.unitValue;
         this.quantity = item.quantity;

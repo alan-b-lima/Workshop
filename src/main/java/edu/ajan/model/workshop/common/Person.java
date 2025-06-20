@@ -195,8 +195,6 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
      * {@code C}, {@code D}, {@code E}, {@code F}, {@code G}, {@code H}, {@code I},
      * {@code J} e {@code K} dígitos decimais de 0 a 9.
      * 
-     * <p>
-     * 
      * <p> {@code x := (10A + 9B + 8C + 7D + 6E + 5F + 4G + 3H + 2I) mod 11}
      * <p> {@code y := x < 2 ? 0 : 11 - x}
      * 

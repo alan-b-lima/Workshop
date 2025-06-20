@@ -104,7 +104,7 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      * 
      * @param product instância de a ser clonada.
      */
-    private Product(Product product) {
+    protected Product(Product product) {
         this.id = product.id;
         this.name = product.name;
         this.unitValue = product.unitValue;

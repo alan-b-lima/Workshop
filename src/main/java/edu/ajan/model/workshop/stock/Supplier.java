@@ -82,7 +82,7 @@ public class Supplier extends WorkshopObject implements DeepClonable<Supplier> {
      * 
      * @param supplier fornecedor a ser clonado.
      */
-    private Supplier(Supplier supplier) {
+    protected Supplier(Supplier supplier) {
         this.id = supplier.id;
         this.tradeName = supplier.tradeName;
         this.cnpj = supplier.cnpj;

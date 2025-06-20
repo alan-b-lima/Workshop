@@ -86,7 +86,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * 
      * @param shipment remessa a ser clonada.
      */
-    private Shipment(Shipment shipment) {
+    protected Shipment(Shipment shipment) {
         this.id = shipment.id;
         this.supplier = shipment.supplier;
         this.items = new ArrayList<>(shipment.items.size());

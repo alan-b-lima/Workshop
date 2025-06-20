@@ -48,7 +48,7 @@ public class Stock extends WorkshopObject {
      * 
      * @param stock estoque a ser clonado.
      */
-    private Stock(Stock stock) {
+    protected Stock(Stock stock) {
         this.products = new HashMap<>(stock.products.size());
         this.shipments = new ArrayList<>(stock.shipments.size());
         this.suppliers = new TreeSet<>();

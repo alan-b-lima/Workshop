@@ -16,7 +16,7 @@ public interface DeepClonable<T> {
      * de clonagem de forma dada:
      * 
      * <pre>
-     * private T(T t) {
+     * protected T(T t) {
      *     this.field_n = t.field_n             // para campos primitivos (e nulos, tecnicamente)
      *     this.field_m = t.field_m.deepClone() // para campos por referência com essa interface implementada
      *     // para campos por referências de outros tipos, não há como lidar de uma maneira geral
