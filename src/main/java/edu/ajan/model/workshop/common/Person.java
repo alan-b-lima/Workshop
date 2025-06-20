@@ -16,11 +16,6 @@ import edu.ajan.model.exception.WorkshopException;
 public abstract class Person extends WorkshopObject implements DeepClonable<Person> {
 
     /**
-     * Padrão RegEx que casa qualquer caractere não decimal.
-     */
-    private static final Pattern NON_DIGIT_MATCHING_PATTERN = Pattern.compile("[^\\d]");
-
-    /**
      * Padrão RegEx que tanto casa um superconjunto das formatações válidas de
      * números de telefone celular no Brasil, quanto pode dividir os dígitos do
      * número de telefone nos grupos apropriados para formatação.
@@ -43,6 +38,12 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
      * {@link #PHONE_PATTERN}
      */
     private static final String STANDARD_PHONE_MASK = "($1) 9$2-$3";
+
+    /**
+     * Padrão de substituição para CPF para remover dígitos não decimais, o CPF deve
+     * ter sido agrupado por {@link #CPF_PATTERN}.
+     */
+    private static final String CPF_NON_DIGIT_REMOVAL_MASK = "$1$2$3$4";
 
     /**
      * Padrão de substituição para CPF pseudo-anonimizado que tenha sido agrupado
@@ -192,18 +193,18 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
      * 
      * <p> Considere o CPF {@code ABC.DEF.GHI-JK}, sendo {@code A}, {@code B},
      * {@code C}, {@code D}, {@code E}, {@code F}, {@code G}, {@code H}, {@code I},
-     * {@code J} e {@code K} digitos decimais de 0 a 9.
+     * {@code J} e {@code K} dígitos decimais de 0 a 9.
      * 
      * <p>
      * 
-     * <p> {@code x := (10A + 9B + 8C + 7D + 6E + 5F + 4G + 3H + 2I) % 11}
+     * <p> {@code x := (10A + 9B + 8C + 7D + 6E + 5F + 4G + 3H + 2I) mod 11}
      * <p> {@code y := x < 2 ? 0 : 11 - x}
      * 
-     * <p> {@code z := (10B + 9C + 8D + 7E + 6F + 5G + 4H + 3I + 2y) % 11}
+     * <p> {@code z := (10B + 9C + 8D + 7E + 6F + 5G + 4H + 3I + 2J) mod 11}
      * <p> {@code w := z < 2 ? 0 : 11 - z}
      * 
      * <p> Para o CPF ser válido, é necessário e sufiente que {@code y = J},
-     * {@code w = K} e ao menos um digito ser diferente de outro.
+     * {@code w = K} e ao menos um dígito ser diferente de outro.
      * 
      * @param cpf CPF da pessoa.
      * 
@@ -223,7 +224,7 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
             throw new WorkshopException("CPF deve seguir o formato xxx.xxx.xxx-xx");
         }
 
-        String stripedCpf = NON_DIGIT_MATCHING_PATTERN.matcher(cpf).replaceAll("");
+        String stripedCpf = cpfMatcher.replaceAll(CPF_NON_DIGIT_REMOVAL_MASK);
 
         if (ALL_DIGITS_EQUAL_PATTERN.matcher(stripedCpf).matches()) {
             throw new WorkshopException("CPF não pode ter todos os dígitos iguais");
@@ -243,8 +244,7 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
         int correct1st = remainder1st < 2 ? 0 : 11 - remainder1st;
         int correct2nd = remainder2nd < 2 ? 0 : 11 - remainder2nd;
 
-        // Se o primeiro dígito verificador está incorreto, o segundo dígito verificador
-        // obtido não é confiável
+        // Se o primeiro dígito verificador está incorreto, o segundo dígito verificador obtido não é confiável
         if (correct1st != (int) (stripedCpf.charAt(9) - '0')) {
             throw new WorkshopException("CPF com dígitos verificadores inválidos, começa com %d", correct1st);
         }
@@ -256,7 +256,7 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
         String formattedCpf = cpfMatcher.replaceAll(STANDARD_FULL_CPF_MASK);
         this.cpf = formattedCpf;
     }
-    
+
     /**
      * Retorna o componente interior da tupla para anular a necessidade de remover
      * os parênteses em subclasses.
