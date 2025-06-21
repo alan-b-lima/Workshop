@@ -259,9 +259,9 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
      * Retorna o componente interior da tupla para anular a necessidade de remover
      * os parênteses em subclasses.
      * 
-     * @return componente inteirior da tupla.
+     * @return componente interior da tupla.
      */
-    protected String superString() {
+    protected String superToString() {
         return String.format("\"%s\" %s %s", name, phone, getCpf());
     }
 
@@ -272,6 +272,6 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
      */
     @Override
     public String toString() {
-        return "(" + superString() + ")";
+        return "(" + superToString() + ")";
     }
 }

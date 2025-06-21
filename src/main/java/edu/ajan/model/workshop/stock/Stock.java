@@ -88,8 +88,8 @@ public class Stock extends WorkshopObject {
      * Retorna um produto a partir do seu idenficador.
      * 
      * @param product identificador de produto.
-     * @return produto de identificador {@product}, ou {@code null}, caso um produto
-     *         de identificador {@product} não existir.
+     * @return produto de identificador {@code product}, ou {@code null} se um
+     *         produto de identificador {@code product} não existir.
      */
     public Product getProduct(int product) {
         return products.get(product);
@@ -146,8 +146,8 @@ public class Stock extends WorkshopObject {
      * Retorna uma remessa a partir do seu idenficador.
      * 
      * @param shipment identificador de remessa.
-     * @return remessa de identificador {@shipment}, ou {@code null}, caso uma
-     *         remessa de identificador {@shipment} não existir.
+     * @return remessa de identificador {@code shipment}, ou {@code null} se uma
+     *         remessa de identificador {@code shipment} não existir.
      */
     public Shipment getShipment(int shipment) {
         throw WorkshopException.methodNotImplemented("getShipment");
@@ -204,8 +204,8 @@ public class Stock extends WorkshopObject {
      * Retorna um fornecedor a partir do seu idenficador.
      * 
      * @param supplier identificador de fornecedor.
-     * @return fornecedor de identificador {@supplier}, ou {@code null}, caso um
-     *         fornecedor de identificador {@supplier} não existir.
+     * @return fornecedor de identificador {@code supplier}, ou {@code null} se um
+     *         fornecedor de identificador {@code supplier} não existir.
      */
     public Supplier getSupplier(int supplier) {
         throw WorkshopException.methodNotImplemented("getSupplier");

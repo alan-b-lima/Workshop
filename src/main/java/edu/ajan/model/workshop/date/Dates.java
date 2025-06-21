@@ -14,15 +14,11 @@ public final class Dates {
 
     /**
      * Formato de data padrão para o formato "dd/MM/yyyy HH:mm".
-     * 
-     * @see java.text.SimpleDateFormat
      */
     private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     /**
      * Formato de data padrão para o formato "dd/MM/yyyy".
-     * 
-     * @see java.text.SimpleDateFormat
      */
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
