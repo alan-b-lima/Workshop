@@ -103,7 +103,7 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
     /**
      * Construtor de clonagem.
      * 
-     * @param person a pessoa a ser clonada.
+     * @param person pessoa a ser clonada.
      */
     protected Person(Person person) {
         this.name = person.name;

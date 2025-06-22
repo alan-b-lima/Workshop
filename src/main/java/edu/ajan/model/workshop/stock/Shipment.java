@@ -292,26 +292,25 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     }
 
     /**
-     * Retorna o número total de instâncias de Shipment criadas.
+     * Retorna o número total de instâncias criadas.
      * 
-     * @return número total de instâncias de Shipment.
+     * @return número total de instâncias criadas.
      */
     public static int getInstanceCount() {
         return instanceCount;
     }
 
     /**
-     * Incrementa o contador de instâncias de Shipment.
+     * Incrementa o contador de instâncias.
      */
     private static void incrementInstanceCount() {
         instanceCount++;
     }
 
     /**
-     * Gera o próximo identificador único para uma nova remessa e incrementa o
-     * contador de instâncias.
+     * Gera o próximo identificador e incrementa o contador de instâncias.
      * 
-     * @return o próximo identificador único.
+     * @return próximo identificador único.
      */
     private static int generateNextId() {
         incrementInstanceCount();

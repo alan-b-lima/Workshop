@@ -102,7 +102,7 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     /**
      * Construtor de clonagem.
      * 
-     * @param product instância de a ser clonada.
+     * @param product produto a ser clonado.
      */
     protected Product(Product product) {
         this.id = product.id;
@@ -236,24 +236,23 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     }
 
     /**
-     * Retorna o número total de instâncias de produtos criadas.
+     * Retorna o número total de instâncias criadas.
      * 
-     * @return número total de instâncias de produtos criadas.
+     * @return número total de instâncias criadas.
      */
     public static int getInstanceCount() {
         return instanceCount;
     }
 
     /**
-     * Incrementa o contador de instâncias de produtos.
+     * Incrementa o contador de instâncias.
      */
     private static void incrementInstanceCount() {
         instanceCount++;
     }
 
     /**
-     * Gera o próximo identificador único para um novo produto e incrementa o
-     * contador de instâncias.
+     * Gera o próximo identificador e incrementa o contador de instâncias.
      * 
      * @return próximo identificador único.
      */

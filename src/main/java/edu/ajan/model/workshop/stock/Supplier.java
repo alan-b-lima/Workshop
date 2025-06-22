@@ -217,26 +217,25 @@ public class Supplier extends WorkshopObject implements DeepClonable<Supplier> {
     }
 
     /**
-     * Retorna o número total de instâncias de fornecedores criadas.
+     * Retorna o número total de instâncias criadas.
      * 
-     * @return número total de instâncias de fornecedores.
+     * @return número total de instâncias criadas.
      */
     public static int getInstanceCount() {
         return instanceCount;
     }
 
     /**
-     * Incrementa o contador de instâncias de fornecedores.
+     * Incrementa o contador de instâncias.
      */
     private static void incrementInstanceCount() {
         instanceCount++;
     }
 
     /**
-     * Gera o próximo identificador único para um novo fornecedor e incrementa o
-     * contador de instâncias.
+     * Gera o próximo identificador e incrementa o contador de instâncias.
      * 
-     * @return o próximo identificador único.
+     * @return próximo identificador único.
      */
     private static int generateNextId() {
         incrementInstanceCount();
