@@ -109,6 +109,13 @@ public final class Dates {
         return DATE_FORMAT.format(timestamp);
     }
 
+    /**
+     * Converte uma diferença de timestamps para uma marcação de intervalo em um dos
+     * formatos: "dd dias, HH:mm"; "1 dia, HH:mm"; ou "HH:mm".
+     * 
+     * @param interval diferença de timestamps.
+     * @return intervalo em um dos formatos informados.
+     */
     public static String formatAsInterval(long interval) {
         long days = interval / MILLISECONDS_PER_DAY;
         interval -= days * MILLISECONDS_PER_DAY;
