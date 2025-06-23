@@ -37,22 +37,22 @@ public final class Dates {
     /**
      * Milissegundos por segundo.
      */
-    private static final long MILLISECONDS_PER_SECOND = 1000;
+    public static final long MILLISECONDS_PER_SECOND = 1000;
 
     /**
      * Milissegundos por minuto.
      */
-    private static final long MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
+    public static final long MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
 
     /**
      * Milissegundos por hora.
      */
-    private static final long MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
+    public static final long MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
 
     /**
      * Milissegundos por dia, considerando um dia de 24 horas exatas.
      */
-    private static final long MILLISECONDS_PER_DAY = 24 * MILLISECONDS_PER_HOUR;
+    public static final long MILLISECONDS_PER_DAY = 24 * MILLISECONDS_PER_HOUR;
 
     /**
      * Construtor privado.

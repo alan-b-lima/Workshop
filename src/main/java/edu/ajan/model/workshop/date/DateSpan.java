@@ -7,7 +7,7 @@ package edu.ajan.model.workshop.date;
  * {@code [a, b)}, onde {@code a} e {@code b} são inteiro longos ({@code long}),
  * {@code a ≤ b}, que representam um a diferença, em milisegundos, entre o
  * momento atual e 1° de janeiro de 1970, 00:00:00 UTC, similar a um timespamp
- * UNIX e com o mesmo <em>epoch</em>.
+ * UNIX e com o mesmo <i>epoch</i>.
  * 
  * <p> Para funcionalides como conversão e formatação, use a classe
  * {@link Dates} deste pacote.
@@ -33,12 +33,12 @@ public final class DateSpan implements Comparable<DateSpan> {
      * 
      * @param start o começo do espaço de tempo.
      * @param end   o fim do espaço de tempo.
-     * 
-     * @throws IllegalArgumentException se o começo for depois do fim.
      */
     public DateSpan(long start, long end) {
-        if (start > end) {
-            throw new IllegalArgumentException("começo não pode ser depois de fim");
+        if (start >= end) {
+            this.start = 0;
+            this.end = 0;
+            return;
         }
 
         this.start = start;
@@ -73,6 +73,16 @@ public final class DateSpan implements Comparable<DateSpan> {
     }
 
     /**
+     * Retorna {@code true} se o espaço de tempo é vazio.
+     * 
+     * @return {@code true} se o espaço de tempo é vazio, {@code false} caso
+     *         contrário.
+     */
+    public boolean isEmpty() {
+        return end - start == 0;
+    }
+
+    /**
      * Retorna a intersecção entre {@code this} e {@code that}.
      * 
      * @param that o intervalo para interseccionar contra {@code this}.
@@ -101,7 +111,7 @@ public final class DateSpan implements Comparable<DateSpan> {
         long maxStart = Math.min(this.start, that.start);
         long minEnd = Math.min(this.end, that.end);
 
-        return maxStart <= minEnd;
+        return maxStart < minEnd;
     }
 
     /**
