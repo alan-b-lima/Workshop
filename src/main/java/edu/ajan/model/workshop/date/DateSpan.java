@@ -19,6 +19,11 @@ package edu.ajan.model.workshop.date;
 public final class DateSpan implements Comparable<DateSpan> {
 
     /**
+     * String padrão para impressão de intervalos vazios.
+     */
+    private static final String EMPTY_SET_STRING = "{}";
+
+    /**
      * Começo do espaço de tempo.
      */
     private final long start;
@@ -85,17 +90,13 @@ public final class DateSpan implements Comparable<DateSpan> {
     /**
      * Retorna a intersecção entre {@code this} e {@code that}.
      * 
-     * @param that o intervalo para interseccionar contra {@code this}.
+     * @param that o intervalo para intersectar contra {@code this}.
      * @return intersecção entre {@code this} e {@code that}. {@code null} caso a
      *         intersecção seja vazia.
      */
     public DateSpan intersect(DateSpan that) {
-        long maxStart = Math.min(this.start, that.start);
+        long maxStart = Math.max(this.start, that.start);
         long minEnd = Math.min(this.end, that.end);
-
-        if (minEnd < maxStart) {
-            return null;
-        }
 
         return new DateSpan(maxStart, minEnd);
     }
@@ -104,11 +105,11 @@ public final class DateSpan implements Comparable<DateSpan> {
      * Retorna {@code true} caso a intersecção de {@code this} e {@code that} for
      * não vazia.
      * 
-     * @param that o intervalo para interseccionar contra {@code this}.
+     * @param that o intervalo para intersectar contra {@code this}.
      * @return {@code this ∩ that != ∅}.
      */
     public boolean intersects(DateSpan that) {
-        long maxStart = Math.min(this.start, that.start);
+        long maxStart = Math.max(this.start, that.start);
         long minEnd = Math.min(this.end, that.end);
 
         return maxStart < minEnd;
@@ -164,6 +165,10 @@ public final class DateSpan implements Comparable<DateSpan> {
      * @return representação textual do espaço de tempo.
      */
     public String toDateTimeString() {
+        if (isEmpty()) {
+            return EMPTY_SET_STRING;
+        }
+
         return String.format("[%s %s)", Dates.formatAsDateTime(start), Dates.formatAsDateTime(end));
     }
 
@@ -174,6 +179,10 @@ public final class DateSpan implements Comparable<DateSpan> {
      * @return representação textual do espaço de tempo.
      */
     public String toDateString() {
+        if (isEmpty()) {
+            return EMPTY_SET_STRING;
+        }
+
         return String.format("[%s %s)", Dates.formatAsDate(start), Dates.formatAsDate(end));
     }
 
@@ -184,6 +193,10 @@ public final class DateSpan implements Comparable<DateSpan> {
      * @return representação textual do espaço de tempo.
      */
     public String toTimeStampString() {
+        if (isEmpty()) {
+            return EMPTY_SET_STRING;
+        }
+
         return String.format("[%d %d)", start, end);
     }
 
