@@ -109,13 +109,13 @@ public final class DateSpan implements Comparable<DateSpan> {
      * 
      * @return um valor negativo, zero ou positivo, dependendo da comparação:
      *         <ul>
-     *             <li> se {@code this.start < that.start}, retorna um valor negativo;
-     *             <li> se {@code this.start > that.start}, retorna um valor positivo;
-     *             <li> se {@code this = that}, segue:
+     *             <li>se {@code this.start < that.start}, retorna um valor negativo;
+     *             <li>se {@code this.start > that.start}, retorna um valor positivo;
+     *             <li>se {@code this = that}, segue:
      *             <ul>
-     *                 <li> se {@code this.end < that.end}, retorna um valor negativo,
-     *                 <li> se {@code this.end = that.end}, retorna zero,
-     *                 <li> se {@code this.end > that.end}, retorna um valor positivo.
+     *                 <li>se {@code this.end < that.end}, retorna um valor negativo,
+     *                 <li>se {@code this.end = that.end}, retorna zero,
+     *                 <li>se {@code this.end > that.end}, retorna um valor positivo.
      *             </ul>
      *         </ul>
      */
@@ -137,7 +137,7 @@ public final class DateSpan implements Comparable<DateSpan> {
      */
     @Override
     public final boolean equals(Object obj) {
-        
+
         if (obj instanceof DateSpan that) {
             return true
                     && this.start == that.start
@@ -153,8 +153,8 @@ public final class DateSpan implements Comparable<DateSpan> {
      * 
      * @return representação textual do espaço de tempo.
      */
-    public final String toDateTimeString() {
-        return String.format("[%s, %s)", Dates.formatAsDateTime(start), Dates.formatAsDateTime(end));
+    public String toDateTimeString() {
+        return String.format("[%s %s)", Dates.formatAsDateTime(start), Dates.formatAsDateTime(end));
     }
 
     /**
@@ -163,8 +163,18 @@ public final class DateSpan implements Comparable<DateSpan> {
      * 
      * @return representação textual do espaço de tempo.
      */
-    public final String toDateString() {
-        return String.format("[%s, %s)", Dates.formatAsDate(start), Dates.formatAsDate(end));
+    public String toDateString() {
+        return String.format("[%s %s)", Dates.formatAsDate(start), Dates.formatAsDate(end));
+    }
+
+    /**
+     * Retorna uma representação textual do espaço de tempo formatando o timestamps
+     * como números.
+     * 
+     * @return representação textual do espaço de tempo.
+     */
+    public String toTimeStampString() {
+        return String.format("[%d %d)", start, end);
     }
 
     /**
@@ -174,6 +184,6 @@ public final class DateSpan implements Comparable<DateSpan> {
      */
     @Override
     public final String toString() {
-        return String.format("[%d %d)", start, end);
+        return toDateTimeString();
     }
 }

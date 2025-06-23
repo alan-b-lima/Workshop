@@ -12,9 +12,9 @@ import edu.ajan.model.exception.WorkshopException;
 public class Product extends WorkshopObject implements DeepClonable<Product> {
 
     /**
-     * Contador de instâncias únicas de produtos criados.
+     * Contador de instâncias.
      */
-    private static int instanceCount = 0;
+    private static int instanceCount;
 
     /**
      * Valor padrão para a unidade de medida do produto.

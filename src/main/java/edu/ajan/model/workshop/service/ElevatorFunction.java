@@ -18,12 +18,12 @@ public final class ElevatorFunction {
     /**
      * Código da função. Estritamente uma potência de dois.
      */
-    public final int code;
+    private final int code;
 
     /**
      * Nome apresentável da função.
      */
-    public final String name;
+    private final String name;
 
     /**
      * Vetor para imitar o comportamento da função embutida {@code values()} de
@@ -63,6 +63,24 @@ public final class ElevatorFunction {
 
         append(this);
         iota++;
+    }
+
+    /**
+     * Retorna o código da função do elevador.
+     * 
+     * @return código da função do elevador.
+     */
+    public int code() {
+        return code;
+    }
+
+    /**
+     * Retorna o nome da função do elevador.
+     * 
+     * @return nome da função do elevador.
+     */
+    public String name() {
+        return name;
     }
 
     /**

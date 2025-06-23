@@ -10,7 +10,7 @@ import edu.ajan.model.custom.WorkshopObject;
 public class Elevator extends WorkshopObject {
 
     /**
-     * Contador de instâncias únicas de elevadores criados.
+     * Contador de instâncias.
      */
     private static int instanceCount;
 
@@ -125,7 +125,7 @@ public class Elevator extends WorkshopObject {
      */
     public void setFunction(ElevatorFunction... functions) {
         for (ElevatorFunction function : functions) {
-            this.function |= function.code;
+            this.function |= function.code();
         }
     }
 
@@ -174,6 +174,4 @@ public class Elevator extends WorkshopObject {
     public String toString() {
         return String.format("(%d \"%s\" %.0f)", id, function, weightLimit);
     }
-
-
 }

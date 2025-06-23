@@ -33,7 +33,7 @@ public class Supplier extends WorkshopObject implements DeepClonable<Supplier> {
     private static final String STANDARD_CNPJ_MASK = "$1.$2.$3/$4-$5";
 
     /**
-     * Contador de instâncias de fornecedores.
+     * Contador de instâncias.
      */
     private static int instanceCount;
 

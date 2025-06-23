@@ -37,7 +37,7 @@ public class Vehicle extends WorkshopObject {
     private static final String OLD_STANDART_PLATE_MASK = "$1$2";
 
     /**
-     * Contador de instâncias de Shipment.
+     * Contador de instâncias.
      */
     private static int instanceCount;
 

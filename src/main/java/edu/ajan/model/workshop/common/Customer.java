@@ -4,6 +4,8 @@ import edu.ajan.model.exception.WorkshopException;
 
 /**
  * Classe que representa um cliente.
+ * 
+ * @author Alan Lima
  */
 public class Customer extends Person {
 

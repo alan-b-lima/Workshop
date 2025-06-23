@@ -44,14 +44,13 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
 
 - model\
     - auth\
-        - [ ] Authenticable.java
-        - [ ] AuthLevel.java
+        - [x] AccessLevel.java
         - [ ] Session.java
     - custom\
-        - [ ] DeepClonable.java
+        - [x] DeepClonable.java
         - [ ] WorkshopObject.java
     - exception\
-        - [ ] WorkshopException.java
+        - [x] WorkshopException.java
     - persistence\
         - [ ] History.java
         - [ ] Snapshot.java
@@ -77,7 +76,7 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
         - staff\
             - [ ] Administrator.java
             - [ ] Employee.java
-            - [ ] StaffMember.java
+            - [x] StaffMember.java
         - stock\
             - [x] Product.java
             - [x] Shipment.java
@@ -87,26 +86,162 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
         - [ ] Workshop.java
     - [ ] WorkshopSystem.java
 
-### Diagrama de Classes
+### Diagramas de Classes
 
 ```mermaid
 classDiagram
 
-    class AuthLevel {
-        <<enumeration>>
+    class AccessLevel {
+        <<enum>>
 
-        SUPER,
-        ADMIN,
-        USER,
-        GUEST,
+        SUPER $
+        ADMIN $
+        USER $
+        GUEST $
+
+        + isSufficedBy(AccessLevel)
     }
 
     class Session {
-        - authLevel: final AuthLevel
+        - accessLevel: final AccessLevel
         - member: final StaffMember
 
         + Session(StaffMember, String, String)
     }
+
+    class Expense {
+        - name: String
+        - description: String
+        - value: double
+        - date: long
+
+        + Expense()
+        + Expense(String, String, double, long)
+        # Expense(Expense)
+
+        + getName() String
+        + setName(String) void
+        + getDescription() String
+        + setDescription(String) void
+        + getValue() double
+        + setValue(double) void
+        + getDate() long
+        + setDate(long) void
+
+        + deepClone() Expense
+        + toString() String
+    }
+
+    Elevator ..> ElevatorFunction
+    class Elevator {
+        - instanceCount: int
+
+        - id: final int
+        - function: int
+        - weightLimit: double
+        - working: boolean
+
+        + Elevator(int, double)
+        + Elevator(int, double, boolean)
+        # Elevator(Elevator)
+
+        - id() int
+        - getFunction() int
+        - setFunction(int) void
+        - getWeightLimit() double
+        - setWeightLimit(double) void
+        - isWorking() boolean
+        - setWorking(boolean) void
+
+        + getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - generateNextId() int $
+        
+        + deepClone() Elevator
+        + toString() String
+    }
+
+    class ElevatorFunction {
+        <<enum>>
+
+        + GENERAL $
+        + ALIGNING $
+        + BALANCING $
+
+        + code: final int
+        + name: final String
+
+        - ElevatorFunction(int, String)
+
+        + hasFunction(int) boolean
+        + values() ElevatorFunction[] $
+
+        + toString(int) String $
+        + toString() String
+    }
+
+    Administrator --|> StaffMember
+    class Administrator {
+        - proLabore: double
+        - accessLevel: AccessLevel
+
+        + Administrator()
+        + Administrator(String, String, String, double, String)
+        # Administrator(Administrator)
+
+        + getProLabore() double
+        + setProLabore(double) void
+
+        + getAccessLevel() AccessLevel
+        + setAccessLevel(AccessLevel) void
+
+        + deepClone() Administrator
+        + toString() String
+    }
+
+    Employee --|> StaffMember
+    class Employee {
+        - salary: double
+        - accessLevel: AccessLevel
+        - shifts: TreeSet<DateSpan>
+        - openShift: long
+
+        + Employee()
+        + Employee(String, String, String, double, String, AccessLevel)
+        # Employee(Employee)
+
+        + setAccessLevel(AccessLevel)
+        + getAccessLevel() AccessLevel
+
+        + deepClone() Employee
+        + toString() String
+    }
+
+    StaffMember --> AccessLevel 
+    StaffMember --|> Person
+    class StaffMember["_StaffMember_"] {
+        - password: long
+
+        + StaffMember()
+        + StaffMember(String, String, String, String)
+        # StaffMember(StaffMember)
+
+        + getPassword() String
+        + setPassword(String) void
+        + checkPassword() boolean
+        + getAccessLevel() AccessLevel *
+
+        + checkCredentials(String, String) boolean
+
+        + deepClone() StaffMember
+        + toString() String
+    }
+```
+
+#### Comun
+
+```mermaid
+classDiagram
 
     Customer --|> Person
     class Customer {
@@ -115,7 +250,7 @@ classDiagram
 
         + Customer()
         + Customer(String, String, String, String, String)
-        - Customer()
+        # Customer(Customer)
 
         + getAddress() String
         + setAddress(String) void
@@ -156,6 +291,7 @@ classDiagram
 
         + Vehicle()
         + Vehicle(String, String, int)
+        # Vehicle(Vehicle)
 
         + getModel() String
         + setModel(String) void
@@ -171,7 +307,13 @@ classDiagram
         + deepClone() Person
         + toString() String
     }
-    
+```
+
+#### Datas
+
+```mermaid
+classDiagram
+
     class Dates {
         <<utility>>
 
@@ -210,119 +352,8 @@ classDiagram
         + deepClone() DateSpan
         + toString() String
     }
-
-    Elevator ..> ElevatorFunction
-    class Elevator {
-        - instanceCount: int
-
-        - id: final int
-        - function: int
-        - weightLimit: double
-        - working: boolean
-
-        + Elevator(int, double)
-        + Elevator(int, double, boolean)
-        # Elevator(Elevator)
-
-        - id() int
-        - getFunction() int
-        - setFunction(int) void
-        - getWeightLimit() double
-        - setWeightLimit(double) void
-        - isWorking() boolean
-        - setWorking(boolean) void
-
-        + getInstanceCount() int $
-        - incrementInstanceCount() void $
-        - generateNextId() int $
-        
-        + deepClone() Elevator
-        + toString() String
-    }
-
-    class ElevatorFunction {
-        <<enum>>
-
-        + GENERAL: ElevatorFunction $
-        + ALIGNING: ElevatorFunction $
-        + BALANCING: ElevatorFunction $
-
-        + code: final int
-        + name: final String
-
-        - ElevatorFunction(int, String)
-
-        + hasFunction(int) boolean
-        + values() ElevatorFunction[] $
-
-        + toString(int) String $
-        + toString() String
-    }
-
-    class Expense {
-        - name: String
-        - description: String
-        - value: double
-        - date: long
-
-        + Expense()
-        + Expense(String, String, double, long)
-        # Expense(Expense)
-
-        + getName() String
-        + setName(String) void
-        + getDescription() String
-        + setDescription(String) void
-        + getValue() double
-        + setValue(double) void
-        + getDate() long
-        + setDate(long) void
-
-        + deepClone() Expense
-        + toString() String
-    }
-
-    Administrator --|> StaffMember
-    class Administrator {
-        - proLabore: double
-
-        + Administrator()
-        + Administrator(String, String, String, double, String)
-        # Administrator(Administrator)
-
-        + getProLabore() double
-        + setProLabore(double) void
-
-        + getAuthLevel() AuthLevel
-        + checkCredentials(String, String) boolean
-
-        + deepClone() Administrator
-        + toString() String
-    }
-
-    Employee --|> StaffMember
-    class Employee {
-        - salary: double
-        - authLevel: AuthLevel
-
-        + setAuthLevel(AuthLevel)
-        + getAuthLevel() AuthLevel
-    }
-
-    StaffMember --|> Person
-    class StaffMember["_StaffMember_"] {
-        - password: long
-
-        + StaffMember()
-        + StaffMember(String, String, String, String)
-        # StaffMember(StaffMember)
-
-        + getPassword() String
-        + setPassword(String) void
-
-        + checkCredentials(String, String) boolean
-    }
 ```
+
 
 #### Estoque
 
