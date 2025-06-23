@@ -31,7 +31,13 @@ public class WorkshopException extends RuntimeException {
         super(String.format(msg, args));
     }
 
-    // Temporary
+    /**
+     * Retorna uma exceção formatado com o nome do método passado.
+     * 
+     * @param methodName nome do método não implementado.
+     * @return exceção com a mensagem correta.
+     */
+    // @Deprecated(forRemoval = true) // Descomente isso na hora certa
     public static WorkshopException methodNotImplemented(String methodName) {
         return new WorkshopException("método '%s' não implementado", methodName);
     }
