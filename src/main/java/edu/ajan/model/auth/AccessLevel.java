@@ -1,7 +1,7 @@
 package edu.ajan.model.auth;
 
 /**
- * Enumerações dos níveis de acesso dos usuários da aplicação.
+ * Enumeração dos níveis de acesso dos usuários da aplicação.
  * 
  * @author Alan Lima
  */
