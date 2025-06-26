@@ -13,7 +13,7 @@ Aplicar os conceitos de Programação Orientada a Objetos (POO) para desenvolver
 
 ## Estrutura do Projeto
 
-O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Visual** (Frontend).
+O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **View** (Frontend).
 
 ### Padronização de Código
 
@@ -48,7 +48,7 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
         - [ ] Session.java
     - custom\
         - [x] DeepClonable.java
-        - [ ] WorkshopObject.java
+        - [x] WorkshopObject.java
     - exception\
         - [x] WorkshopException.java
     - persistence\
@@ -59,28 +59,30 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vis
         - common\
             - [x] Customer.java
             - [x] Person.java
-            - [ ] Vehicle.java
+            - [x] Vehicle.java
         - date\
             - [x] Dates.java
             - [x] DateSpan.java
         - financial\
-            - [ ] Finance.java
             - [x] Expense.java
+            - [ ] Finance.java
             - [ ] Invoice.java
+            - [ ] InvoiceDraft.java
         - service\
             - [x] Elevator.java
             - [x] ElevatorElevator.java
             - [ ] Scheduler.java
             - [ ] Service.java
             - [ ] ServiceOrder.java
+            - [ ] Status.java
         - staff\
             - [ ] Administrator.java
-            - [ ] Employee.java
+            - [x] Employee.java
             - [x] StaffMember.java
         - stock\
             - [x] Product.java
             - [x] Shipment.java
-            - [x] ShipmentItem.java
+            - [x] Item.java
             - [x] Stock.java
             - [x] Supplier.java
         - [ ] Workshop.java
@@ -108,140 +110,6 @@ classDiagram
 
         + Session(StaffMember, String, String)
     }
-
-    class Expense {
-        - name: String
-        - description: String
-        - value: double
-        - date: long
-
-        + Expense()
-        + Expense(String, String, double, long)
-        # Expense(Expense)
-
-        + getName() String
-        + setName(String) void
-        + getDescription() String
-        + setDescription(String) void
-        + getValue() double
-        + setValue(double) void
-        + getDate() long
-        + setDate(long) void
-
-        + deepClone() Expense
-        + toString() String
-    }
-
-    Elevator ..> ElevatorFunction
-    class Elevator {
-        - instanceCount: int
-
-        - id: final int
-        - function: int
-        - weightLimit: double
-        - working: boolean
-
-        + Elevator(int, double)
-        + Elevator(int, double, boolean)
-        # Elevator(Elevator)
-
-        - id() int
-        - getFunction() int
-        - setFunction(int) void
-        - getWeightLimit() double
-        - setWeightLimit(double) void
-        - isWorking() boolean
-        - setWorking(boolean) void
-
-        + getInstanceCount() int $
-        - incrementInstanceCount() void $
-        - generateNextId() int $
-        
-        + deepClone() Elevator
-        + toString() String
-    }
-
-    class ElevatorFunction {
-        <<enum>>
-
-        + GENERAL $
-        + ALIGNING $
-        + BALANCING $
-
-        + code: final int
-        + name: final String
-
-        - ElevatorFunction(int, String)
-
-        + hasFunction(int) boolean
-        + values() ElevatorFunction[] $
-
-        + toString(int) String $
-        + toString() String
-    }
-
-    Administrator --|> StaffMember
-    class Administrator {
-        - proLabore: double
-        - accessLevel: AccessLevel
-
-        + Administrator()
-        + Administrator(String, String, String, double, String)
-        # Administrator(Administrator)
-
-        + getProLabore() double
-        + setProLabore(double) void
-
-        + getAccessLevel() AccessLevel
-        + setAccessLevel(AccessLevel) void
-
-        + deepClone() Administrator
-        + toString() String
-    }
-
-    Employee --|> StaffMember
-    class Employee {
-        - salary: double
-        - accessLevel: AccessLevel
-        - shifts: TreeSet<DateSpan>
-        - openShift: long
-
-        + Employee()
-        + Employee(String, String, String, double, String, AccessLevel)
-        # Employee(Employee)
-
-        + setAccessLevel(AccessLevel)
-        + getAccessLevel() AccessLevel
-
-        + deepClone() Employee
-        + toString() String
-    }
-
-    StaffMember --> AccessLevel 
-    StaffMember --|> Person
-    class StaffMember["_StaffMember_"] {
-        - password: long
-
-        + StaffMember()
-        + StaffMember(String, String, String, String)
-        # StaffMember(StaffMember)
-
-        + getPassword() String
-        + setPassword(String) void
-        + checkPassword() boolean
-        + getAccessLevel() AccessLevel *
-
-        + checkCredentials(String, String) boolean
-
-        + deepClone() StaffMember
-        + toString() String
-    }
-```
-
-#### Comun
-
-```mermaid
-classDiagram
 
     Customer --|> Person
     class Customer {
@@ -307,12 +175,6 @@ classDiagram
         + deepClone() Person
         + toString() String
     }
-```
-
-#### Datas
-
-```mermaid
-classDiagram
 
     class Dates {
         <<utility>>
@@ -352,13 +214,277 @@ classDiagram
         + deepClone() DateSpan
         + toString() String
     }
-```
 
+    class Expense {
+        - name: String
+        - description: String
+        - value: double
+        - date: long
 
-#### Estoque
+        + Expense()
+        + Expense(String, String, double, long)
+        # Expense(Expense)
 
-```mermaid
-classDiagram
+        + getName() String
+        + setName(String) void
+        + getDescription() String
+        + setDescription(String) void
+        + getValue() double
+        + setValue(double) void
+        + getDate() long
+        + setDate(long) void
+
+        + deepClone() Expense
+        + toString() String
+    }
+
+    Finance *-- Expense
+    Finance *-- Invoice
+    class Finance {
+
+    }
+
+    Invoice ..> InvoiceDraft
+    Invoice ..> ServiceOrder
+    class Invoice {
+        - customer: final int
+        - products: final Item
+        - services: final int[]
+        - additional: final double
+        - subtotal: final double
+
+        + Invoice()
+        + Invoice(ServiceOrder)
+        # Invoice(Invoice)
+    }
+
+    InvoiceDraft *-- Item
+    InvoiceDraft *-- Service
+    class InvoiceDraft {
+        - products: ArrayList~Item~
+        - services: ArrayList~Integer~
+        - additional: double
+
+        + InvoiceDraft()
+        + InvoiceDraft(double)
+        # InvoiceDraft(InvoiceDraft)
+
+        + getItems() Iterable~Integer~
+        + getItem(int) Item
+        + addItem(Item) void
+        + addItems(Item...) void
+        + removeItem(int) void
+        + removeItems(int...) void
+    }
+
+    Elevator ..> ElevatorFunction
+    class Elevator {
+        - instanceCount: int $
+
+        - id: final int
+        - function: int
+        - weightLimit: double
+
+        + Elevator(int, double)
+        + Elevator(int, double, boolean)
+        # Elevator(Elevator)
+
+        - id() int
+        - getFunction() int
+        - setFunction(int) void
+        - getWeightLimit() double
+        - setWeightLimit(double) void
+
+        + getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - generateNextId() int $
+        
+        + deepClone() Elevator
+        + toString() String
+    }
+
+    class ElevatorFunction {
+        <<enum>>
+
+        + GENERAL $
+        + ALIGNING $
+        + BALANCING $
+
+        - code: final int
+        - name: final String
+
+        - ElevatorFunction(int, String)
+
+        + code() int
+        + name() String
+
+        + hasFunction(int) boolean
+        + values() ElevatorFunction[] $
+
+        + toString(int) String $
+        + toString() String
+    }
+
+    class Service {
+        - instanceCount: int $
+
+        - id: int
+        - name: String
+        - description: String
+        - value: double
+
+        + Service()
+        + Service(int, String, String, double)
+        - Service()
+        
+        + id()
+        + getName() String
+        + setName(String) void
+        + getDescription() String
+        + setDescription(String) void
+        + getValue() double
+        + setValue(double) void
+
+        + getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - generateNextId() int $
+
+        + deepClone() Service
+        + toString() String
+    }
+
+    ServiceOrder ..> Customer
+    ServiceOrder ..> Vehicle
+    ServiceOrder ..> Employee
+    ServiceOrder *-- InvoiceDraft
+    ServiceOrder o-- DateSpan
+    class ServiceOrder {
+        - instanceCount: int $
+
+        - id: int
+        - customer: int
+        - vehicle: int
+        - mechanic: int
+        - invoice: InvoiceDraft
+        - status: Status
+        - datetime: DateSpan
+
+        + ServiceOrder()
+        + ServiceOrder(int, int, int, Status, DateSpan)
+        + ServiceOrder(int, int, int, DateSpan)
+        # ServiceOrder(ServiceOrder)
+
+        + id() int
+        + getCustomer() int
+        + setCustomer(int) void
+        + getVehicle() int
+        + setVehicle(int) void
+        + getMechanic() int
+        + setMechanic(int) void
+        + getInvoice() InvoiceDraft
+        + getStatus() Status
+        + setStatus(Status) void
+        + getDateTime() DateSpan
+        + setDateTime(DateSpan) void
+
+        + getInstanceCount() int $
+        - incrementInstanceCount() void $
+        - generateNextId() int $
+
+        + deepClone() ServiceOrder
+        + toString() String
+    }
+
+    class Status {
+        <<enum>>
+
+        PENDING $
+        INITIATED $
+        READY $
+        DELIVERED $
+        CANCELED $
+    }
+
+    Administrator --|> StaffMember
+    class Administrator {
+        - proLabore: double
+        - accessLevel: AccessLevel
+
+        + Administrator()
+        + Administrator(String, String, String, double, String, AccessLevel)
+        # Administrator(Administrator)
+
+        + getProLabore() double
+        + setProLabore(double) void
+        + getAccessLevel() AccessLevel
+        + setAccessLevel(AccessLevel) void
+
+        + deepClone() Administrator
+        + toString() String
+    }
+
+    Employee o-- DateSpan
+    Employee --|> StaffMember
+    class Employee {
+        - salary: double
+        - accessLevel: AccessLevel
+        - shifts: TreeSet<DateSpan>
+        - openShift: long
+
+        + Employee()
+        + Employee(String, String, String, double, String, AccessLevel)
+        # Employee(Employee)
+
+        + setAccessLevel(AccessLevel)
+        + getAccessLevel() AccessLevel
+
+        + deepClone() Employee
+        + toString() String
+    }
+
+    StaffMember --> AccessLevel 
+    StaffMember --|> Person
+    class StaffMember["_StaffMember_"] {
+        - password: long
+
+        + StaffMember()
+        + StaffMember(String, String, String, String)
+        # StaffMember(StaffMember)
+
+        + getPassword() String
+        + setPassword(String) void
+        + checkPassword() boolean
+        + getAccessLevel() AccessLevel *
+
+        + checkCredentials(String, String) boolean
+
+        + deepClone() StaffMember
+        + toString() String
+    }   
+
+    class Item {
+        - product: int
+        - unitValue: double
+        - quantity: int
+
+        + Item()
+        + Item(int, double, int)
+        # Item(Item)
+
+        + getProduct() int
+        + setProduct(int) void
+        + getUnitValue() double
+        + getTotalValue() double
+        + setUnitValue(double) void
+        + setTotalValue(double) void
+        + getQuantity() int
+        + setQuantity(int) void
+        + addQuantity(int) void
+        + removeQuantity(int) void
+
+        + deepClone() Item
+        + toString() String
+    }
 
     class Product {
         - instanceCount: int $
@@ -396,37 +522,13 @@ classDiagram
         + toString() String
     }
 
-    class ShipmentItem {
-        - product: int
-        - unitValue: double
-        - quantity: int
-
-        + ShipmentItem()
-        + ShipmentItem(int, double, int)
-        # ShipmentItem(ShipmentItem)
-
-        + getProduct() int
-        + setProduct(int) void
-        + getUnitValue() double
-        + getTotalValue() double
-        + setUnitValue(double) void
-        + setTotalValue(double) void
-        + getQuantity() int
-        + setQuantity(int) void
-        + addQuantity(int) void
-        + removeQuantity(int) void
-
-        + deepClone() ShipmentItem
-        + toString() String
-    }
-
-    Shipment *-- ShipmentItem
+    Shipment *-- Item
     class Shipment {
         - instanceCount: int $
         
         - id: final int
         - supplier: int
-        - items: ArrayList~ShipmentItem~
+        - items: ArrayList~Item~
         - additional: double
         - arrival: long
         - paymentDate: long
@@ -440,12 +542,10 @@ classDiagram
         + id() int
         + getSupplier() int
         + setSupplier(int) void
-        + getItems() Iterable~ShipmentItem~
-        + getItem(int) ShipmentItem
-        + addItem(ShipmentItem) void
-        + addItems(ShipmentItem...) void
+        + getItems() Iterable~Item~
+        + getItem(int) Item
+        + addItem(Item) void
         + removeItem(int) void
-        + removeItems(int...) void
         + getAdditional() double
         + setAdditional(double) void
         + getArrival() long
@@ -483,21 +583,15 @@ classDiagram
         + getProducts() Iterable~Product~
         + getProduct(int) Product
         + addProduct(Product) void
-        + addProducts(Product...) void
         + removeProduct(int) void
-        + removeProducts(int...) void
         + getShipments() Iterable~Shipment~
         + getShipment(int) Shipment
         + addShipment(Shipment) void
-        + addShipments(Shipment...) void
         + removeShipment(int) void
-        + removeShipments(int...) void
         + getSuppliers() Iterable~Supplier~
         + getSupplier(int) Supplier
         + addSupplier(Supplier) void
-        + addSuppliers(Supplier...) void
         + removeSupplier(int) void
-        + removeSuppliers(int...) void
 
         + deepClone() Stock
         + toString() String
@@ -530,14 +624,14 @@ classDiagram
     }
 ```
 
-## Visual
+## View
 
 - visual\
     - gui\
     - tui\
         - entry\
-            - CommandEntry.java
-            - ContextEntry.java
+            - Command.java
+            - Context.java
             - Entry.java
         - exit\
             - ExitCode.java
@@ -553,6 +647,61 @@ classDiagram
 ```mermaid
 classDiagram
 
+    Command --|> Entry
+    class Command["_Command_"] {
+        + execute(String[]) ExitMessage *
+    }
+
+    Context --|> Entry
+    class Context {
+        
+
+        + Context()
+        + Context(Context, String)
+
+        + add(Entry...) void
+
+        + execute(String[]) ExitMessage
+    }
+
+    class Entry["_Entry_"] {
+        - name: final String
+        - parent: final Context
+
+        + Entry()
+        + Entry(Context, String)
+
+        + name() String
+        + fullName() String
+        + parent() Context
+        
+        + execute(String[]) ExitMessage *
+
+        + compareTo() int
+        + toString() String
+    }
+
+    class ExitCode {
+        <<enum>>
+
+        SUCCESS $
+        EXIT_CONTEXT $
+        ENTER_CONTEXT $
+        EXIT_SHELL $
+        FAILURE $
+        INVALID_ARGUMENT $
+        COMMAND_NOT_FOUND $
+        PERMISSION_DENIED $
+    }
+
+    class ExitMessage {
+        - code: final ExitCode
+        - message: final String
+
+        + ExitMessage(ExitCode, String)
+        + code() ExitCode
+        + message() String
+    }
 ```
 
 ## Referências
@@ -571,3 +720,6 @@ classDiagram
 - https://tex.stackexchange.com/questions/69439/how-can-i-achieve-relative-positioning-in-tikz
 - https://www.omg.org/spec/UML/2.5/PDF
 - https://tex.stackexchange.com/questions/616317/tikz-determining-the-size-in-cm-of-a-finished-tikz-picture
+- https://jline.org/
+- https://dzone.com/articles/running-a-java-class-as-a-subprocess
+- https://stackoverflow.com/questions/16994582/within-a-running-jvm-how-to-programmatically-determine-the-jvm-options-used-at
