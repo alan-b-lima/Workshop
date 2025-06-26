@@ -6,7 +6,7 @@ package edu.ajan.model.exception;
 public class WorkshopException extends RuntimeException {
 
     /**
-     * Construtor padrão
+     * Construtor padrão.
      */
     public WorkshopException() {
         super();
