@@ -14,7 +14,7 @@ import edu.ajan.model.exception.WorkshopException;
 public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
 
     /**
-     * Contador de instâncias de Shipment.
+     * Contador de instâncias.
      */
     private static int instanceCount;
 
@@ -46,7 +46,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     /**
      * Data de pagamento da remessa.
      * 
-     * {@code 0 indica que o pagamento não foi realizado ainda.}
+     * {@code 0} indica que o pagamento não foi realizado ainda.
      */
     private long paymentDate;
 
@@ -143,8 +143,13 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * @return o item da remessa correspondente ao produto, ou {@code null} se não
      *         encontrado.
      */
-    public ShipmentItem getItem(int product) {
-        throw WorkshopException.methodNotImplemented("getItem");
+    public ShipmentItem getItem(int product) { 
+        for (ShipmentItem item : items) {
+            if (item.getProduct() == product) {
+                return item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -180,7 +185,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * @param product identificador do produto a ser removido.
      */
     public void removeItem(int product) {
-        throw WorkshopException.methodNotImplemented("removeItem");
+        items.removeIf(item -> item.getProduct() == product);
     }
 
     /**
@@ -189,7 +194,9 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * @param product identificadores dos produtos a serem removidos.
      */
     public void removeItems(int... product) {
-        throw WorkshopException.methodNotImplemented("removeItems");
+        for (int p : product) {
+            removeItem(p);
+        }
     }
 
     /**
@@ -225,7 +232,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * @return {@code true} se a remessa chegou, {@code false} caso contrário.
      */
     public boolean hasArrived() {
-        throw WorkshopException.methodNotImplemented("hasArrived");
+        return arrival > 0 && arrival <= System.currentTimeMillis();
     }
 
     /**
@@ -252,7 +259,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * @return {@code true} se a remessa foi paga, {@code false} caso contrário.
      */
     public boolean isPaid() {
-        throw WorkshopException.methodNotImplemented("isPaid");
+        return paymentDate > 0;
     }
 
     /**

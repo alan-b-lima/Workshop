@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.TreeSet;
 
 import edu.ajan.model.custom.WorkshopObject;
-import edu.ajan.model.exception.WorkshopException;
 
 /**
  * Classe singleton que representa o estoque.
@@ -101,17 +100,7 @@ public class Stock extends WorkshopObject {
      * @param product produto a ser adicionado.
      */
     public void addProduct(Product product) {
-        throw WorkshopException.methodNotImplemented("addProduct");
-    }
-
-    /**
-     * Extensão de {@link #addProduct(Product)}. Adiciona vários produtos
-     * ao estoque.
-     * 
-     * @param products produtos a serem adicionados.
-     */
-    public void addProducts(Product... products) {
-        throw WorkshopException.methodNotImplemented("addProducts");
+        products.put(product.id(), product);
     }
 
     /**
@@ -120,7 +109,7 @@ public class Stock extends WorkshopObject {
      * @param product identificador do produto a ser removido.
      */
     public void removeProduct(int product) {
-        throw WorkshopException.methodNotImplemented("removeProduct");
+        products.remove(product);
     }
 
     /**
@@ -130,7 +119,9 @@ public class Stock extends WorkshopObject {
      * @param products identificadores dos produtos a serem removidos.
      */
     public void removeProducts(int... products) {
-        throw WorkshopException.methodNotImplemented("removeProducts");
+        for (int id : products) {
+            removeProduct(id);
+        }
     }
 
     /**
@@ -150,7 +141,12 @@ public class Stock extends WorkshopObject {
      *         remessa de identificador {@code shipment} não existir.
      */
     public Shipment getShipment(int shipment) {
-        throw WorkshopException.methodNotImplemented("getShipment");
+        for (Shipment s : shipments) {
+            if (s.id() == shipment) {
+                return s;
+            }
+        }
+        return null;
     }
 
     /**
@@ -159,17 +155,7 @@ public class Stock extends WorkshopObject {
      * @param shipment remessa a ser adicionado.
      */
     public void addShipment(Shipment shipment) {
-        throw WorkshopException.methodNotImplemented("addShipment");
-    }
-
-    /**
-     * Extensão de {@link #addShipment(Shipment)}. Adiciona vários remessas
-     * ao estoque.
-     * 
-     * @param shipments remessas a serem adicionados.
-     */
-    public void addShipments(Shipment... shipments) {
-        throw WorkshopException.methodNotImplemented("addShipments");
+        shipments.add(shipment);
     }
 
     /**
@@ -178,17 +164,7 @@ public class Stock extends WorkshopObject {
      * @param shipment identificador da remessa a ser removido.
      */
     public void removeShipment(int shipment) {
-        throw WorkshopException.methodNotImplemented("removeShipment");
-    }
-
-    /**
-     * Extensão de {@link #removeShipment(int)}. Remove várias remessas
-     * do estoque.
-     * 
-     * @param shipments identificadores das remessas a serem removidos.
-     */
-    public void removeShipments(int... shipments) {
-        throw WorkshopException.methodNotImplemented("removeShipments");
+        shipments.removeIf(s -> s.id() == shipment);
     }
 
     /**
@@ -208,7 +184,12 @@ public class Stock extends WorkshopObject {
      *         fornecedor de identificador {@code supplier} não existir.
      */
     public Supplier getSupplier(int supplier) {
-        throw WorkshopException.methodNotImplemented("getSupplier");
+        for (Supplier s : suppliers) {
+            if (s.id() == supplier) {
+                return s;
+            }
+        }
+        return null;
     }
 
     /**
@@ -217,16 +198,7 @@ public class Stock extends WorkshopObject {
      * @param supplier fornecedor a ser adicionado.
      */
     public void addSupplier(Supplier supplier) {
-        throw WorkshopException.methodNotImplemented("addSupplier");
-    }
-
-    /**
-     * Extensão de {@link #addSupplier(Supplier)}. Adiciona vários fornecedores.
-     * 
-     * @param suppliers fornecedores a serem adicionados.
-     */
-    public void addSuppliers(Supplier... suppliers) {
-        throw WorkshopException.methodNotImplemented("addSuppliers");
+        suppliers.add(supplier);
     }
 
     /**
@@ -235,16 +207,7 @@ public class Stock extends WorkshopObject {
      * @param supplier identificador do fornecedor a ser removido.
      */
     public void removeSupplier(int supplier) {
-        throw WorkshopException.methodNotImplemented("removeSupplier");
-    }
-
-    /**
-     * Extensão de {@link #removeSupplier(int)}. Remove vários fornecedores.
-     * 
-     * @param suppliers identificadores dos fornecedores a serem removidos.
-     */
-    public void removeSuppliers(int... suppliers) {
-        throw WorkshopException.methodNotImplemented("removeSuppliers");
+        suppliers.removeIf(s -> s.id() == supplier);
     }
 
     /**
