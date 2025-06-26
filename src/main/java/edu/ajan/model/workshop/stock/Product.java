@@ -17,11 +17,6 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     private static int instanceCount;
 
     /**
-     * Valor padrão para a unidade de medida do produto.
-     */
-    private static final String DEFAULT_UNIT = "un";
-
-    /**
      * Identificador único do produto.
      */
     private final int id;
@@ -32,14 +27,9 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     private String name;
 
     /**
-     * Valor unitário do produto.
+     * Quantidade precificada do produto.
      */
-    private double unitValue;
-
-    /**
-     * Quantidade do produto em estoque.
-     */
-    private int quantity;
+    private PricedQuantity batch;
 
     /**
      * Unidade de medida do produto.
@@ -51,36 +41,9 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      */
     public Product() {
         this.id = generateNextId();
-    }
-
-    /**
-     * Construtor que permite definir o nome do produto.
-     * 
-     * @param name nome do produto.
-     */
-    public Product(String name) {
-        this(name, 0.0, 0, DEFAULT_UNIT);
-    }
-
-    /**
-     * Construtor parametrizado.
-     * 
-     * @param name      nome do produto.
-     * @param unitValue valor unitário do produto.
-     */
-    public Product(String name, double unitValue) {
-        this(name, unitValue, 0, DEFAULT_UNIT);
-    }
-
-    /**
-     * Construtor parametrizado.
-     * 
-     * @param name      nome do produto.
-     * @param unitValue valor unitário do produto.
-     * @param quantity  quantidade do produto em estoque.
-     */
-    public Product(String name, double unitValue, int quantity) {
-        this(name, unitValue, quantity, DEFAULT_UNIT);
+        this.name = "";
+        this.batch = new PricedQuantity(0, 0);
+        this.unit = "";
     }
 
     /**
@@ -91,11 +54,10 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      * @param quantity  quantidade do produto em estoque.
      * @param unit      unidade de medida do produto.
      */
-    public Product(String name, double unitValue, int quantity, String unit) {
+    public Product(String name, PricedQuantity batch, String unit) {
         this();
         this.setName(name);
-        this.setUnitValue(unitValue);
-        this.setQuantity(quantity);
+        this.setBatch(batch);
         this.setUnit(unit);
     }
 
@@ -107,8 +69,7 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     protected Product(Product product) {
         this.id = product.id;
         this.name = product.name;
-        this.unitValue = product.unitValue;
-        this.quantity = product.quantity;
+        this.batch = product.batch; // Instância imutável, não é necessário clonar
         this.unit = product.unit;
     }
 
@@ -146,69 +107,30 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     }
 
     /**
-     * Retorna o valor unitário do produto.
+     * Retorna a quantidade precificada do produto.
      * 
-     * @return valor unitário do produto.
+     * @return quantidade precificada do produto.
      */
-    public double getUnitValue() {
-        return unitValue;
+    public PricedQuantity getBatch() {
+        return batch;
     }
 
     /**
-     * Calcula o valor total do produto em estoque.
+     * Define a quantidade precificada do produto.
      * 
-     * @return valor total do produto em estoque.
+     * @param batch quantidade precificada do produto.
      */
-    public double getTotalValue() {
-        return unitValue * (double) quantity;
-    }
+    public void setBatch(PricedQuantity batch) {
 
-    /**
-     * Define o valor unitário do produto.
-     * 
-     * @param unitValue valor unitário do produto.
-     * 
-     * @throws WorkshopException se o valor unitário for negativo.
-     */
-    public void setUnitValue(double unitValue) {
-        if (unitValue < 0) {
-            throw new WorkshopException("valor unitário não pode ser negativo");
+        if (batch.quantity() < 0) {
+            throw new WorkshopException("quantidade não pode ser negativa");
         }
 
-        this.unitValue = unitValue;
-    }
-
-    /**
-     * Define o valor total do produto em estoque, recalculando o valor unitário.
-     * 
-     * @param totalValue valor total do produto em estoque.
-     * 
-     * @throws WorkshopException se o valor total for negativo.
-     */
-    public void setTotalValue(double totalValue) {
-        if (totalValue < 0) {
-            throw new WorkshopException("valor total não pode ser negativo");
+        if (batch.value() < 0.0) {
+            throw new WorkshopException("valor não pode ser negativo");
         }
 
-        this.unitValue = totalValue / (double) quantity;
-    }
-
-    /**
-     * Retorna a quantidade do produto em estoque.
-     * 
-     * @return quantidade do produto em estoque.
-     */
-    public int getQuantity() {
-        return quantity;
-    }
-
-    /**
-     * Define a quantidade do produto em estoque.
-     * 
-     * @param quantity quantidade do produto em estoque.
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        this.batch = batch;
     }
 
     /**
@@ -278,6 +200,6 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      */
     @Override
     public String toString() {
-        return String.format("(%d \"%s\" %.2f %d \"%s\")", id, name, unitValue, quantity, unit);
+        return String.format("(%d \"%s\" %s \"%s\")", id, name, batch, unit);
     }
 }
