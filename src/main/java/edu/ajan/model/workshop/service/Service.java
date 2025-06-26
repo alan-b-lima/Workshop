@@ -6,7 +6,7 @@ package edu.ajan.model.workshop.service;
  * @author Juan Pablo
  */
 public class Service {
-    
+
     /**
      * Contador de instâncias de serviços.
      */
@@ -15,7 +15,7 @@ public class Service {
     /**
      * Identificador único do serviço.
      */
-    private int id;
+    private final int id;
 
     /**
      * Nome do serviço.
@@ -34,30 +34,33 @@ public class Service {
 
     /**
      * Construtor padrão.
-     * Inicializa o ID do serviço com um valor único.
      */
     public Service() {
-
+        this.id = generateNextId();
     }
-    
+
     /**
-     * Construtor com parâmetros.
-     * @param id Identificador único do serviço.
-     * @param name Nome do serviço.
-     * @param description Descrição do serviço.
-     * @param value Valor do serviço.
+     * Construtor parametrizado.
+     * 
+     * @param id          identificador único do serviço.
+     * @param name        nome do serviço.
+     * @param description descrição do serviço.
+     * @param value       valor do serviço.
      */
-    public Service(int id, String name, String description, double value) {
-
+    public Service(String name, String description, double value) {
+        this();
+        this.setName(name);
+        this.setDescription(description);
+        this.setValue(value);
     }
-    
+
     /**
      * Retorna o identificador único do serviço.
      * 
      * @return identificador único do serviço.
      */
     public int id() {
-        return 0;
+        return id;
     }
 
     /**
@@ -72,7 +75,7 @@ public class Service {
     /**
      * Define o nome do serviço.
      * 
-     * @param name
+     * @param name nome do serviço.
      */
     public void setName(String name) {
         this.name = name;
@@ -90,7 +93,7 @@ public class Service {
     /**
      * Define a descrição do serviço.
      * 
-     * @param description
+     * @param description descrição do serviço.
      */
     public void setDescription(String description) {
         this.description = description;
@@ -108,7 +111,7 @@ public class Service {
     /**
      * Define o valor do serviço.
      * 
-     * @param value
+     * @param value valor do serviço.
      */
     public void setValue(double value) {
         this.value = value;
@@ -141,11 +144,11 @@ public class Service {
     }
 
     /**
-     * Cria um clone profundo do serviço.
+     * Retorna a representação textual do serviço.
      * 
      * @return a instância clonada do serviço.
      */
     public String toString() {
-        return "";
+        return String.format("(%d \"%s\" \"%s\" %.2f)", id, name, description, value);
     }
 }
