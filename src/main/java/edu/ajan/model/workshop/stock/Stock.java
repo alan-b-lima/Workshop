@@ -2,12 +2,12 @@ package edu.ajan.model.workshop.stock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 import edu.ajan.model.custom.WorkshopObject;
 
 /**
- * Classe singleton que representa o estoque.
+ * Classe que representa o estoque.
  * 
  * @author Alan Lima
  */
@@ -26,20 +26,15 @@ public class Stock extends WorkshopObject {
     /**
      * Lista de fornecedores.
      */
-    private TreeSet<Supplier> suppliers;
+    private TreeMap<Integer, Supplier> suppliers;
 
     /**
-     * Instância única do estoque.
+     * Construtor padrão.
      */
-    private static Stock instance = new Stock();
-
-    /**
-     * Construtor padrão privado.
-     */
-    private Stock() {
+    public Stock() {
         this.products = new HashMap<>();
         this.shipments = new ArrayList<>();
-        this.suppliers = new TreeSet<>();
+        this.suppliers = new TreeMap<>();
     }
 
     /**
@@ -50,7 +45,7 @@ public class Stock extends WorkshopObject {
     protected Stock(Stock stock) {
         this.products = new HashMap<>(stock.products.size());
         this.shipments = new ArrayList<>(stock.shipments.size());
-        this.suppliers = new TreeSet<>();
+        this.suppliers = new TreeMap<>();
 
         for (Product product : stock.products.values()) {
             this.products.put(product.id(), product.deepClone());
@@ -60,18 +55,9 @@ public class Stock extends WorkshopObject {
             this.shipments.add(shipment.deepClone());
         }
 
-        for (Supplier supplier : stock.suppliers) {
-            this.suppliers.add(supplier.deepClone());
+        for (Supplier supplier : stock.suppliers.values()) {
+            this.suppliers.put(supplier.id(), supplier.deepClone());
         }
-    }
-
-    /**
-     * Retorna a instância única do estoque.
-     * 
-     * @return instância única do estoque.
-     */
-    public Stock stock() {
-        return instance;
     }
 
     /**
@@ -84,14 +70,24 @@ public class Stock extends WorkshopObject {
     }
 
     /**
-     * Retorna um produto a partir do seu idenficador.
+     * Retorna um produto a partir do seu identificador.
      * 
-     * @param product identificador de produto.
-     * @return produto de identificador {@code product}, ou {@code null} se um
-     *         produto de identificador {@code product} não existir.
+     * @param productId identificador de produto.
+     * @return produto de identificador passado, ou {@code null} se essa produto não
+     *         existir.
      */
-    public Product getProduct(int product) {
-        return products.get(product);
+    public Product getProduct(int productId) {
+        return products.get(productId);
+    }
+
+    /**
+     * Asserta a existência de um produto.
+     * 
+     * @param productId identificador de produto.
+     * @return {@code true} se, e somente se o produto existir.
+     */
+    public boolean hasProduct(int productId) {
+        return products.containsKey(productId);
     }
 
     /**
@@ -106,22 +102,10 @@ public class Stock extends WorkshopObject {
     /**
      * Remove um produto do estoque.
      * 
-     * @param product identificador do produto a ser removido.
+     * @param productId identificador do produto a ser removido.
      */
-    public void removeProduct(int product) {
-        products.remove(product);
-    }
-
-    /**
-     * Extensão de {@link #removeProduct(int)}. Remove vários produtos
-     * do estoque.
-     * 
-     * @param products identificadores dos produtos a serem removidos.
-     */
-    public void removeProducts(int... products) {
-        for (int id : products) {
-            removeProduct(id);
-        }
+    public void removeProduct(int productId) {
+        products.remove(productId);
     }
 
     /**
@@ -134,19 +118,36 @@ public class Stock extends WorkshopObject {
     }
 
     /**
-     * Retorna uma remessa a partir do seu idenficador.
+     * Retorna uma remessa a partir do seu identificador.
      * 
-     * @param shipment identificador de remessa.
-     * @return remessa de identificador {@code shipment}, ou {@code null} se uma
-     *         remessa de identificador {@code shipment} não existir.
+     * @param shipmentId identificador de remessa.
+     * @return remessa de identificador passado, ou {@code null} se essa remessa não
+     *         existir.
      */
-    public Shipment getShipment(int shipment) {
-        for (Shipment s : shipments) {
-            if (s.id() == shipment) {
-                return s;
+    public Shipment getShipment(int shipmentId) {
+        for (Shipment shipment : shipments) {
+            if (shipment.id() == shipmentId) {
+                return shipment;
             }
         }
+
         return null;
+    }
+
+    /**
+     * Asserta a existência de uma remessa.
+     * 
+     * @param shipmentId identificador de remessa.
+     * @return {@code true} se, e somente se a remessa existir.
+     */
+    public boolean hasShipment(int shipmentId) {
+        for (Shipment shipment : shipments) {
+            if (shipment.id() == shipmentId) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -161,10 +162,36 @@ public class Stock extends WorkshopObject {
     /**
      * Remove uma remessa do estoque.
      * 
-     * @param shipment identificador da remessa a ser removido.
+     * @param shipmentId identificador da remessa a ser removido.
      */
-    public void removeShipment(int shipment) {
-        shipments.removeIf(s -> s.id() == shipment);
+    public void removeShipment(int shipmentId) {
+        shipments.removeIf(shipment -> shipment.id() == shipmentId);
+    }
+
+    /**
+     * Contabiliza um agendamento no estoque.
+     * 
+     * @param shipmentId identificador da remessa a ser contabilizado.
+     */
+    public void accountShipment(int shipmentId) {
+
+        Shipment shipment = getShipment(shipmentId);
+        if (shipment == null || shipment.isAccounted()) {
+            return;
+        }
+
+        for (Item item : shipment.getItems()) {
+
+            Product product = getProduct(item.getInfo());
+            if (product == null) {
+                continue;
+            }
+
+            PricedQuantity newBatch = item.getBatch().add(product.getBatch());
+            product.setBatch(newBatch);
+        }
+
+        shipment.setAccounted(true);
     }
 
     /**
@@ -173,23 +200,28 @@ public class Stock extends WorkshopObject {
      * @return estrutura iterável de fornecedores.
      */
     public Iterable<Supplier> getSuppliers() {
-        return suppliers;
+        return suppliers.values();
     }
 
     /**
-     * Retorna um fornecedor a partir do seu idenficador.
+     * Retorna um fornecedor a partir do seu identificador.
      * 
-     * @param supplier identificador de fornecedor.
-     * @return fornecedor de identificador {@code supplier}, ou {@code null} se um
-     *         fornecedor de identificador {@code supplier} não existir.
+     * @param supplierId identificador de fornecedor.
+     * @return fornecedor de identificador passado, ou {@code null} se essa
+     *         fornecedor não existir.
      */
-    public Supplier getSupplier(int supplier) {
-        for (Supplier s : suppliers) {
-            if (s.id() == supplier) {
-                return s;
-            }
-        }
-        return null;
+    public Supplier getSupplier(int supplierId) {
+        return suppliers.get(supplierId);
+    }
+    
+    /**
+     * Asserta a existência de um produto.
+     * 
+     * @param supplierId identificador de produto.
+     * @return {@code true} se, e somente se o produto existir.
+     */
+    public boolean hasSupplier(int supplierId) {
+        return suppliers.containsKey(supplierId);
     }
 
     /**
@@ -198,16 +230,16 @@ public class Stock extends WorkshopObject {
      * @param supplier fornecedor a ser adicionado.
      */
     public void addSupplier(Supplier supplier) {
-        suppliers.add(supplier);
+        suppliers.put(supplier.id(), supplier);
     }
 
     /**
      * Remove um fornecedor do estoque.
      * 
-     * @param supplier identificador do fornecedor a ser removido.
+     * @param supplierId identificador do fornecedor a ser removido.
      */
-    public void removeSupplier(int supplier) {
-        suppliers.removeIf(s -> s.id() == supplier);
+    public void removeSupplier(int supplierId) {
+        suppliers.remove(supplierId);
     }
 
     /**

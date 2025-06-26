@@ -47,7 +47,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     /**
      * Data de pagamento da remessa.
      * 
-     * {@code 0} indica que o pagamento não foi realizado ainda.
+     * {@link #UNSET_TIME} indica que o pagamento não foi realizado ainda.
      */
     private long paymentDate;
 
