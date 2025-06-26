@@ -4,14 +4,20 @@ import java.util.ArrayList;
 
 import edu.ajan.model.custom.DeepClonable;
 import edu.ajan.model.custom.WorkshopObject;
-import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.workshop.date.Dates;
 
 /**
  * Classe que representa uma remessa de produtos.
  * 
  * @author Alan Lima
+ * @author Juan Pablo
  */
 public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
+
+    /**
+     * Denota invalidez de timestamp.
+     */
+    public static final long UNSET_TIME = -1L;
 
     /**
      * Contador de instâncias.
@@ -31,17 +37,12 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     /**
      * Lista de itens da remessa.
      */
-    private ArrayList<ShipmentItem> items;
+    private ArrayList<Item> items;
 
     /**
      * Valor adicional da remessa, como frete ou taxas.
      */
     private double additional;
-
-    /**
-     * Data de chegada da remessa.
-     */
-    private long arrival;
 
     /**
      * Data de pagamento da remessa.
@@ -61,6 +62,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     public Shipment() {
         this.id = generateNextId();
         this.items = new ArrayList<>();
+        this.paymentDate = UNSET_TIME;
     }
 
     /**
@@ -72,11 +74,10 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * @param paymentDate data de pagamento da remessa.
      * @param accounted   indica se a remessa foi contabilizada no estoque.
      */
-    public Shipment(int supplier, double additional, long arrival, long paymentDate, boolean accounted) {
+    public Shipment(int supplier, double additional, long paymentDate, boolean accounted) {
         this();
         this.supplier = supplier;
         this.additional = additional;
-        this.arrival = arrival;
         this.paymentDate = paymentDate;
         this.accounted = accounted;
     }
@@ -91,12 +92,11 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
         this.supplier = shipment.supplier;
         this.items = new ArrayList<>(shipment.items.size());
         this.additional = shipment.additional;
-        this.arrival = shipment.arrival;
         this.paymentDate = shipment.paymentDate;
         this.accounted = shipment.accounted;
 
-        for (ShipmentItem item : items) {
-            this.items.add(item.deepClone());
+        for (Item item : items) {
+            this.items.add(item); // Incompleto
         }
     }
 
@@ -121,34 +121,34 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     /**
      * Define o identificador do fornecedor da remessa.
      * 
-     * @param supplier identificador do fornecedor da remessa.
+     * @param supplierId identificador do fornecedor da remessa.
      */
-    public void setSupplier(int supplier) {
-        this.supplier = supplier;
+    public void setSupplier(int supplierId) {
+        this.supplier = supplierId;
     }
 
     /**
-     * Retorna uma estrutura iterável de itens da remessa.
+     * Retorna uma estrutura iterável de itens.
      * 
-     * @return estrutura iterável de itens da remessa.
+     * @return estrutura iterável de itens.
      */
-    public Iterable<ShipmentItem> getItems() {
+    public Iterable<Item> getItems() {
         return items;
     }
 
     /**
-     * Retorna um item da remessa com base no identificador do produto.
+     * Retorna um item com base no identificador do produto.
      * 
-     * @param product identificador do produto.
-     * @return o item da remessa correspondente ao produto, ou {@code null} se não
-     *         encontrado.
+     * @param itemId identificador do produto.
+     * @return o item correspondente ao produto, ou {@code null} se não encontrado.
      */
-    public ShipmentItem getItem(int product) { 
-        for (ShipmentItem item : items) {
-            if (item.getProduct() == product) {
+    public Item getItem(int itemId) {
+        for (Item item : items) {
+            if (item.getInfo() == itemId) {
                 return item;
             }
         }
+
         return null;
     }
 
@@ -157,46 +157,25 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * 
      * @param item o item a ser adicionado.
      */
-    public void addItem(ShipmentItem item) {
-        // ShipmentItem foundItem = getItem(item.getProduct());
-        // if (foundItem == null) {
-        //     this.items.add(item);
-        //     return;
-        // }
+    public void addItem(Item item) {
 
-        // foundItem.addQuantity(item.getQuantity());
-        throw WorkshopException.methodNotImplemented("addItem");
-    }
-
-    /**
-     * Adiciona múltiplos itens à remessa.
-     * 
-     * @param itens os itens a serem adicionados.
-     */
-    public void addItems(ShipmentItem... itens) {
-        for (ShipmentItem item : itens) {
-            addItem(item);
+        Item foundItem = getItem(item.getInfo());
+        if (foundItem == null) {
+            this.items.add(item);
+            return;
         }
+
+        PricedQuantity newBatch = item.getBatch().add(foundItem.getBatch());
+        foundItem.setBatch(newBatch);
     }
 
     /**
-     * Remove um item da remessa com base no identificador do produto.
+     * Remove um item com base no identificador do produto.
      * 
-     * @param product identificador do produto a ser removido.
+     * @param itemId identificador do produto a ser removido.
      */
-    public void removeItem(int product) {
-        items.removeIf(item -> item.getProduct() == product);
-    }
-
-    /**
-     * Remove múltiplos itens da remessa com base nos identificadores dos produtos.
-     * 
-     * @param product identificadores dos produtos a serem removidos.
-     */
-    public void removeItems(int... product) {
-        for (int p : product) {
-            removeItem(p);
-        }
+    public void removeItem(int itemId) {
+        items.removeIf(item -> item.getInfo() == itemId);
     }
 
     /**
@@ -218,33 +197,6 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     }
 
     /**
-     * Retorna a data de chegada da remessa.
-     * 
-     * @return data de chegada da remessa.
-     */
-    public long getArrival() {
-        return arrival;
-    }
-
-    /**
-     * Verifica se a remessa chegou.
-     * 
-     * @return {@code true} se a remessa chegou, {@code false} caso contrário.
-     */
-    public boolean hasArrived() {
-        return arrival > 0 && arrival <= System.currentTimeMillis();
-    }
-
-    /**
-     * Define a data de chegada da remessa.
-     * 
-     * @param arrival data de chegada da remessa.
-     */
-    public void setArrival(long arrival) {
-        this.arrival = arrival;
-    }
-
-    /**
      * Retorna a data de pagamento da remessa.
      * 
      * @return data de pagamento da remessa.
@@ -259,7 +211,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * @return {@code true} se a remessa foi paga, {@code false} caso contrário.
      */
     public boolean isPaid() {
-        return paymentDate > 0;
+        return paymentDate != UNSET_TIME;
     }
 
     /**
@@ -279,13 +231,6 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      */
     public boolean isAccounted() {
         return accounted;
-    }
-
-    /**
-     * Define que a remessa foi contabilizada no estoque.
-     */
-    public void setAccounted() {
-        this.accounted = true;
     }
 
     /**
@@ -341,7 +286,7 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      */
     @Override
     public String toString() {
-        return String.format("(%d %d \"%s\" %.2f %d %b)",
-                id, supplier, items, additional, arrival, paymentDate, accounted);
+        return String.format("(%d %d %s %.2f %s %b)",
+                id, supplier, items, additional, Dates.formatAsDate(paymentDate), accounted);
     }
 }
