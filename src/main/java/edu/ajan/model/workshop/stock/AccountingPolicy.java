@@ -12,27 +12,34 @@ public interface AccountingPolicy {
     /**
      * Devolve a média ponderada dos valores.
      */
-    public static final AccountingPolicy WEIGHTED_AVERAGE = (int quantity1, double value1, int quantity2, double value2) -> {
-        return ((double) quantity1 * value1 + (double) quantity2 * value2) / (double) (quantity1 + quantity2);
+    public static final AccountingPolicy WEIGHTED_AVERAGE = (PricedQuantity batch0, PricedQuantity batch1) -> {
+        double weighted_sum = batch0.totalValue() + batch1.totalValue();
+        int total = batch0.quantity() + batch1.quantity();
+
+        return new PricedQuantity(total, weighted_sum / (double) total);
     };
 
     /**
      * Devolve o maior valor entre os dois fornecidos.
      */
-    public static final AccountingPolicy MAX_VALUE_BETWEEN = (int _, double value1, int _, double value2) -> {
-        return Math.max(value1, value2);
+    public static final AccountingPolicy MAX_VALUE_BETWEEN = (PricedQuantity batch0, PricedQuantity batch1) -> {
+        return new PricedQuantity(batch0.quantity() + batch1.quantity(), Math.max(batch0.value(), batch1.value()));
     };
 
     /**
-     * Retorna, seguindo alguma métrica arbitrária, o valor da combinação das
-     * peças.
-     * 
-     * @param quantity1 quantidade da primeira peça.
-     * @param value1    valor da da primeira peça.
-     * @param quantity2 quantidade da segunda peça.
-     * @param value2    valor da segunda peça.
-     * @return valor obtido pela aplicação de alguma métrica.
+     * Política de contabilidade padrão usada para contabilizar
+     * quantidades precificadas.
      */
-    double determine(int quantity1, double value1, int quantity2, double value2);
+    public static final AccountingPolicy DEFAULT = WEIGHTED_AVERAGE;
+
+    /**
+     * Retorna, seguindo alguma métrica arbitrária, o valor da combinação das
+     * quantidades precificadas.
+     * 
+     * @param batch0 primeira quantidade precificada.
+     * @param batch1 segunda quantidade precificada.
+     * @return combinação das quantidades precificadas.
+     */
+    PricedQuantity evaluate(PricedQuantity batch0, PricedQuantity batch1);
 
 }
