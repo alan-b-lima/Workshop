@@ -19,16 +19,6 @@ public class Employee extends StaffMember {
     public static final long UNSET_TIME = -1L;
 
     /**
-     * Salário do funcionário.
-     */
-    private double salary;
-
-    /**
-     * Nível de acesso do funcionário.
-     */
-    private AccessLevel accessLevel;
-
-    /**
      * Turnos (pontos) do funcionário.
      */
     private TreeSet<DateSpan> shifts;
@@ -58,11 +48,11 @@ public class Employee extends StaffMember {
      * @param salary      salário do funcionário.
      * @param password    senha do funcionário.
      * @param accessLevel nível de acesso do funcionário.
+     * 
+     * @throws WorkshopException se algum dos parâmetros for inválido.
      */
     public Employee(String name, String phone, String cpf, double salary, String password, AccessLevel accessLevel) {
-        super(name, phone, cpf, password);
-        this.setSalary(salary);
-        this.setAccessLevel(accessLevel);
+        super(name, phone, cpf, salary, password, accessLevel);
         this.shifts = new TreeSet<>();
         this.openShift = UNSET_TIME;
     }
@@ -76,53 +66,8 @@ public class Employee extends StaffMember {
      */
     protected Employee(Employee employee) {
         super(employee);
-        this.salary = employee.salary;
-        this.accessLevel = employee.accessLevel;
         this.shifts = new TreeSet<>(employee.shifts); // DateSpan's são imutáveis, cloná-los é desnecessário.
         this.openShift = employee.openShift;
-    }
-
-    /**
-     * Retorna salário do funcionário.
-     * 
-     * @return salário do funcionário.
-     */
-    public double getSalary() {
-        return salary;
-    }
-
-    /**
-     * Define o salário do funcionário.
-     * 
-     * @param salary salário do funcionário.
-     * 
-     * @throws WorkshopException se o salário for negativo.
-     */
-    public void setSalary(double salary) {
-        if (salary < 0) {
-            throw new WorkshopException("salário não pode ser negativo");
-        }
-
-        this.salary = salary;
-    }
-
-    /**
-     * Retorna o nível de acesso do funcionário.
-     * 
-     * @return nível de acesso do funcionário.
-     */
-    @Override
-    public AccessLevel getAccessLevel() {
-        return accessLevel;
-    }
-
-    /**
-     * Define o nível de acesso do funcionário.
-     * 
-     * @param accessLevel nível de acesso do funcionário.
-     */
-    public void setAccessLevel(AccessLevel accessLevel) {
-        this.accessLevel = accessLevel;
     }
 
     /**
@@ -243,8 +188,8 @@ public class Employee extends StaffMember {
     @Override
     public String toString() {
         String member = super.toString();
-        return String.format("(%s %.2f %s %s [%s))", member.substring(1, member.length() - 1),
-                salary, accessLevel, shifts,
-                openShift != UNSET_TIME ? Dates.formatAsDateTime(openShift) : "");
+        return String.format("(%s %s [%s))",
+                member.substring(1, member.length() - 1),
+                shifts, openShift != UNSET_TIME ? Dates.formatAsDateTime(openShift) : "");
     }
 }

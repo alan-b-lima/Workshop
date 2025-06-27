@@ -3,34 +3,31 @@ package edu.ajan.model.workshop.staff;
 import edu.ajan.model.auth.AccessLevel;
 
 /**
- * Classe que representa um administrador da oficina.
+ * Classe que representa um administrador.
  * 
  * @author Juan Pablo
  */
-public class Administrator {
-
-    /**
-     * Contador de instâncias de administradores.
-     */
-    private double proLabore;
-
-    /**
-     * Nível de acesso do administrador.
-     */
-    private AccessLevel accessLevel;
+public class Administrator extends StaffMember {
 
     /**
      * Construtor padrão.
      */
     public Administrator() {
-
+        super();
     }
-
+ 
     /**
      * Construtor parametrizado.
+     * 
+     * @param name        nome do administrador.
+     * @param phone       número de telefone do administrador.
+     * @param cpf         CPF do administrador.
+     * @param salary      salário do administrador.
+     * @param password    senha do administrador.
+     * @param accessLevel nível de acesso do administrador.
      */
-    public Administrator(String, String, String, String, double, String, AccessLevel) {
-
+    public Administrator(String name, String phone, String cpf, double salary, String password, AccessLevel accessLevel) {
+        super(name, phone, cpf, salary, password, accessLevel);
     }
 
     /**
@@ -38,50 +35,15 @@ public class Administrator {
      * 
      * @param administrator administrador a ser clonado.
      */
-    protected Administrator(Administrator) {
-
-    }
-
-    /**
-     * Retorna o identificador único do administrador.
-     * 
-     * @return identificador único do administrador.
-     */
-    public double getProlabore() {
-        return proLabore;
-    }
-
-    /**
-     * Define o valor do pro labore do administrador.
-     * 
-     * @param proLabore
-     */
-    public void setProlabore(double proLabore) {
-
-    }
-
-    /**
-     * Retorna o nível de acesso do administrador.
-     * 
-     * @return nível de acesso do administrador.
-     */
-    public AccessLevel getAccessLevel() {
-        return accessLevel;
-    }
-
-    /**
-     * Define o nível de acesso do administrador.
-     * 
-     * @param accessLevel
-     */
-    public void setAccessLevel(AccessLevel accessLevel) {
-        this.accessLevel = accessLevel;
+    protected Administrator(Administrator administrator) {
+        super(administrator);
     }
 
     /**
      * Realiza uma cópia profunda do administrador.
      */
     public Administrator deepClone() {
+        return new Administrator(this);
     }
 
     /**
@@ -90,6 +52,6 @@ public class Administrator {
      * @return representação em string do administrador.
      */
     public String toString() {
-        return "";
+        return super.toString();
     }
 }

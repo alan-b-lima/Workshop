@@ -22,9 +22,19 @@ public abstract class StaffMember extends Person {
     private final int id;
 
     /**
-     * Hash da senha.
+     * Salário do membro.
+     */
+    private double salary;
+
+    /**
+     * Hash da senha do membro.
      */
     private long password;
+
+    /**
+     * Nível de acesso do membro.
+     */
+    private AccessLevel accessLevel;
 
     /**
      * Construtor padrão.
@@ -40,14 +50,18 @@ public abstract class StaffMember extends Person {
      * @param name     nome do membro.
      * @param phone    número de telefone do membro.
      * @param cpf      CPF do membro.
+     * @param salary   salário do membro.
      * @param password senha do membro.
+     * @param level    nível de acesso do membro.
      * 
      * @throws WorkshopException se algum dos parametros for inválido.
      */
-    public StaffMember(String name, String phone, String cpf, String password) {
+    public StaffMember(String name, String phone, String cpf, double salary, String password, AccessLevel level) {
         super(name, phone, cpf);
         this.id = generateNextId();
+        this.setSalary(salary);
         this.setPassword(password);
+        this.setAccessLevel(level);
     }
 
     /**
@@ -58,7 +72,9 @@ public abstract class StaffMember extends Person {
     protected StaffMember(StaffMember member) {
         super(member);
         this.id = member.id;
+        this.salary = member.salary;
         this.password = member.password;
+        this.accessLevel = member.accessLevel;
     }
 
     /**
@@ -68,6 +84,30 @@ public abstract class StaffMember extends Person {
      */
     public int id() {
         return id;
+    }
+
+    /**
+     * Retorna o salário do membro.
+     * 
+     * @return salário do membro.
+     */
+    public double getSalary() {
+        return salary;
+    }
+
+    /**
+     * Define o salário do membro.
+     * 
+     * @param salary salário do membro.
+     * 
+     * @throws WorkshopException se o salário for negativo.
+     */
+    public void setSalary(double salary) {
+        if (salary < 0) {
+            throw new WorkshopException("salário não pode ser negativo");
+        }
+
+        this.salary = salary;
     }
 
     /**
@@ -109,7 +149,18 @@ public abstract class StaffMember extends Person {
      * 
      * @return nível de acesso do membro.
      */
-    public abstract AccessLevel getAccessLevel();
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
+    /**
+     * Define o nível de acesso do membro.
+     * 
+     * @param accessLevel nível de acesso do membro.
+     */
+    public void setAccessLevel(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
+    }
 
     /**
      * Hashifica uma string não nula. <i>Não é segura, o espaço de
@@ -125,7 +176,7 @@ public abstract class StaffMember extends Person {
 
         for (int i = 0; i < bytes.length; i++) {
             hash ^= ((long) bytes[i] & 0xFFL) * 0x0101_0101_0101_0101L;
-            hash = hash * 0x50C1EDADE_F0551L + 0xCAFE_D0CE_0F1C1AL;
+            hash = hash * 0xCAFE_D0CE_0F1C1AL + 0x50C1EDADE_F0551L;
         }
 
         return hash;
@@ -165,6 +216,7 @@ public abstract class StaffMember extends Person {
     @Override
     public String toString() {
         String person = super.toString();
-        return String.format("(%s %016x)", person.substring(1, person.length() - 1), password);
+        return String.format("(%s %.2f %016x %s)", person.substring(1, person.length() - 1), salary, password,
+                accessLevel);
     }
 }
