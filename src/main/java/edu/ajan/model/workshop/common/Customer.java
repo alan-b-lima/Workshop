@@ -10,6 +10,16 @@ import edu.ajan.model.exception.WorkshopException;
 public class Customer extends Person {
 
     /**
+     * Contador de instâncias.
+     */
+    private static int instanceCount;
+
+    /**
+     * Identificador único do cliente.
+     */
+    private final int id;
+
+    /**
      * Endereço do cliente.
      */
     private String address;
@@ -25,6 +35,7 @@ public class Customer extends Person {
      * Construtor padrão.
      */
     public Customer() {
+        this.id = generateNextId();
         this.address = "";
         this.email = "";
     }
@@ -42,6 +53,7 @@ public class Customer extends Person {
      */
     public Customer(String name, String phone, String cpf, String address, String email) {
         super(name, phone, cpf);
+        this.id = generateNextId();
         this.setAddress(address);
         this.setEmail(email);
     }
@@ -53,8 +65,13 @@ public class Customer extends Person {
      */
     protected Customer(Customer customer) {
         super(customer);
+        this.id = customer.id;
         this.address = customer.address;
         this.email = customer.email;
+    }
+
+    public int id() {
+        return id;
     }
 
     /**
@@ -102,6 +119,32 @@ public class Customer extends Person {
     }
 
     /**
+     * Retorna o número total de instâncias criadas.
+     * 
+     * @return número total de instâncias criadas.
+     */
+    public static int getInstanceCount() {
+        return instanceCount;
+    }
+
+    /**
+     * Incrementa o contador de instâncias.
+     */
+    private static void incrementInstanceCount() {
+        instanceCount++;
+    }
+
+    /**
+     * Gera o próximo identificador e incrementa o contador de instâncias.
+     * 
+     * @return próximo identificador único.
+     */
+    private static int generateNextId() {
+        incrementInstanceCount();
+        return instanceCount;
+    }
+
+    /**
      * Cria um clone profundo do cliente.
      * 
      * @return a instância clonada do cliente.
@@ -119,6 +162,11 @@ public class Customer extends Person {
     @Override
     public String toString() {
         String person = super.toString();
-        return String.format("(%s \"%s\" %s)", person.substring(1, person.length() - 1), address, email);
+        return String.format("(%d %s \"%s\" %s)",
+            id, person.substring(1, person.length() - 1), address, email);
+    }
+
+    public static void main(String[] args) {
+        
     }
 }

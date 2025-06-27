@@ -1,0 +1,135 @@
+package edu.ajan.model.workshop.common;
+
+import java.util.HashMap;
+
+/**
+ * Classe que representa um registro de clientes e veículos.
+ * 
+ * @author Alan Lima
+ */
+public class Registry {
+
+    /**
+     * Mapa de clientes indexados pelo identificador do cliente.
+     */
+    private HashMap<Integer, Customer> customers;
+
+    /**
+     * Mapa de veículos indexados pelo identificador do veículo.
+     */
+    private HashMap<Integer, Vehicle> vehicles;
+
+    /**
+     * Construtor padrão.
+     */
+    public Registry() {
+        this.customers = new HashMap<>();
+        this.vehicles = new HashMap<>();
+    }
+
+    /**
+     * Retorna uma estrutura iterável de clientes.
+     * 
+     * @return estrutura iterável de clientes.
+     */
+    public Iterable<Customer> getCustomers() {
+        return customers.values();
+    }
+
+    /**
+     * Retorna um cliente a partir do seu identificador.
+     * 
+     * @param customerId identificador de cliente.
+     * @return cliente de identificador passado, ou {@code null} se essa cliente não
+     *         existir.
+     */
+    public Customer getCustomer(int customerId) {
+        return customers.get(customerId);
+    }
+
+    /**
+     * Asserta a existência de um cliente.
+     * 
+     * @param customerId identificador de cliente.
+     * @return {@code true} se, e somente se o cliente existir.
+     */
+    public boolean hasCustomer(int customerId) {
+        return customers.containsKey(customerId);
+    }
+
+    /**
+     * Adiciona um cliente ao estoque.
+     * 
+     * @param customer cliente a ser adicionado.
+     */
+    public void addCustomer(Customer customer) {
+        customers.put(customer.id(), customer);
+    }
+
+    /**
+     * Remove um cliente do estoque.
+     * 
+     * @param customerId identificador do cliente a ser removido.
+     */
+    public void removeCustomer(int customerId) {
+        customers.remove(customerId);
+    }
+
+    /**
+     * Retorna uma estrutura iterável de veículos.
+     * 
+     * @return estrutura iterável de veículos.
+     */
+    public Iterable<Vehicle> getVehicles() {
+        return vehicles.values();
+    }
+
+    /**
+     * Retorna um veículo a partir do seu identificador.
+     * 
+     * @param vehicleId identificador de veículo.
+     * @return veículo de identificador passado, ou {@code null} se essa veículo não
+     *         existir.
+     */
+    public Vehicle getVehicle(int vehicleId) {
+        return vehicles.get(vehicleId);
+    }
+
+    /**
+     * Asserta a existência de um veículo.
+     * 
+     * @param vehicleId identificador de veículo.
+     * @return {@code true} se, e somente se o veículo existir.
+     */
+    public boolean hasVehicle(int vehicleId) {
+        return vehicles.containsKey(vehicleId);
+    }
+
+    /**
+     * Adiciona um veículo ao estoque.
+     * 
+     * @param vehicle veículo a ser adicionado.
+     */
+    public void addVehicle(Vehicle vehicle) {
+        vehicles.put(vehicle.id(), vehicle);
+    }
+
+    /**
+     * Remove um veículo do estoque.
+     * 
+     * @param vehicleId identificador do veículo a ser removido.
+     */
+    public void removeVehicle(int vehicleId) {
+        vehicles.remove(vehicleId);
+    }
+
+    /**
+     * Retorna uma representação textual do registro.
+     * 
+     * @return representação textual do registro.
+     */
+    @Override
+    public String toString() {
+        return String.format("(%s %s)", customers, vehicles);
+    }
+}
