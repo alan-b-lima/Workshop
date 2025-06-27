@@ -44,7 +44,7 @@ public class MemberBase {
     }
 
     /**
-     * Adiciona um membro ao estoque.
+     * Adiciona um membro à base.
      * 
      * @param member membro a ser adicionado.
      */
@@ -53,7 +53,7 @@ public class MemberBase {
     }
 
     /**
-     * Remove um membro do estoque.
+     * Remove um membro da base.
      * 
      * @param memberId identificador do membro a ser removido.
      */

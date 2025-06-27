@@ -58,7 +58,7 @@ public class Registry {
     }
 
     /**
-     * Adiciona um cliente ao estoque.
+     * Adiciona um cliente ao registro.
      * 
      * @param customer cliente a ser adicionado.
      */
@@ -67,7 +67,7 @@ public class Registry {
     }
 
     /**
-     * Remove um cliente do estoque.
+     * Remove um cliente do registro.
      * 
      * @param customerId identificador do cliente a ser removido.
      */
@@ -106,7 +106,7 @@ public class Registry {
     }
 
     /**
-     * Adiciona um veículo ao estoque.
+     * Adiciona um veículo ao registro.
      * 
      * @param vehicle veículo a ser adicionado.
      */
@@ -115,7 +115,7 @@ public class Registry {
     }
 
     /**
-     * Remove um veículo do estoque.
+     * Remove um veículo do registro.
      * 
      * @param vehicleId identificador do veículo a ser removido.
      */
