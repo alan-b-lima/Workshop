@@ -9,7 +9,7 @@ public class Questions {
          * implementar seus métodos e atributos.
          */
         {
-
+            // Sim
         }
 
         // Questão 2
@@ -17,7 +17,7 @@ public class Questions {
          * O sistema será utilizado pelos colaboradores e pelo administrador.
          */
         {
-            
+            // Sim
         }
 
         // Questão 3
@@ -25,7 +25,7 @@ public class Questions {
          * Sobrescrever o método toString() de todas as classes implementadas.
          */
         {
-
+            // Sim
         }
 
         // Questão 4
@@ -34,7 +34,7 @@ public class Questions {
          * subclasses.
          */
         {
-
+            //Sim, as classes StaffMember, Administrator, Costumer e Employee utilizam super() em seus construtores pois utiliza herança.
         }
 
         // Questão 5
@@ -43,7 +43,7 @@ public class Questions {
          * informações dos 3 elevadores da oficina.
          */
         {
-
+            // Na classe Scheduler, há um atributo elevators do tipo Elevator[]
         }
 
         // Questão 6
@@ -77,7 +77,7 @@ public class Questions {
          * forma dinâmica no sistema.
          */
         {
-            
+            // Sim. Toda unidade semântica e algumas classes de dados usam coleções da java.util para armazenamento dinâmico.
         }
 
         // Questão 10
@@ -108,10 +108,10 @@ public class Questions {
             // b
             /**
              * Na segunda estratégia, implementar usando o controle de acesso do tipo
-             * protect;
+             * protected;
              */
             {
-
+                
             }
 
             // c
@@ -120,6 +120,7 @@ public class Questions {
              * estratégias.
              */
             {
+                //Estratégia com enfoque no encapsulamento: Essa estratégia é mais recomendada pois ela preserva os princípios do encapsulamento contribuindo para a segurança, manutenabilidade e o controle exclusivo sobre seu estado. A desvantagem é que requer mais código com métodos getters e setters separados. Já a estratégia com acesso do tipo protected não é recomendada pois o encapsulamento é quebrado, comprometendo a segurança uma vez que qualquer classe no mesmo pacote ou subclasse possa alterar diretamente o valor do contador colocando por exemplo um valor negativo. O único ponto positivo é a facíl implementação, porém ao custo de comprometer a qualidade do software.
 
             }
         }
@@ -130,7 +131,7 @@ public class Questions {
          * quantas instâncias foram criadas do tipo Veículo.
          */
         {
-
+            
         }
 
         // Questão 13
@@ -159,7 +160,7 @@ public class Questions {
          * Gerar um JavaDoc de todo o seu projeto.
          */
         {
-
+            // Gerado. 
         }
 
         // Questão 15
@@ -203,7 +204,7 @@ public class Questions {
          * Apresentar testes do método iomplementado.
          * 
          * Fazer chamadas ao binarySearch() da classe collections e comparar com o find
-         * IMPLEMENTADO.
+         * IMPLEMENTADO. 
          */
         {
             
