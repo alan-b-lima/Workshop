@@ -12,6 +12,13 @@ import edu.ajan.model.workshop.date.Dates;
 public class Expense extends WorkshopObject {
 
     /**
+     * Contador de instâncias.
+     */
+    private static int instanceCount;
+
+    private final int id;
+
+    /**
      * Nome da despesa.
      */
     private String name;
@@ -35,6 +42,7 @@ public class Expense extends WorkshopObject {
      * Construtor padrão.
      */
     public Expense() {
+        this.id = generateNextId();
         this.name = "";
         this.description = "";
         this.value = 0.0;
@@ -52,6 +60,7 @@ public class Expense extends WorkshopObject {
      * @throws WorkshopException se algum dos argumentos for inválido.
      */
     public Expense(String name, String description, double value, long date) {
+        this.id = generateNextId();
         this.setName(name);
         this.setDescription(description);
         this.setValue(value);
@@ -64,10 +73,16 @@ public class Expense extends WorkshopObject {
      * @param expense despesa a ser clonada.
      */
     protected Expense(Expense expense) {
+        this.id = expense.id;
         this.name = expense.name;
         this.description = expense.description;
         this.value = expense.value;
         this.date = expense.date;
+    }
+
+    public int id() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'id'");
     }
 
     /**
@@ -158,6 +173,32 @@ public class Expense extends WorkshopObject {
     @Override
     public WorkshopObject deepClone() {
         return new Expense(this);
+    }
+
+    /**
+     * Retorna o número total de instâncias criadas.
+     * 
+     * @return número total de instâncias criadas.
+     */
+    public static int getInstanceCount() {
+        return instanceCount;
+    }
+
+    /**
+     * Incrementa o contador de instâncias.
+     */
+    private static void incrementInstanceCount() {
+        instanceCount++;
+    }
+
+    /**
+     * Gera o próximo identificador e incrementa o contador de instâncias.
+     * 
+     * @return próximo identificador único.
+     */
+    private static int generateNextId() {
+        incrementInstanceCount();
+        return instanceCount;
     }
 
     /**

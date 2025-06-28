@@ -62,7 +62,12 @@ public class Financial {
      *         existir.
      */
     public Expense getExpense(int expenseId) {
-        throw WorkshopException.methodNotImplemented("getExpense");
+        for (Expense expense : expenses) {
+            if (expense.id() == expenseId) {
+                return expense;
+            }
+        }
+        return null;
     }
 
     /**
