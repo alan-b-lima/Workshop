@@ -17,9 +17,9 @@ public class Scheduler {
         this.orders = new HashMap<>();
         this.services = new HashMap<>();
         this.elevators = new Elevator[] {
-                new Elevator(Double.POSITIVE_INFINITY, ElevatorFunction.BALANCING, ElevatorFunction.ALIGNING),
-                new Elevator(Double.POSITIVE_INFINITY, ElevatorFunction.GENERAL),
-                new Elevator(Double.POSITIVE_INFINITY, ElevatorFunction.GENERAL),
+                new Elevator(25000.00, ElevatorFunction.BALANCING, ElevatorFunction.ALIGNING),
+                new Elevator(25000.00, ElevatorFunction.GENERAL),
+                new Elevator(25000.00, ElevatorFunction.GENERAL),
         };
     }
 
@@ -28,8 +28,7 @@ public class Scheduler {
      * 
      * @param orderId identificador de ordem de serviço.
      * @return ordem de serviço de identificador passado, ou {@code null} se essa
-     *         ordem de serviço não
-     *         existir.
+     *         ordem de serviço não existir.
      */
     public ServiceOrder getOrder(int orderId) {
         return orders.get(orderId);
@@ -51,11 +50,20 @@ public class Scheduler {
      * @param order ordem de serviço a ser adicionado.
      */
     public void addOrder(ServiceOrder order) {
+        
         if (order == null) {
             throw new WorkshopException("ordem de serviço não pode ser nula");
         }
 
-        throw WorkshopException.methodNotImplemented("addOrder");
+        for (ServiceOrder otherOrder : orders.values()) {
+            if (otherOrder.isConflicting(order)) {
+                throw new WorkshopException(""
+                        + "ordem de serviço conflituosa, "
+                        + "já há uma ordem de serviço nesse horário usando o mesmo elevador");
+            }
+        }
+
+        this.orders.put(order.id(), order);
     }
 
     /**

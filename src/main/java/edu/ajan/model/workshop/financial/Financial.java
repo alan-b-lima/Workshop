@@ -9,6 +9,7 @@ import edu.ajan.model.workshop.date.DateSpan;
  * Classe que representa a unidade financeira da oficina mecânica.
  * 
  * @author Alan Lima
+ * @author Juan Pablo
  */
 public class Financial {
 

@@ -97,6 +97,14 @@ public class Elevator extends WorkshopObject {
      * @param weightLimit limite de peso do elevador.
      */
     public void setWeightLimit(double weightLimit) {
+        if (weightLimit <= 0) {
+            throw new IllegalArgumentException("limite de peso deve ser maior que zero");
+        }
+
+        if (Double.isInfinite(weightLimit) || Double.isNaN(weightLimit)) {
+            throw new IllegalArgumentException("limite de peso deve ser um número válido");
+        }
+
         this.weightLimit = weightLimit;
     }
 
