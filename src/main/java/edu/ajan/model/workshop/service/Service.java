@@ -1,6 +1,5 @@
 package edu.ajan.model.workshop.service;
 
-import edu.ajan.model.exception.WorkshopError;
 import edu.ajan.model.exception.WorkshopException;
 
 /**
@@ -81,7 +80,7 @@ public class Service {
      */
     public void setName(String name) {
         if (name == null) {
-            throw new WorkshopError("nome não pode ser nulo");
+            throw new WorkshopException("nome não pode ser nulo");
         }
 
         this.name = name;
@@ -103,7 +102,7 @@ public class Service {
      */
     public void setDescription(String description) {
         if (name == null) {
-            throw new WorkshopError("descrição não pode ser nula");
+            throw new WorkshopException("descrição não pode ser nula");
         }
 
         this.description = description;
