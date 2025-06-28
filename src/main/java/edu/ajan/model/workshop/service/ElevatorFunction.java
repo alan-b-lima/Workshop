@@ -141,27 +141,28 @@ public final class ElevatorFunction {
         int bitCount = Integer.bitCount(function);
         int lowestBitPos = Integer.bitCount(Integer.lowestOneBit(function) - 1);
 
-        // Caso não haja apenas uma função especificada
+        // Caso haja apenas uma função especificada
         if (bitCount == 1) {
             return values[lowestBitPos].name;
         }
 
-        // Caso não haja multiplas funções especificadas
+        // Caso haja multiplas funções especificadas
+        {
+            StringBuilder sb = new StringBuilder(values[lowestBitPos].name);
+            int i = lowestBitPos + 1;
+            function >>>= i;
 
-        StringBuilder sb = new StringBuilder(values[lowestBitPos].name);
-        int i = lowestBitPos + 1;
-        function >>>= i;
-
-        // Assim que isso terminar, é guarantido que `function` tenha um 1. Como `i`
-        // posições terão sido iteradas até o memento, estaremos na função de código
-        // 2^`i`, ou seja, `values[i]`
-        for (; function > 1; function >>>= 1, i++) {
-            if (values[i].hasFunction(function)) {
-                sb.append(", ").append(values[i].name);
+            // Assim que isso terminar, é guarantido que `function` tenha um 1. Como `i`
+            // posições terão sido iteradas até o memento, estaremos na função de código
+            // 2^`i`, ou seja, `values[i]`
+            for (; function > 1; function >>>= 1, i++) {
+                if (values[i].hasFunction(function)) {
+                    sb.append(", ").append(values[i].name);
+                }
             }
-        }
 
-        return sb.append(" e ").append(values[i].name).toString();
+            return sb.append(" e ").append(values[i].name).toString();
+        }
     }
 
     /**

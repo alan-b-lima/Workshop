@@ -122,8 +122,7 @@ public class Financial {
      * 
      * @param invoiceId identificador de nota fiscal.
      * @return nota fiscal de identificador passado, ou {@code null} se essa nota
-     *         fiscal não
-     *         existir.
+     *         fiscal não existir.
      */
     public Invoice getInvoice(int invoiceId) {
         return invoices.get(invoiceId);

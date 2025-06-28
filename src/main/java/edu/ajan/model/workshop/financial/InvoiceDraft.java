@@ -42,7 +42,7 @@ public class InvoiceDraft {
      * Retorna um produto a partir do seu identificador.
      * 
      * @param productId identificador de produto.
-     * @return produto de identificador passado, ou {@code null} se essa produto não
+     * @return produto de identificador passado, ou {@code null} se esse produto não
      *         existir.
      */
     public Item getProduct(int productId) {

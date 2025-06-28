@@ -73,7 +73,7 @@ public class Stock extends WorkshopObject {
      * Retorna um produto a partir do seu identificador.
      * 
      * @param productId identificador de produto.
-     * @return produto de identificador passado, ou {@code null} se essa produto não
+     * @return produto de identificador passado, ou {@code null} se esse produto não
      *         existir.
      */
     public Product getProduct(int productId) {
@@ -207,13 +207,13 @@ public class Stock extends WorkshopObject {
      * Retorna um fornecedor a partir do seu identificador.
      * 
      * @param supplierId identificador de fornecedor.
-     * @return fornecedor de identificador passado, ou {@code null} se essa
+     * @return fornecedor de identificador passado, ou {@code null} se esse
      *         fornecedor não existir.
      */
     public Supplier getSupplier(int supplierId) {
         return suppliers.get(supplierId);
     }
-    
+
     /**
      * Asserta a existência de um produto.
      * 
