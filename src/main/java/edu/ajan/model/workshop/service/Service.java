@@ -1,5 +1,8 @@
 package edu.ajan.model.workshop.service;
 
+import edu.ajan.model.exception.WorkshopError;
+import edu.ajan.model.exception.WorkshopException;
+
 /**
  * Classe que representa um serviço.
  * 
@@ -77,6 +80,10 @@ public class Service {
      * @param name nome do serviço.
      */
     public void setName(String name) {
+        if (name == null) {
+            throw new WorkshopError("nome não pode ser nulo");
+        }
+
         this.name = name;
     }
 
@@ -95,6 +102,10 @@ public class Service {
      * @param description descrição do serviço.
      */
     public void setDescription(String description) {
+        if (name == null) {
+            throw new WorkshopError("descrição não pode ser nula");
+        }
+
         this.description = description;
     }
 
@@ -113,6 +124,10 @@ public class Service {
      * @param value valor do serviço.
      */
     public void setValue(double value) {
+        if (value < 0.0) {
+            throw new WorkshopException("valor não pode ser negativo");
+        }
+
         this.value = value;
     }
 

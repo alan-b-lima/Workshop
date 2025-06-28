@@ -1,7 +1,7 @@
 package edu.ajan.model.workshop.stock;
 
 /**
- * Interface funcional que define uma modelo que contablidade de valores no
+ * Interface funcional que define uma modelo de contabilidade de valores no
  * estoque.
  * 
  * @author Alan Lima
