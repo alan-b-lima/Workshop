@@ -62,7 +62,7 @@ public class Financial {
      *         existir.
      */
     public Expense getExpense(int expenseId) {
-        return expenses.get(expenseId);
+        throw WorkshopException.methodNotImplemented("getExpense");
     }
 
     /**
@@ -90,7 +90,7 @@ public class Financial {
      * @param expenseId identificador do despesa a ser removido.
      */
     public void removeExpense(int expenseId) {
-        expenses.remove(expenseId);
+        throw WorkshopException.methodNotImplemented("removeExpense");
     }
 
     /**
@@ -125,7 +125,7 @@ public class Financial {
      *         fiscal não existir.
      */
     public Invoice getInvoice(int invoiceId) {
-        return invoices.get(invoiceId);
+        throw WorkshopException.methodNotImplemented("getInvoice");
     }
 
     /**
@@ -153,7 +153,7 @@ public class Financial {
      * @param invoiceId identificador do nota fiscal a ser removido.
      */
     public void removeInvoice(int invoiceId) {
-        invoices.remove(invoiceId);
+        throw WorkshopException.methodNotImplemented("removeInvoice");
     }
 
     /**
