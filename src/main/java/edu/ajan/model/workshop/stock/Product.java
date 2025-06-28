@@ -50,8 +50,7 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
      * Construtor parametrizado.
      * 
      * @param name      nome do produto.
-     * @param unitValue valor unitário do produto.
-     * @param quantity  quantidade do produto em estoque.
+     * @param batch     quantidade precificada do produto.
      * @param unit      unidade de medida do produto.
      */
     public Product(String name, PricedQuantity batch, String unit) {

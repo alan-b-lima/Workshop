@@ -70,7 +70,6 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * 
      * @param supplier    identificador do fornecedor da remessa.
      * @param additional  valor adicional da remessa, como frete ou taxas.
-     * @param arrival     data de chegada da remessa.
      * @param paymentDate data de pagamento da remessa.
      * @param accounted   indica se a remessa foi contabilizada no estoque.
      */

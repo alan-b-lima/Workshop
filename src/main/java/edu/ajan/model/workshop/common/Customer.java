@@ -70,6 +70,11 @@ public class Customer extends Person {
         this.email = customer.email;
     }
 
+    /**
+     * Retorna o identificador único do cliente.
+     * 
+     * @return identificador único do cliente.
+     */
     public int id() {
         return id;
     }
@@ -165,8 +170,5 @@ public class Customer extends Person {
         return String.format("(%d %s \"%s\" %s)",
             id, person.substring(1, person.length() - 1), address, email);
     }
-
-    public static void main(String[] args) {
-        
-    }
+    
 }

@@ -42,7 +42,6 @@ public class Service {
     /**
      * Construtor parametrizado.
      * 
-     * @param id          identificador único do serviço.
      * @param name        nome do serviço.
      * @param description descrição do serviço.
      * @param value       valor do serviço.

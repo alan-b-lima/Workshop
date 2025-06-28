@@ -2,6 +2,11 @@ package edu.ajan.model.workshop.staff;
 
 import java.util.HashMap;
 
+/**
+ * Classe que representa a base de membros de uma oficina mecânica.
+ * 
+ * @author Alan Lima
+ */
 public class MemberBase {
     
     private HashMap<Integer, StaffMember> members;

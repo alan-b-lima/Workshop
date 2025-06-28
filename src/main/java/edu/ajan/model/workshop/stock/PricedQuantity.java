@@ -19,6 +19,12 @@ public final class PricedQuantity {
 
     /**
      * Construtor padrão parametrizado.
+     * 
+     * @param quantity quantidade a ser definida.
+     * @param value    valor a ser definido.
+     * 
+     * @throws IllegalArgumentException se a quantidade for negativa ou o valor
+     *                                  for negativo.
      */
     public PricedQuantity(int quantity, double value) {
         this.quantity = quantity;
@@ -78,7 +84,7 @@ public final class PricedQuantity {
     /**
      * Define uma nova quantidade para a quantidade precificada.
      * 
-     * @param value nova quantidade a ser definida.
+     * @param quantity nova quantidade a ser definida.
      * @return nova instância de quantidade precificada com o valor atualizado.
      */
     public PricedQuantity setQuantity(int quantity) {

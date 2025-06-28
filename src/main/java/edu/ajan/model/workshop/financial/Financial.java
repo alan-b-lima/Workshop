@@ -2,6 +2,11 @@ package edu.ajan.model.workshop.financial;
 
 import java.util.ArrayList;
 
+/**
+ * Classe que representa o financeiro de uma oficina mecânica.
+ * 
+ * @author Alan Lima
+ */
 public class Financial {
 
     /**
