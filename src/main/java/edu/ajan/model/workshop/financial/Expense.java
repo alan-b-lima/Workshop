@@ -16,6 +16,9 @@ public class Expense extends WorkshopObject {
      */
     private static int instanceCount;
 
+    /**
+     * Identificador único de despesa.
+     */
     private final int id;
 
     /**
@@ -80,9 +83,13 @@ public class Expense extends WorkshopObject {
         this.date = expense.date;
     }
 
+    /**
+     * Retorna o identificador da despesa.
+     * 
+     * @return identificador da despesa.
+     */
     public int id() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'id'");
+        return id;
     }
 
     /**
@@ -144,6 +151,10 @@ public class Expense extends WorkshopObject {
      * @param value valor da despesa.
      */
     public void setValue(double value) {
+        if (value < 0) {
+            throw new WorkshopException("valor não pode ser negativo");
+        }
+
         this.value = value;
     }
 

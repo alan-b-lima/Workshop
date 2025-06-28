@@ -13,6 +13,16 @@ import edu.ajan.model.workshop.stock.Item;
 public class Invoice {
 
     /**
+     * Contador de instâncias.
+     */
+    private static int instanceCount;
+
+    /**
+     * Identificador único de nota fiscal.
+     */
+    private final int id;
+
+    /**
      * Identificador do cliente que solicitou a nota fiscal.
      */
     private final int customer;
@@ -42,17 +52,19 @@ public class Invoice {
     /**
      * Timestamp que representa a data da despesa.
      */
-    private long date;
+    private final long date;
 
     /**
      * Construtor padrão.
      */
     public Invoice() {
+        this.id = generateNextId();
         this.customer = 0;
         this.products = new Item[0];
         this.services = new Item[0];
         this.additional = 0.0;
         this.subtotal = 0.0;
+        this.date = 0L;
     }
 
     /**
@@ -64,6 +76,7 @@ public class Invoice {
      * @param additional adicional a ser cobrado na nota fiscal.
      */
     public Invoice(int customer, Item[] products, Item[] services, double additional, long date) {
+        this.id = generateNextId();
         this.customer = customer;
         this.products = products != null ? products : new Item[0];
         this.services = services != null ? services : new Item[0];
@@ -72,6 +85,15 @@ public class Invoice {
                 + Arrays.stream(this.products).mapToDouble(product -> product.getBatch().value()).sum()
                 + Arrays.stream(this.services).mapToDouble(service -> service.getBatch().value()).sum();
         this.date = date;
+    }
+
+    /**
+     * Retorna o identificador de notas fiscais.
+     * 
+     * @return identificador de notas fiscais.
+     */
+    public int id() {
+        return id;
     }
 
     /**
@@ -129,6 +151,32 @@ public class Invoice {
     }
 
     /**
+     * Retorna o número total de instâncias criadas.
+     * 
+     * @return número total de instâncias criadas.
+     */
+    public static int getInstanceCount() {
+        return instanceCount;
+    }
+
+    /**
+     * Incrementa o contador de instâncias.
+     */
+    private static void incrementInstanceCount() {
+        instanceCount++;
+    }
+
+    /**
+     * Gera o próximo identificador e incrementa o contador de instâncias.
+     * 
+     * @return próximo identificador único.
+     */
+    private static int generateNextId() {
+        incrementInstanceCount();
+        return instanceCount;
+    }
+
+    /**
      * Retorna uma representação textual da nota fiscal.
      * 
      * @return representação textual da nota fiscal.
@@ -137,6 +185,6 @@ public class Invoice {
     public String toString() {
         return String.format("(%d %s %s %.2f %.2f %s)",
                 customer, Arrays.toString(products), Arrays.toString(services),
-                additional, subtotal, Dates.formatAsDateTime(customer));
+                additional, subtotal, Dates.formatAsDateTime(date));
     }
 }

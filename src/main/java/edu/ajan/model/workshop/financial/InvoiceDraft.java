@@ -39,6 +39,15 @@ public class InvoiceDraft {
     }
 
     /**
+     * Retorna um array de produtos.
+     * 
+     * @return array de produtos.
+     */
+    public Item[] getProductsAsArray() {
+        return (Item[]) products.values().toArray();
+    }
+
+    /**
      * Retorna um produto a partir do seu identificador.
      * 
      * @param productId identificador de produto.
@@ -87,10 +96,19 @@ public class InvoiceDraft {
     }
 
     /**
+     * Retorna um array de serviços.
+     * 
+     * @return array de serviços.
+     */
+    public Item[] getServicesAsArray() {
+        return (Item[]) services.values().toArray();
+    }
+
+    /**
      * Retorna um serviço a partir do seu identificador.
      * 
      * @param serviceId identificador de serviço.
-     * @return serviço de identificador passado, ou {@code null} se essa serviço não
+     * @return serviço de identificador passado, ou {@code null} se esse serviço não
      *         existir.
      */
     public Item getService(int serviceId) {

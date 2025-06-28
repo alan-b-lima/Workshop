@@ -67,6 +67,7 @@ public class Financial {
                 return expense;
             }
         }
+
         return null;
     }
 
@@ -77,7 +78,13 @@ public class Financial {
      * @return {@code true} se, e somente se a despesa existir.
      */
     public boolean hasExpense(int expenseId) {
-        throw WorkshopException.methodNotImplemented("hasExpense");
+        for (Expense expense : expenses) {
+            if (expense.id() == expenseId) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -86,7 +93,11 @@ public class Financial {
      * @param expense despesa a ser adicionado.
      */
     public void addExpense(Expense expense) {
-        throw WorkshopException.methodNotImplemented("addExpense");
+        if (expense == null) {
+            throw new WorkshopException("despesa não pode ser nula");
+        }
+        
+        expenses.add(expense);
     }
 
     /**
@@ -95,7 +106,7 @@ public class Financial {
      * @param expenseId identificador do despesa a ser removido.
      */
     public void removeExpense(int expenseId) {
-        throw WorkshopException.methodNotImplemented("removeExpense");
+        expenses.removeIf(expense -> expense.id() == expenseId);
     }
 
     /**
@@ -130,7 +141,13 @@ public class Financial {
      *         fiscal não existir.
      */
     public Invoice getInvoice(int invoiceId) {
-        throw WorkshopException.methodNotImplemented("getInvoice");
+        for (Invoice invoice : invoices) {
+            if (invoice.id() == invoiceId) {
+                return invoice;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -140,7 +157,13 @@ public class Financial {
      * @return {@code true} se, e somente se a nota fiscal existir.
      */
     public boolean hasInvoice(int invoiceId) {
-        throw WorkshopException.methodNotImplemented("hasInvoice");
+        for (Invoice invoice : invoices) {
+            if (invoice.id() == invoiceId) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -149,7 +172,11 @@ public class Financial {
      * @param invoice nota fiscal a ser adicionado.
      */
     public void addInvoice(Invoice invoice) {
-        throw WorkshopException.methodNotImplemented("addInvoice");
+        if (invoice == null) {
+            throw new WorkshopException("nota fiscal não pode ser nula");
+        }
+
+        invoices.add(invoice);
     }
 
     /**
@@ -158,13 +185,13 @@ public class Financial {
      * @param invoiceId identificador do nota fiscal a ser removido.
      */
     public void removeInvoice(int invoiceId) {
-        throw WorkshopException.methodNotImplemented("removeInvoice");
+        invoices.removeIf(invoice -> invoice.id() == invoiceId);
     }
 
     /**
-     * Retorna uma representação textual do financeiro.
+     * Retorna uma representação textual da unidade financeira.
      * 
-     * @return representação textual do financeiro.
+     * @return representação textual da unidade financeira.
      */
     @Override
     public String toString() {
