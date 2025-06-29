@@ -1,6 +1,7 @@
 package edu.ajan.model.workshop.common;
 
 import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.persistence.InstanceCountState;
 
 /**
  * Classe que representa um cliente.
@@ -130,6 +131,19 @@ public class Customer extends Person {
      */
     public static int getInstanceCount() {
         return instanceCount;
+    }
+
+    /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Customer.class);
     }
 
     /**

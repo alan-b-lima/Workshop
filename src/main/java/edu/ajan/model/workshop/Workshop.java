@@ -7,7 +7,7 @@ import edu.ajan.model.workshop.staff.MemberBase;
 import edu.ajan.model.workshop.stock.Stock;
 
 public class Workshop {
-
+    
     private Registry registry;
 
     private MemberBase userbase;
@@ -18,8 +18,6 @@ public class Workshop {
 
     private Stock stock;
 
-    private static Workshop workshop;
-
     public Workshop() {
         this.registry = new Registry();
         this.userbase = new MemberBase();
@@ -28,23 +26,28 @@ public class Workshop {
         this.stock = new Stock();
     }
 
-    public static Object registry() {
-        return workshop.registry; 
+    public Registry registry() {
+        return registry;
     }
 
-    public static Object userbase() {
-        return workshop.userbase;
+    public MemberBase userbase() {
+        return userbase;
     }
 
-    public static Object financial() {
-        return workshop.financial;
+    public Financial financial() {
+        return financial;
     }
 
-    public static Scheduler scheduler() {
-        return workshop.scheduler;
+    public Scheduler scheduler() {
+        return scheduler;
     }
 
-    public static Stock stock() {
-        return workshop.stock;
+    public Stock stock() {
+        return stock;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%s %s %s %s %s)", registry, userbase, financial, scheduler, stock);
     }
 }

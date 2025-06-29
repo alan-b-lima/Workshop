@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import edu.ajan.model.custom.DeepClonable;
 import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.persistence.InstanceCountState;
 
 /**
  * Classe que representa um fornecedor.
@@ -223,6 +224,19 @@ public class Supplier extends WorkshopObject implements DeepClonable<Supplier> {
      */
     public static int getInstanceCount() {
         return instanceCount;
+    }
+
+    /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Supplier.class);
     }
 
     /**

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.ajan.model.custom.DeepClonable;
 import edu.ajan.model.custom.WorkshopObject;
+import edu.ajan.model.persistence.InstanceCountState;
 import edu.ajan.model.workshop.date.Dates;
 
 /**
@@ -249,6 +250,19 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      */
     public static int getInstanceCount() {
         return instanceCount;
+    }
+
+    /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Shipment.class);
     }
 
     /**

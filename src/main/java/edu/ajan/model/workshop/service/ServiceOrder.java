@@ -3,6 +3,7 @@ package edu.ajan.model.workshop.service;
 import java.util.Comparator;
 
 import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.persistence.InstanceCountState;
 import edu.ajan.model.workshop.date.DateSpan;
 import edu.ajan.model.workshop.financial.InvoiceDraft;
 
@@ -276,6 +277,19 @@ public class ServiceOrder {
      */
     public static int getInstanceCount() {
         return instanceCount;
+    }
+
+    /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(ServiceOrder.class);
     }
 
     /**
