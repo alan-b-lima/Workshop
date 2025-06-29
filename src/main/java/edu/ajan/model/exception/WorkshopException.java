@@ -1,7 +1,9 @@
 package edu.ajan.model.exception;
 
 /**
- * Classe que representa uma exceção personalizada.
+ * Classe que representa uma exceção, recuperável, da oficina.
+ * 
+ * @author Alan Lima
  */
 public class WorkshopException extends RuntimeException {
 

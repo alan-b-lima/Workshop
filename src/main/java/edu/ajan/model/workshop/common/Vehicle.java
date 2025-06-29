@@ -3,15 +3,15 @@ package edu.ajan.model.workshop.common;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.persistence.InstanceCountState;
 
 /**
  * Classe que representa um veículo.
  * 
  * @author Alan Lima
  */
-public class Vehicle extends WorkshopObject {
+public class Vehicle {
 
     /**
      * Padrão RegEx que casa placas no padrão MERCOSUL, "AAA1A11".
@@ -87,18 +87,6 @@ public class Vehicle extends WorkshopObject {
         this.setModel(model);
         this.setPlate(plate);
         this.setYear(year);
-    }
-
-    /**
-     * Construtor de clonagem.
-     * 
-     * @param vehicle instância a ser clonada.
-     */
-    protected Vehicle(Vehicle vehicle) {
-        this.id = vehicle.id;
-        this.model = vehicle.model;
-        this.plate = vehicle.plate;
-        this.year = vehicle.year;
     }
 
     /**
@@ -195,6 +183,19 @@ public class Vehicle extends WorkshopObject {
     }
 
     /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Vehicle.class);
+    }
+
+    /**
      * Incrementa o contador de instâncias.
      */
     private static void incrementInstanceCount() {
@@ -209,16 +210,6 @@ public class Vehicle extends WorkshopObject {
     private static int generateNextId() {
         incrementInstanceCount();
         return instanceCount;
-    }
-
-    /**
-     * Cria um clone profundo do elevador.
-     * 
-     * @return a instânca clonada do elevador.
-     */
-    @Override
-    public WorkshopObject deepClone() {
-        return new Vehicle(this);
     }
 
     /**

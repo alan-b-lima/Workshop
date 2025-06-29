@@ -1,6 +1,7 @@
 package edu.ajan.model.workshop.common;
 
 import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.persistence.InstanceCountState;
 
 /**
  * Classe que representa um cliente.
@@ -59,17 +60,10 @@ public class Customer extends Person {
     }
 
     /**
-     * Construtor de clonagem.
+     * Retorna o identificador único do cliente.
      * 
-     * @param customer cliente a ser clonado.
+     * @return identificador único do cliente.
      */
-    protected Customer(Customer customer) {
-        super(customer);
-        this.id = customer.id;
-        this.address = customer.address;
-        this.email = customer.email;
-    }
-
     public int id() {
         return id;
     }
@@ -128,6 +122,19 @@ public class Customer extends Person {
     }
 
     /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Customer.class);
+    }
+
+    /**
      * Incrementa o contador de instâncias.
      */
     private static void incrementInstanceCount() {
@@ -145,16 +152,6 @@ public class Customer extends Person {
     }
 
     /**
-     * Cria um clone profundo do cliente.
-     * 
-     * @return a instância clonada do cliente.
-     */
-    @Override
-    public Customer deepClone() {
-        return new Customer(this);
-    }
-
-    /**
      * Retorna uma representação textual do cliente.
      * 
      * @return representação textual do cliente.
@@ -165,8 +162,5 @@ public class Customer extends Person {
         return String.format("(%d %s \"%s\" %s)",
             id, person.substring(1, person.length() - 1), address, email);
     }
-
-    public static void main(String[] args) {
-        
-    }
+    
 }

@@ -1,7 +1,7 @@
 package edu.ajan.model.workshop.financial;
 
-import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.persistence.InstanceCountState;
 import edu.ajan.model.workshop.date.Dates;
 
 /**
@@ -9,7 +9,17 @@ import edu.ajan.model.workshop.date.Dates;
  * 
  * @author Juan Pablo
  */
-public class Expense extends WorkshopObject {
+public class Expense {
+
+    /**
+     * Contador de instâncias.
+     */
+    private static int instanceCount;
+
+    /**
+     * Identificador único de despesa.
+     */
+    private final int id;
 
     /**
      * Nome da despesa.
@@ -35,6 +45,7 @@ public class Expense extends WorkshopObject {
      * Construtor padrão.
      */
     public Expense() {
+        this.id = generateNextId();
         this.name = "";
         this.description = "";
         this.value = 0.0;
@@ -52,6 +63,7 @@ public class Expense extends WorkshopObject {
      * @throws WorkshopException se algum dos argumentos for inválido.
      */
     public Expense(String name, String description, double value, long date) {
+        this.id = generateNextId();
         this.setName(name);
         this.setDescription(description);
         this.setValue(value);
@@ -59,15 +71,12 @@ public class Expense extends WorkshopObject {
     }
 
     /**
-     * Construtor de clonagem.
+     * Retorna o identificador da despesa.
      * 
-     * @param expense despesa a ser clonada.
+     * @return identificador da despesa.
      */
-    protected Expense(Expense expense) {
-        this.name = expense.name;
-        this.description = expense.description;
-        this.value = expense.value;
-        this.date = expense.date;
+    public int id() {
+        return id;
     }
 
     /**
@@ -129,6 +138,10 @@ public class Expense extends WorkshopObject {
      * @param value valor da despesa.
      */
     public void setValue(double value) {
+        if (value < 0) {
+            throw new WorkshopException("valor não pode ser negativo");
+        }
+
         this.value = value;
     }
 
@@ -151,13 +164,42 @@ public class Expense extends WorkshopObject {
     }
 
     /**
-     * Cria um clone profundo da despesa.
+     * Retorna o número total de instâncias criadas.
      * 
-     * @return a instância clonada da despesa.
+     * @return número total de instâncias criadas.
      */
-    @Override
-    public WorkshopObject deepClone() {
-        return new Expense(this);
+    public static int getInstanceCount() {
+        return instanceCount;
+    }
+
+    /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Expense.class);
+    }
+
+    /**
+     * Incrementa o contador de instâncias.
+     */
+    private static void incrementInstanceCount() {
+        instanceCount++;
+    }
+
+    /**
+     * Gera o próximo identificador e incrementa o contador de instâncias.
+     * 
+     * @return próximo identificador único.
+     */
+    private static int generateNextId() {
+        incrementInstanceCount();
+        return instanceCount;
     }
 
     /**

@@ -2,8 +2,7 @@ package edu.ajan.model.workshop.stock;
 
 import java.util.ArrayList;
 
-import edu.ajan.model.custom.DeepClonable;
-import edu.ajan.model.custom.WorkshopObject;
+import edu.ajan.model.persistence.InstanceCountState;
 import edu.ajan.model.workshop.date.Dates;
 
 /**
@@ -12,7 +11,7 @@ import edu.ajan.model.workshop.date.Dates;
  * @author Alan Lima
  * @author Juan Pablo
  */
-public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
+public class Shipment {
 
     /**
      * Denota invalidez de timestamp.
@@ -70,7 +69,6 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
      * 
      * @param supplier    identificador do fornecedor da remessa.
      * @param additional  valor adicional da remessa, como frete ou taxas.
-     * @param arrival     data de chegada da remessa.
      * @param paymentDate data de pagamento da remessa.
      * @param accounted   indica se a remessa foi contabilizada no estoque.
      */
@@ -80,24 +78,6 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
         this.additional = additional;
         this.paymentDate = paymentDate;
         this.accounted = accounted;
-    }
-
-    /**
-     * Construtor de clonagem.
-     * 
-     * @param shipment remessa a ser clonada.
-     */
-    protected Shipment(Shipment shipment) {
-        this.id = shipment.id;
-        this.supplier = shipment.supplier;
-        this.items = new ArrayList<>(shipment.items.size());
-        this.additional = shipment.additional;
-        this.paymentDate = shipment.paymentDate;
-        this.accounted = shipment.accounted;
-
-        for (Item item : items) {
-            this.items.add(item); // Incompleto
-        }
     }
 
     /**
@@ -253,6 +233,19 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     }
 
     /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Shipment.class);
+    }
+
+    /**
      * Incrementa o contador de instâncias.
      */
     private static void incrementInstanceCount() {
@@ -267,16 +260,6 @@ public class Shipment extends WorkshopObject implements DeepClonable<Shipment> {
     private static int generateNextId() {
         incrementInstanceCount();
         return instanceCount;
-    }
-
-    /**
-     * Cria um clone profundo da remessa.
-     * 
-     * @return a instânca clonada da remessa.
-     */
-    @Override
-    public Shipment deepClone() {
-        return new Shipment(this);
     }
 
     /**

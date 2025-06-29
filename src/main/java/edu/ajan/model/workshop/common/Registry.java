@@ -40,7 +40,7 @@ public class Registry {
      * Retorna um cliente a partir do seu identificador.
      * 
      * @param customerId identificador de cliente.
-     * @return cliente de identificador passado, ou {@code null} se essa cliente não
+     * @return cliente de identificador passado, ou {@code null} se esse cliente não
      *         existir.
      */
     public Customer getCustomer(int customerId) {
@@ -88,7 +88,7 @@ public class Registry {
      * Retorna um veículo a partir do seu identificador.
      * 
      * @param vehicleId identificador de veículo.
-     * @return veículo de identificador passado, ou {@code null} se essa veículo não
+     * @return veículo de identificador passado, ou {@code null} se esse veículo não
      *         existir.
      */
     public Vehicle getVehicle(int vehicleId) {

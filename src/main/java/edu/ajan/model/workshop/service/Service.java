@@ -1,5 +1,8 @@
 package edu.ajan.model.workshop.service;
 
+import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.persistence.InstanceCountState;
+
 /**
  * Classe que representa um serviço.
  * 
@@ -42,7 +45,6 @@ public class Service {
     /**
      * Construtor parametrizado.
      * 
-     * @param id          identificador único do serviço.
      * @param name        nome do serviço.
      * @param description descrição do serviço.
      * @param value       valor do serviço.
@@ -78,6 +80,10 @@ public class Service {
      * @param name nome do serviço.
      */
     public void setName(String name) {
+        if (name == null) {
+            throw new WorkshopException("nome não pode ser nulo");
+        }
+
         this.name = name;
     }
 
@@ -96,6 +102,10 @@ public class Service {
      * @param description descrição do serviço.
      */
     public void setDescription(String description) {
+        if (name == null) {
+            throw new WorkshopException("descrição não pode ser nula");
+        }
+
         this.description = description;
     }
 
@@ -114,6 +124,10 @@ public class Service {
      * @param value valor do serviço.
      */
     public void setValue(double value) {
+        if (value < 0.0) {
+            throw new WorkshopException("valor não pode ser negativo");
+        }
+
         this.value = value;
     }
 
@@ -124,6 +138,19 @@ public class Service {
      */
     public static int getInstanceCount() {
         return instanceCount;
+    }
+
+    /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Service.class);
     }
 
     /**

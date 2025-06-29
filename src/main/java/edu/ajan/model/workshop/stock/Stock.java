@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import edu.ajan.model.custom.WorkshopObject;
-
 /**
  * Classe que representa o estoque.
  * 
  * @author Alan Lima
  */
-public class Stock extends WorkshopObject {
+public class Stock {
 
     /**
      * Mapa de produtos indexados pelo identificador do produto.
@@ -38,29 +36,6 @@ public class Stock extends WorkshopObject {
     }
 
     /**
-     * Constructor de clonagem.
-     * 
-     * @param stock estoque a ser clonado.
-     */
-    protected Stock(Stock stock) {
-        this.products = new HashMap<>(stock.products.size());
-        this.shipments = new ArrayList<>(stock.shipments.size());
-        this.suppliers = new TreeMap<>();
-
-        for (Product product : stock.products.values()) {
-            this.products.put(product.id(), product.deepClone());
-        }
-
-        for (Shipment shipment : stock.shipments) {
-            this.shipments.add(shipment.deepClone());
-        }
-
-        for (Supplier supplier : stock.suppliers.values()) {
-            this.suppliers.put(supplier.id(), supplier.deepClone());
-        }
-    }
-
-    /**
      * Retorna uma estrutura iterável de produtos.
      * 
      * @return estrutura iterável de produtos.
@@ -73,7 +48,7 @@ public class Stock extends WorkshopObject {
      * Retorna um produto a partir do seu identificador.
      * 
      * @param productId identificador de produto.
-     * @return produto de identificador passado, ou {@code null} se essa produto não
+     * @return produto de identificador passado, ou {@code null} se esse produto não
      *         existir.
      */
     public Product getProduct(int productId) {
@@ -207,13 +182,13 @@ public class Stock extends WorkshopObject {
      * Retorna um fornecedor a partir do seu identificador.
      * 
      * @param supplierId identificador de fornecedor.
-     * @return fornecedor de identificador passado, ou {@code null} se essa
+     * @return fornecedor de identificador passado, ou {@code null} se esse
      *         fornecedor não existir.
      */
     public Supplier getSupplier(int supplierId) {
         return suppliers.get(supplierId);
     }
-    
+
     /**
      * Asserta a existência de um produto.
      * 
@@ -240,16 +215,6 @@ public class Stock extends WorkshopObject {
      */
     public void removeSupplier(int supplierId) {
         suppliers.remove(supplierId);
-    }
-
-    /**
-     * Cria um clone profundo do estoque.
-     * 
-     * @return a instância clonada do estoque.
-     */
-    @Override
-    public WorkshopObject deepClone() {
-        return new Stock(this);
     }
 
     /**

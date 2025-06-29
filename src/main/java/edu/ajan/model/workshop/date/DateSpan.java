@@ -5,9 +5,9 @@ package edu.ajan.model.workshop.date;
  * 
  * <p> Todo espaço de tempo representado por essa classe é um intervalo imutável
  * {@code [a, b)}, onde {@code a} e {@code b} são inteiro longos ({@code long}),
- * {@code a ≤ b}, que representam um a diferença, em milisegundos, entre o
- * momento atual e 1° de janeiro de 1970, 00:00:00 UTC, similar a um timespamp
- * UNIX e com o mesmo <i>epoch</i>.
+ * {@code a ≤ b}, que representam uma diferença, em milisegundos, entre o
+ * momento representado e 1° de janeiro de 1970, 00:00:00 UTC, similar a um
+ * timespamp UNIX e com o mesmo <i>epoch</i>.
  * 
  * <p> Para funcionalides como conversão e formatação, use a classe
  * {@link Dates} deste pacote.
@@ -113,6 +113,18 @@ public final class DateSpan implements Comparable<DateSpan> {
         long minEnd = Math.min(this.end, that.end);
 
         return maxStart < minEnd;
+    }
+
+    /**
+     * Verifica se o timestamp fornecido está contido dentro do espaço de tempo
+     * representado por {@code this}.
+     * 
+     * @param timestamp o timestamp a ser verificado.
+     * @return {@code true} se o timestamp está contido dentro do espaço de tempo,
+     *         {@code false} caso contrário.
+     */
+    public boolean contains(long timestamp) {
+        return this.start <= timestamp && timestamp < this.end;
     }
 
     /**

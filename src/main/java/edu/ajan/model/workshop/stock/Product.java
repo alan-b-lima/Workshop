@@ -1,15 +1,14 @@
 package edu.ajan.model.workshop.stock;
 
-import edu.ajan.model.custom.DeepClonable;
-import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.persistence.InstanceCountState;
 
 /**
  * Classe que representa um produto no estoque.
  * 
  * @author Alan Lima
  */
-public class Product extends WorkshopObject implements DeepClonable<Product> {
+public class Product {
 
     /**
      * Contador de instâncias.
@@ -49,28 +48,15 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     /**
      * Construtor parametrizado.
      * 
-     * @param name      nome do produto.
-     * @param unitValue valor unitário do produto.
-     * @param quantity  quantidade do produto em estoque.
-     * @param unit      unidade de medida do produto.
+     * @param name  nome do produto.
+     * @param batch quantidade precificada do produto.
+     * @param unit  unidade de medida do produto.
      */
     public Product(String name, PricedQuantity batch, String unit) {
         this();
         this.setName(name);
         this.setBatch(batch);
         this.setUnit(unit);
-    }
-
-    /**
-     * Construtor de clonagem.
-     * 
-     * @param product produto a ser clonado.
-     */
-    protected Product(Product product) {
-        this.id = product.id;
-        this.name = product.name;
-        this.batch = product.batch; // Instância imutável, não é necessário clonar
-        this.unit = product.unit;
     }
 
     /**
@@ -167,6 +153,19 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     }
 
     /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Product.class);
+    }
+
+    /**
      * Incrementa o contador de instâncias.
      */
     private static void incrementInstanceCount() {
@@ -181,16 +180,6 @@ public class Product extends WorkshopObject implements DeepClonable<Product> {
     private static int generateNextId() {
         incrementInstanceCount();
         return instanceCount;
-    }
-
-    /**
-     * Cria um clone profundo do produto.
-     * 
-     * @return a instância clonada do produto.
-     */
-    @Override
-    public Product deepClone() {
-        return new Product(this);
     }
 
     /**

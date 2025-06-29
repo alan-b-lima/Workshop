@@ -4,7 +4,6 @@ import java.util.TreeSet;
 
 import edu.ajan.model.auth.AccessLevel;
 import edu.ajan.model.exception.WorkshopException;
-import edu.ajan.model.workshop.common.Person;
 import edu.ajan.model.workshop.date.DateSpan;
 import edu.ajan.model.workshop.date.Dates;
 
@@ -55,19 +54,6 @@ public class Employee extends StaffMember {
         super(name, phone, cpf, salary, password, accessLevel);
         this.shifts = new TreeSet<>();
         this.openShift = UNSET_TIME;
-    }
-
-    /**
-     * Construtor de clonagem.
-     * 
-     * @param employee funcionário a ser clonado.
-     * 
-     * @throws WorkshopException se algum dos parametros for inválido.
-     */
-    protected Employee(Employee employee) {
-        super(employee);
-        this.shifts = new TreeSet<>(employee.shifts); // DateSpan's são imutáveis, cloná-los é desnecessário.
-        this.openShift = employee.openShift;
     }
 
     /**
@@ -168,16 +154,6 @@ public class Employee extends StaffMember {
 
         addShift(new DateSpan(this.openShift, timestamp));
         this.openShift = UNSET_TIME;
-    }
-
-    /**
-     * Cria um clone profundo do funcionário.
-     * 
-     * @return a instânca clonada do funcionário.
-     */
-    @Override
-    public Person deepClone() {
-        return new Employee(this);
     }
 
     /**

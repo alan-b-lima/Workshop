@@ -1,13 +1,13 @@
 package edu.ajan.model.workshop.service;
 
-import edu.ajan.model.custom.WorkshopObject;
+import edu.ajan.model.persistence.InstanceCountState;
 
 /**
  * Classe que representa um elevador.
  * 
  * @author Alan Lima
  */
-public class Elevator extends WorkshopObject {
+public class Elevator {
 
     /**
      * Contador de instâncias.
@@ -63,17 +63,6 @@ public class Elevator extends WorkshopObject {
     }
 
     /**
-     * Construtor de cópia.
-     * 
-     * @param elevator elevador a ser clonado.
-     */
-    protected Elevator(Elevator elevator) {
-        this.id = elevator.id;
-        this.function = elevator.function;
-        this.weightLimit = elevator.weightLimit;
-    }
-
-    /**
      * Retorna o identificador do elevador.
      * 
      * @return identificador do elevador.
@@ -97,6 +86,14 @@ public class Elevator extends WorkshopObject {
      * @param weightLimit limite de peso do elevador.
      */
     public void setWeightLimit(double weightLimit) {
+        if (weightLimit <= 0) {
+            throw new IllegalArgumentException("limite de peso deve ser maior que zero");
+        }
+
+        if (Double.isInfinite(weightLimit) || Double.isNaN(weightLimit)) {
+            throw new IllegalArgumentException("limite de peso deve ser um número válido");
+        }
+
         this.weightLimit = weightLimit;
     }
 
@@ -139,6 +136,19 @@ public class Elevator extends WorkshopObject {
     }
 
     /**
+     * Restaura o contador de instâncias a partir do estado salvo.
+     * 
+     * @param state estado salvo do contador de instâncias.
+     */
+    public static void restoreInstanceCount(InstanceCountState state) {
+        if (state == null) {
+            return;
+        }
+
+        instanceCount = state.get(Elevator.class);
+    }
+
+    /**
      * Incrementa o contador de instâncias.
      */
     private static void incrementInstanceCount() {
@@ -153,16 +163,6 @@ public class Elevator extends WorkshopObject {
     private static int generateNextId() {
         incrementInstanceCount();
         return instanceCount;
-    }
-
-    /**
-     * Cria um clone profundo do elevador.
-     * 
-     * @return a instânca clonada do elevador.
-     */
-    @Override
-    public WorkshopObject deepClone() {
-        return new Elevator(this);
     }
 
     /**
