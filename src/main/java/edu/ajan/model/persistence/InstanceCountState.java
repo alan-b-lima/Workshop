@@ -20,14 +20,11 @@ public class InstanceCountState {
 
     private InstanceCountState() {
         this.instanceCounts = new HashMap<>();
-
     }
 
     public static InstanceCountState capture() {
-        
-        InstanceCountState state = new InstanceCountState();
 
-        return state
+        return new InstanceCountState()
                 .add(Customer.class, Customer.getInstanceCount())
                 .add(Vehicle.class, Vehicle.getInstanceCount())
                 .add(Expense.class, Expense.getInstanceCount())
@@ -42,6 +39,7 @@ public class InstanceCountState {
     }
 
     public static void restore(InstanceCountState state) {
+        
         Customer.restoreInstanceCount(state);
         Vehicle.restoreInstanceCount(state);
         Expense.restoreInstanceCount(state);
