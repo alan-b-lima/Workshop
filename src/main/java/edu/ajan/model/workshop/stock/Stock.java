@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import edu.ajan.model.custom.WorkshopObject;
-
 /**
  * Classe que representa o estoque.
  * 
  * @author Alan Lima
  */
-public class Stock extends WorkshopObject {
+public class Stock {
 
     /**
      * Mapa de produtos indexados pelo identificador do produto.
@@ -35,29 +33,6 @@ public class Stock extends WorkshopObject {
         this.products = new HashMap<>();
         this.shipments = new ArrayList<>();
         this.suppliers = new TreeMap<>();
-    }
-
-    /**
-     * Constructor de clonagem.
-     * 
-     * @param stock estoque a ser clonado.
-     */
-    protected Stock(Stock stock) {
-        this.products = new HashMap<>(stock.products.size());
-        this.shipments = new ArrayList<>(stock.shipments.size());
-        this.suppliers = new TreeMap<>();
-
-        for (Product product : stock.products.values()) {
-            this.products.put(product.id(), product.deepClone());
-        }
-
-        for (Shipment shipment : stock.shipments) {
-            this.shipments.add(shipment.deepClone());
-        }
-
-        for (Supplier supplier : stock.suppliers.values()) {
-            this.suppliers.put(supplier.id(), supplier.deepClone());
-        }
     }
 
     /**
@@ -240,16 +215,6 @@ public class Stock extends WorkshopObject {
      */
     public void removeSupplier(int supplierId) {
         suppliers.remove(supplierId);
-    }
-
-    /**
-     * Cria um clone profundo do estoque.
-     * 
-     * @return a instância clonada do estoque.
-     */
-    @Override
-    public WorkshopObject deepClone() {
-        return new Stock(this);
     }
 
     /**

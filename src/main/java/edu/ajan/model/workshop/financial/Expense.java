@@ -1,6 +1,5 @@
 package edu.ajan.model.workshop.financial;
 
-import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.exception.WorkshopException;
 import edu.ajan.model.persistence.InstanceCountState;
 import edu.ajan.model.workshop.date.Dates;
@@ -10,7 +9,7 @@ import edu.ajan.model.workshop.date.Dates;
  * 
  * @author Juan Pablo
  */
-public class Expense extends WorkshopObject {
+public class Expense {
 
     /**
      * Contador de instâncias.
@@ -69,19 +68,6 @@ public class Expense extends WorkshopObject {
         this.setDescription(description);
         this.setValue(value);
         this.setDate(date);
-    }
-
-    /**
-     * Construtor de clonagem.
-     * 
-     * @param expense despesa a ser clonada.
-     */
-    protected Expense(Expense expense) {
-        this.id = expense.id;
-        this.name = expense.name;
-        this.description = expense.description;
-        this.value = expense.value;
-        this.date = expense.date;
     }
 
     /**
@@ -175,16 +161,6 @@ public class Expense extends WorkshopObject {
      */
     public void setDate(long date) {
         this.date = date;
-    }
-
-    /**
-     * Cria um clone profundo da despesa.
-     * 
-     * @return a instância clonada da despesa.
-     */
-    @Override
-    public WorkshopObject deepClone() {
-        return new Expense(this);
     }
 
     /**

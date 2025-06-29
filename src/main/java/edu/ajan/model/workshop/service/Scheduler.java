@@ -5,14 +5,32 @@ import java.util.HashMap;
 
 import edu.ajan.model.exception.WorkshopException;
 
+/**
+ * Classe que representa o agendador de ordens de serviço, além de armazenar
+ * informações sobre os serviços e elevadores disponíveis na oficina.
+ * 
+ * @author Alan Lima
+ */
 public class Scheduler {
 
+    /**
+     * Mapa de ordem de serviço indexadas pelo identificador da ordem de serviço.
+     */
     private HashMap<Integer, ServiceOrder> orders;
 
+    /**
+     * Mapa de serviços indexados pelo identificador do serviço.
+     */
     private HashMap<Integer, Service> services;
 
+    /**
+     * Array de elevadores disponíveis na oficina.
+     */
     private Elevator[] elevators;
 
+    /**
+     * Construtor padrão.
+     */
     public Scheduler() {
         this.orders = new HashMap<>();
         this.services = new HashMap<>();
@@ -50,7 +68,7 @@ public class Scheduler {
      * @param order ordem de serviço a ser adicionado.
      */
     public void addOrder(ServiceOrder order) {
-        
+
         if (order == null) {
             throw new WorkshopException("ordem de serviço não pode ser nula");
         }

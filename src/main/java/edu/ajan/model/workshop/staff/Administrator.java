@@ -31,22 +31,6 @@ public class Administrator extends StaffMember {
     }
 
     /**
-     * Construtor de clonagem.
-     * 
-     * @param administrator administrador a ser clonado.
-     */
-    protected Administrator(Administrator administrator) {
-        super(administrator);
-    }
-
-    /**
-     * Realiza uma cópia profunda do administrador.
-     */
-    public Administrator deepClone() {
-        return new Administrator(this);
-    }
-
-    /**
      * Retorna uma representação em string do administrador.
      * 
      * @return representação em string do administrador.

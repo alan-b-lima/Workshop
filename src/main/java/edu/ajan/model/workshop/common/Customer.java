@@ -60,18 +60,6 @@ public class Customer extends Person {
     }
 
     /**
-     * Construtor de clonagem.
-     * 
-     * @param customer cliente a ser clonado.
-     */
-    protected Customer(Customer customer) {
-        super(customer);
-        this.id = customer.id;
-        this.address = customer.address;
-        this.email = customer.email;
-    }
-
-    /**
      * Retorna o identificador único do cliente.
      * 
      * @return identificador único do cliente.
@@ -161,16 +149,6 @@ public class Customer extends Person {
     private static int generateNextId() {
         incrementInstanceCount();
         return instanceCount;
-    }
-
-    /**
-     * Cria um clone profundo do cliente.
-     * 
-     * @return a instância clonada do cliente.
-     */
-    @Override
-    public Customer deepClone() {
-        return new Customer(this);
     }
 
     /**

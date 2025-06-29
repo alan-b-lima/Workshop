@@ -3,8 +3,6 @@ package edu.ajan.model.workshop.common;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.ajan.model.custom.DeepClonable;
-import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.exception.WorkshopException;
 
 /**
@@ -13,7 +11,7 @@ import edu.ajan.model.exception.WorkshopException;
  * @author Alan Lima
  * @author Juan Pablo
  */
-public abstract class Person extends WorkshopObject implements DeepClonable<Person> {
+public abstract class Person {
 
     /**
      * Padrão RegEx que tanto casa um superconjunto das formatações válidas de
@@ -98,17 +96,6 @@ public abstract class Person extends WorkshopObject implements DeepClonable<Pers
         this.setName(name);
         this.setPhone(phone);
         this.setCpf(cpf);
-    }
-
-    /**
-     * Construtor de clonagem.
-     * 
-     * @param person pessoa a ser clonada.
-     */
-    protected Person(Person person) {
-        this.name = person.name;
-        this.phone = person.phone;
-        this.cpf = person.cpf;
     }
 
     /**

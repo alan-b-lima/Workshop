@@ -3,8 +3,6 @@ package edu.ajan.model.workshop.stock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.ajan.model.custom.DeepClonable;
-import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.exception.WorkshopException;
 import edu.ajan.model.persistence.InstanceCountState;
 
@@ -13,7 +11,7 @@ import edu.ajan.model.persistence.InstanceCountState;
  * 
  * @author Alan Lima
  */
-public class Supplier extends WorkshopObject implements DeepClonable<Supplier> {
+public class Supplier {
 
     /**
      * Padrão RegEx que tanto casa um superconjunto das formatações válidas de CNPJ,
@@ -76,17 +74,6 @@ public class Supplier extends WorkshopObject implements DeepClonable<Supplier> {
         this();
         this.setTradeName(tradeName);
         this.setCnpj(cnpj);
-    }
-
-    /**
-     * Construtor de clonagem.
-     * 
-     * @param supplier fornecedor a ser clonado.
-     */
-    protected Supplier(Supplier supplier) {
-        this.id = supplier.id;
-        this.tradeName = supplier.tradeName;
-        this.cnpj = supplier.cnpj;
     }
 
     /**
@@ -254,16 +241,6 @@ public class Supplier extends WorkshopObject implements DeepClonable<Supplier> {
     private static int generateNextId() {
         incrementInstanceCount();
         return instanceCount;
-    }
-
-    /**
-     * Cria um clone profundo do fornecedor.
-     * 
-     * @return a instância clonada do fornecedor.
-     */
-    @Override
-    public Supplier deepClone() {
-        return new Supplier(this);
     }
 
     /**

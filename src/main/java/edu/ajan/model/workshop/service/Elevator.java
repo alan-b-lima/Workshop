@@ -1,6 +1,5 @@
 package edu.ajan.model.workshop.service;
 
-import edu.ajan.model.custom.WorkshopObject;
 import edu.ajan.model.persistence.InstanceCountState;
 
 /**
@@ -8,7 +7,7 @@ import edu.ajan.model.persistence.InstanceCountState;
  * 
  * @author Alan Lima
  */
-public class Elevator extends WorkshopObject {
+public class Elevator {
 
     /**
      * Contador de instâncias.
@@ -61,17 +60,6 @@ public class Elevator extends WorkshopObject {
         this();
         this.setWeightLimit(weightLimit);
         this.setFunction(functions);
-    }
-
-    /**
-     * Construtor de cópia.
-     * 
-     * @param elevator elevador a ser clonado.
-     */
-    protected Elevator(Elevator elevator) {
-        this.id = elevator.id;
-        this.function = elevator.function;
-        this.weightLimit = elevator.weightLimit;
     }
 
     /**
@@ -175,16 +163,6 @@ public class Elevator extends WorkshopObject {
     private static int generateNextId() {
         incrementInstanceCount();
         return instanceCount;
-    }
-
-    /**
-     * Cria um clone profundo do elevador.
-     * 
-     * @return a instânca clonada do elevador.
-     */
-    @Override
-    public WorkshopObject deepClone() {
-        return new Elevator(this);
     }
 
     /**

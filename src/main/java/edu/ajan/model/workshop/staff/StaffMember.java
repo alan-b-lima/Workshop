@@ -64,20 +64,7 @@ public abstract class StaffMember extends Person {
         this.setPassword(password);
         this.setAccessLevel(level);
     }
-
-    /**
-     * Construtor de clonagem.
-     * 
-     * @param member membro a ser clonado.
-     */
-    protected StaffMember(StaffMember member) {
-        super(member);
-        this.id = member.id;
-        this.salary = member.salary;
-        this.password = member.password;
-        this.accessLevel = member.accessLevel;
-    }
-
+    
     /**
      * Retorna o identificador do membro.
      * 
