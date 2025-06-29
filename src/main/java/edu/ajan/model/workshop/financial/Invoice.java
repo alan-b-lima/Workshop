@@ -75,6 +75,7 @@ public class Invoice {
      * @param products   produtos incluídos na nota fiscal.
      * @param services   serviços incluídos na nota fiscal.
      * @param additional adicional a ser cobrado na nota fiscal.
+     * @param date       timestamp que representa a data da nota fiscal.
      */
     public Invoice(int customer, Item[] products, Item[] services, double additional, long date) {
         this.id = generateNextId();

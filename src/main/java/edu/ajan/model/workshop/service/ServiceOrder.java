@@ -24,6 +24,9 @@ public class ServiceOrder {
         }
     };
 
+    /**
+     * Valor que indica que a ordem de serviço não está associada a nenhum elevador.
+     */
     public static final int UNSET_ELEVATOR = -1;
 
     /**
@@ -91,6 +94,7 @@ public class ServiceOrder {
      * @param customer identificador do cliente.
      * @param vehicle  identificador do veículo.
      * @param mechanic identificador do mecânico.
+     * @param elevator identificador do elevador.
      * @param status   status da ordem de serviço.
      * @param datetime período de data e hora da ordem de serviço.
      */
@@ -110,6 +114,7 @@ public class ServiceOrder {
      * @param customer identificador do cliente.
      * @param vehicle  identificador do veículo.
      * @param mechanic identificador do mecânico.
+     * @param elevator identificador do elevador.
      * @param datetime período de data e hora da ordem de serviço.
      */
     public ServiceOrder(int customer, int vehicle, int mechanic, int elevator, DateSpan datetime) {
@@ -261,6 +266,7 @@ public class ServiceOrder {
     /**
      * Verifica se a ordem de serviço é conflitante com outra ordem de serviço.
      * 
+     * @param other outra ordem de serviço a ser comparada.
      * @return {@code true} se a ordem de serviço for conflitante com outra ordem de
      *         serviço, {@code false} caso contrário.
      */
