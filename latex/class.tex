@@ -1,0 +1,713 @@
+\documentclass[]{standalone}
+
+\usepackage{tikz}
+\usepackage{tikz-uml}
+
+\usetikzlibrary{positioning}
+
+\newlength{\accesswidth}
+\settowidth{\accesswidth}{$\sim$}
+
+\newcommand*{\publ}{\makebox[\accesswidth]{$+$}}
+\newcommand*{\prot}{\makebox[\accesswidth]{$\#$}}
+\newcommand*{\pack}{\makebox[\accesswidth]{$\sim$}}
+\newcommand*{\priv}{\makebox[\accesswidth]{$-$}}
+
+\newcommand{\ty}[1]{$<$#1$>$}
+\newcommand{\un}{$\_$}
+
+\begin{document}
+\begin{tikzpicture}
+
+    \tikzumlset{fill class=white,fill package=white,font=\tiny}
+
+    \newcommand*{\minx}{-47}
+    \newcommand*{\miny}{-40}
+    \newcommand*{\maxx}{60}
+    \newcommand*{\maxy}{2}
+
+    % \draw [step=0.25cm,gray!20,very thin] (\minx,\miny) grid (\maxx,\maxy);
+    % \draw [step=0.50cm,gray!30,very thin] (\minx,\miny) grid (\maxx,\maxy);
+    % \draw [step=1.00cm,gray!50,very thin] (\minx,\miny) grid (\maxx,\maxy);
+
+    % \foreach \x in {\minx,...,\maxx} {
+    %     \draw (\x,\miny) node[anchor=north] {$\x$};
+    %     \draw (\x,\maxy) node[anchor=south] {$\x$};
+    % }
+
+    % \foreach \y in {\miny,...,\maxy} {
+    %     \draw (\minx,\y) node[anchor=east] {$\y$};
+    %     \draw (\maxx,\y) node[anchor=west] {$\y$};
+    % }
+
+    \begin{umlpackage}[anchor=north,name=eduajanmodel]{edu.ajan.model}
+
+        \begin{umlpackage}[x=-10,y=0,anchor=north]{auth}
+
+            \umlclass{AccessLevel}{
+            \umlstatic{\publ SUPER: AccessLevel \{final\}} \\
+            \umlstatic{\publ ADMIN: AccessLevel \{final\}} \\
+            \umlstatic{\publ USER: AccessLevel \{final\}} \\
+            \umlstatic{\publ GUEST: AccessLevel \{final\}} \\
+            \priv ordinal: int \{final\} \\
+        } {
+            \priv AccessLevel(int) \\
+            \publ isSufficedBy(AccessLevel): boolean \\
+        }
+
+        \end{umlpackage}
+
+        \begin{umlpackage}[x=0,y=0,anchor=north]{exception}
+
+        \end{umlpackage}
+
+        \begin{umlpackage}[x=10,y=0,anchor=north]{persistence}
+
+        \end{umlpackage}
+
+        \begin{umlpackage}[x=0,y=-10,anchor=north]{workshop}
+            
+            \umlclass[y=0,anchor=south]{Workshop}{
+                \priv registry: Registry \\
+                \priv memberbase: MemberBase \\
+                \priv financial: Financial \\
+                \priv scheduler: Scheduler \\
+                \priv stock: Stock \\
+                \umlstatic{\priv instance: Workshop} \\
+            } {
+                \priv Workshop() \\
+                \umlstatic{\publ workshop(): Workshop} \\
+                \umlstatic{\publ load(): void} \\
+                \umlstatic{\publ save(): void} \\
+                \publ registry(): Registry \\
+                \publ memberbase(): MemberBase \\
+                \publ financial(): Financial \\
+                \publ scheduler(): Scheduler \\
+                \publ stock(): Stock \\
+                \publ toString(): String \\
+            }
+
+            \begin{umlpackage}{date}
+
+                \umlclass[x=0,y=-24,anchor=north]{DateSpan}{
+                    \umlstatic{\priv EMPTY{\un}SET{\un}STRING: String \{final\}} \\
+                    \priv start: long \{final\} \\
+                    \priv end: long \{final\} \\
+                } {
+                    \publ DateSpan(long, long) \\
+                    \publ start(): long \\
+                    \publ end(): long \\
+                    \publ duration(): long \\
+                    \publ isEmpty(): boolean \\
+                    \publ intersect(DateSpan): DateSpan \\
+                    \publ intersects(DateSpan): boolean \\
+                    \publ contains(long): boolean \\
+                    \publ compareTo(DateSpan): int \\
+                    \publ equals(Object): boolean \\
+                    \publ toDateTimeString(): String \\
+                    \publ toDateString(): String \\
+                    \publ toTimeStampString(): String \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[left=2cm of DateSpan.west]{Dates}{
+                    \umlstatic{\priv DATETIME{\un}FORMAT: SimpleDateFormat \{final\}} \\
+                    \umlstatic{\priv DATE{\un}FORMAT: SimpleDateFormat \{final\}} \\
+                    \umlstatic{\priv DATETIME{\un}PATTERN: Pattern \{final\}} \\
+                    \umlstatic{\priv DATE{\un}PATTERN: Pattern \{final\}} \\
+                    \umlstatic{\publ MILLISECONDS{\un}PER{\un}SECOND: long \{final\}} \\
+                    \umlstatic{\publ MILLISECONDS{\un}PER{\un}MINUTE: long \{final\}} \\
+                    \umlstatic{\publ MILLISECONDS{\un}PER{\un}HOUR: long \{final\}} \\
+                    \umlstatic{\publ MILLISECONDS{\un}PER{\un}DAY: long \{final\}} \\
+                } {
+                    \priv Dates() \\
+                    \umlstatic{\publ parse(String): long} \\
+                    \umlstatic{\publ formatAsDateTime(long): String} \\
+                    \umlstatic{\publ formatAsDate(long): String} \\
+                    \umlstatic{\publ formatAsInterval(long): String} \\
+                    \umlstatic{\publ now(): long} \\
+                }
+
+            \end{umlpackage}
+
+            \begin{umlpackage}{common}
+
+                \umlclass[x=-41,y=-2,anchor=north,width=6cm]{Registry}{
+                    \priv customers: HashMap\ty{Integer, Customer} \\
+                    \priv vehicles: HashMap\ty{Integer, Vehicle} \\
+                } {
+                    \publ Registry() \\
+                    \publ getCustomers(): Iterable\ty{Customer} \\
+                    \publ getCustomer(int): Customer \\
+                    \publ hasCustomer(int): boolean \\
+                    \publ addCustomer(Customer): void \\
+                    \publ removeCustomer(int): void \\
+                    \publ getVehicles(): Iterable\ty{Vehicle} \\
+                    \publ getVehicle(int): Vehicle \\
+                    \publ hasVehicle(int): boolean \\
+                    \publ addVehicle(Vehicle): void \\
+                    \publ removeVehicle(int): void \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below right=2cm and 1cm of Registry.south]{Customer}{
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv address: String \\
+                    \priv email: String \\
+                } {
+                    \publ Customer() \\
+                    \publ Customer(String, String, String, String, String) \\
+                    \publ id(): int \\
+                    \publ getAddress(): String \\
+                    \publ setAddress(String): void \\
+                    \publ getEmail(): String \\
+                    \publ setEmail(String): void \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below=2cm of Customer.south]{Person}{
+                    \umlstatic{\priv PHONE{\un}PATTERN: Pattern \{final\}} \\
+                    \umlstatic{\priv CPF{\un}PATTERN: Pattern \{final\}} \\
+                    \umlstatic{\priv ALL{\un}DIGITS{\un}EQUAL{\un}PATTERN: Pattern \{final\}} \\
+                    \umlstatic{\priv STANDARD{\un}PHONE{\un}MASK: String \{final\}} \\
+                    \umlstatic{\priv CPF{\un}NON{\un}DIGIT{\un}REMOVAL{\un}MASK: String \{final\}} \\
+                    \umlstatic{\priv PSEUDO{\un}CPF{\un}ANONIMIZATION{\un}MASK: String \{final\}} \\
+                    \umlstatic{\priv STANDARD{\un}FULL{\un}CPF{\un}MASK: String \{final\}} \\
+                    \priv name: String \\
+                    \priv phone: String \\
+                    \priv cpf: String \\
+                } {
+                    \publ Person() \\
+                    \publ Person(String, String, String) \\
+                    \publ getName(): String \\
+                    \publ setName(String): void \\
+                    \publ getPhone(): String \\
+                    \publ setPhone(String): void \\
+                    \publ getCpf(): String \\
+                    \publ getFullCpf(): String \\
+                    \publ setCpf(String): void \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below left=2cm and 1cm of Registry.south]{Vehicle}{
+                    \umlstatic{\priv MERCOSUL{\un}PLATE{\un}PATTERN: Pattern \{final\}} \\
+                    \umlstatic{\priv OLD{\un}PLATE{\un}PATTERN: Pattern \{final\}} \\
+                    \umlstatic{\priv STANDART{\un}MERCOSUL{\un}PLATE{\un}MASK: String \{final\}} \\
+                    \umlstatic{\priv OLD{\un}STANDART{\un}PLATE{\un}MASK: String \{final\}} \\
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv model: String \\
+                    \priv plate: String \\
+                    \priv year: int \\
+                } {
+                    \publ Vehicle() \\
+                    \publ Vehicle(String, String, int) \\
+                    \publ id(): int \\
+                    \publ getModel(): String \\
+                    \publ setModel(String): void \\
+                    \publ getPlate(): String \\
+                    \publ setPlate(String): void \\
+                    \publ getYear(): int \\
+                    \publ setYear(int): void \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+            \end{umlpackage}
+
+            \begin{umlpackage}{staff}
+
+                \umlclass[x=-22.25,y=-2,anchor=north,width=6cm]{MemberBase}{
+                    \priv members: HashMap\ty{Integer, StaffMember} \\
+                } {
+                    \publ MemberBase() \\
+                    \publ getMembers(): Iterable\ty{StaffMember} \\
+                    \publ getMember(int): StaffMember \\
+                    \publ hasMember(int): boolean \\
+                    \publ addMember(StaffMember): void \\
+                    \publ removeMember(int): void \\
+                }
+
+                \umlclass[below=2cm of MemberBase.south]{StaffMember}{
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv salary: double \\
+                    \priv password: long \\
+                    \priv accessLevel: AccessLevel \\
+                } {
+                    \publ StaffMember() \\
+                    \publ StaffMember(String, String, String, double, String, AccessLevel) \\
+                    \publ id(): int \\
+                    \publ getSalary(): double \\
+                    \publ setSalary(double): void \\
+                    \publ getPassword(): long \\
+                    \publ setPassword(String): void \\
+                    \publ checkPassword(String): boolean \\
+                    \publ getAccessLevel(): AccessLevel \\
+                    \publ setAccessLevel(AccessLevel): void \\
+                    \umlstatic{\publ hash(String): long} \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below left=2cm and 1cm of StaffMember.south]{Administrator}{
+                } {
+                    \publ Administrator() \\
+                    \publ Administrator(String, String, String, double, String, AccessLevel) \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below right=2cm and 1cm of StaffMember.south]{Employee}{
+                    \umlstatic{\publ UNSET{\un}TIME: long \{final\}} \\
+                    \priv shifts: TreeSet\ty{DateSpan} \\
+                    \priv openShift: long \\
+                } {
+                    \publ Employee() \\
+                    \publ Employee(String, String, String, double, String, AccessLevel) \\
+                    \publ getShifts(): Iterable\ty{DateSpan} \\
+                    \publ getShifts(long, long): Iterable\ty{DateSpan} \\
+                    \publ addShift(DateSpan): void \\
+                    \publ removeShifts(long, long): void \\
+                    \publ getOpenShift(): long \\
+                    \publ setOpenShift(long): void \\
+                    \publ registerShift(long): void \\
+                    \publ toString(): String \\
+                }
+
+            \end{umlpackage}
+
+            \begin{umlpackage}{service}
+
+                \umlclass[x=0,y=-2,anchor=north,width=6cm]{Scheduler}{
+                    \priv orders: HashMap\ty{Integer, ServiceOrder} \\
+                    \priv services: HashMap\ty{Integer, Service} \\
+                    \priv elevators: Elevator[] \\
+                } {
+                    \publ Scheduler() \\
+                    \publ getOrder(int): ServiceOrder \\
+                    \publ hasOrder(int): boolean \\
+                    \publ addOrder(ServiceOrder): void \\
+                    \publ removeOrder(int): void \\
+                    \publ getService(int): Service \\
+                    \publ hasService(int): boolean \\
+                    \publ addService(Service): void \\
+                    \publ removeService(int): void \\
+                    \publ getElevator(int): Elevator \\
+                    \publ hasElevator(int): boolean \\
+                    \publ addElevator(Elevator): void \\
+                    \publ removeElevator(int): void \\
+                }
+
+                \umlclass[below=2cm of Scheduler.south]{Elevator}{
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv weightLimit: double \\
+                    \priv function: int \\
+                } {
+                    \priv Elevator() \\
+                    \publ Elevator(double, int) \\
+                    \publ Elevator(double, ElevatorFunction...) \\
+                    \publ id(): int \\
+                    \publ getWeightLimit(): double \\
+                    \publ setWeightLimit(double): void \\
+                    \publ getFunction(): int \\
+                    \publ setFunction(int): void \\
+                    \publ setFunction(ElevatorFunction...): void \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below=2cm of Elevator.south]{ElevatorFunction}{
+                    \umlstatic{\priv iota: int} \\
+                    \priv code: int \{final\} \\
+                    \priv name: String \{final\} \\
+                    \umlstatic{\priv values: ElevatorFunction[]} \\
+                    \umlstatic{\publ GENERAL: ElevatorFunction \{final\}} \\
+                    \umlstatic{\publ ALIGNING: ElevatorFunction \{final\}} \\
+                    \umlstatic{\publ BALANCING: ElevatorFunction \{final\}} \\
+                } {
+                    \priv ElevatorFunction(String) \\
+                    \publ code(): int \\
+                    \publ name(): String \\
+                    \publ hasFunction(int): boolean \\
+                    \umlstatic{\publ values(): ElevatorFunction[]} \\
+                    \umlstatic{\priv append(ElevatorFunction): void} \\
+                    \umlstatic{\publ toString(int): String} \\
+                    \prot clone(): Object \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below left=0cm and 2cm of Elevator.north west]{Service}{
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv name: String \\
+                    \priv description: String \\
+                    \priv value: double \\
+                } {
+                    \publ Service() \\
+                    \publ Service(String, String, double) \\
+                    \publ id(): int \\
+                    \publ getName(): String \\
+                    \publ setName(String): void \\
+                    \publ getDescription(): String \\
+                    \publ setDescription(String): void \\
+                    \publ getValue(): double \\
+                    \publ setValue(double): void \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below right=0cm and 2cm of Elevator.north east]{ServiceOrder}{
+                    \umlstatic{\publ DATETIME{\un}COMPARATOR: Comparator\ty{ServiceOrder} \{final\}} \\
+                    \umlstatic{\publ UNSET{\un}ELEVATOR: int \{final\}} \\
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv customer: int \\
+                    \priv vehicle: int \\
+                    \priv mechanic: int \\
+                    \priv elevator: int \\
+                    \priv invoice: InvoiceDraft \\
+                    \priv status: Status \\
+                    \priv datetime: DateSpan \\
+                } {
+                    \publ ServiceOrder() \\
+                    \publ ServiceOrder(int, int, int, int, Status, DateSpan) \\
+                    \publ ServiceOrder(int, int, int, int, DateSpan) \\
+                    \publ ServiceOrder(int, int, int, DateSpan) \\
+                    \publ id(): int \\
+                    \publ getCustomer(): int \\
+                    \publ setCustomer(int): void \\
+                    \publ getVehicle(): int \\
+                    \publ setVehicle(int): void \\
+                    \publ getMechanic(): int \\
+                    \publ setMechanic(int): void \\
+                    \publ getElevator(): int \\
+                    \publ setElevator(int): void \\
+                    \publ getInvoice(): InvoiceDraft \\
+                    \publ getStatus(): Status \\
+                    \publ setStatus(Status): void \\
+                    \publ getDatetime(): DateSpan \\
+                    \publ setDatetime(DateSpan): void \\
+                    \publ isConflicting(ServiceOrder): boolean \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below=2cm of ServiceOrder]{Status}{
+                    \umlstatic{\publ PENDING: Status \{final\}} \\
+                    \umlstatic{\publ INITIATED: Status \{final\}} \\
+                    \umlstatic{\publ COMPLETED: Status \{final\}} \\
+                    \umlstatic{\publ DELIVERED: Status \{final\}} \\
+                    \umlstatic{\publ CANCELLED: Status \{final\}} \\
+                } {}
+
+            \end{umlpackage}
+            
+            \begin{umlpackage}{financial}
+
+                \umlclass[x=23,y=-2,anchor=north,width=6cm]{Financial}{
+                    \priv expenses: ArrayList\ty{Expense} \\
+                    \priv invoices: ArrayList\ty{Invoice} \\
+                } {
+                    \publ Financial() \\
+                    \publ getExpenses(): Iterable\ty{Expense} \\
+                    \publ getExpenses(long, long): Iterable\ty{Expense} \\
+                    \publ getExpense(int): Expense \\
+                    \publ hasExpense(int): boolean \\
+                    \publ addExpense(Expense): void \\
+                    \publ removeExpense(int): void \\
+                    \publ getInvoices(): Iterable\ty{Invoice} \\
+                    \publ getInvoices(long, long): Iterable\ty{Invoice} \\
+                    \publ getInvoice(int): Invoice \\
+                    \publ hasInvoice(int): boolean \\
+                    \publ addInvoice(Invoice): void \\
+                    \publ removeInvoice(int): void \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below right=2cm and 1cm of Financial.south]{Expense}{
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv name: String \\
+                    \priv description: String \\
+                    \priv value: double \\
+                    \priv date: long \\
+                } {
+                    \publ Expense() \\
+                    \publ Expense(String, String, double, long) \\
+                    \publ id(): int \\
+                    \publ getName(): String \\
+                    \publ setName(String): void \\
+                    \publ getDescription(): String \\
+                    \publ setDescription(String): void \\
+                    \publ getValue(): double \\
+                    \publ setValue(double): void \\
+                    \publ getDate(): long \\
+                    \publ setDate(long): void \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below left=2cm and 1cm of Financial.south]{Invoice}{
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv customer: int \{final\} \\
+                    \priv products: Item[] \{final\} \\
+                    \priv services: Item[] \{final\} \\
+                    \priv additional: double \{final\} \\
+                    \priv subtotal: double \{final\} \\
+                    \priv date: long \{final\} \\
+                } {
+                    \publ Invoice() \\
+                    \publ Invoice(int, Item[], Item[], double, long) \\
+                    \publ id(): int \\
+                    \publ customer(): int \\
+                    \publ products(): Item[] \\
+                    \publ services(): Item[] \\
+                    \publ additional(): double \\
+                    \publ subtotal(): double \\
+                    \publ date(): long \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below=2cm of Invoice.south]{InvoiceDraft}{
+                    \priv products: HashMap\ty{Integer, Item} \\
+                    \priv services: HashMap\ty{Integer, Item} \\
+                } {
+                    \publ InvoiceDraft() \\
+                    \publ getProducts(): Iterable\ty{Item} \\
+                    \publ getProductsAsArray(): Item[] \\
+                    \publ getProduct(int): Item \\
+                    \publ hasProduct(int): boolean \\
+                    \publ addProduct(Item): void \\
+                    \publ removeProduct(int): void \\
+                    \publ getServices(): Iterable\ty{Item} \\
+                    \publ getServicesAsArray(): Item[] \\
+                    \publ getService(int): Item \\
+                    \publ hasService(int): boolean \\
+                    \publ addService(Item): void \\
+                    \publ removeService(int): void \\
+                    \publ toString(): String \\
+                }
+
+            \end{umlpackage}
+
+            \begin{umlpackage}{stock}
+
+                \umlclass[x=44,y=-2,anchor=north,width=6cm]{Stock}{
+                    \priv products: HashMap\ty{Integer, Product} \\
+                    \priv shipments: ArrayList\ty{Shipment} \\
+                    \priv suppliers: TreeMap\ty{Integer, Supplier} \\
+                } {
+                    \publ Stock() \\
+                    \publ getProducts(): Iterable\ty{Product} \\
+                    \publ getProduct(int): Product \\
+                    \publ hasProduct(int): boolean \\
+                    \publ addProduct(Product): void \\
+                    \publ removeProduct(int): void \\
+                    \publ getShipments(): Iterable\ty{Shipment} \\
+                    \publ getShipment(int): Shipment \\
+                    \publ hasShipment(int): boolean \\
+                    \publ addShipment(Shipment): void \\
+                    \publ removeShipment(int): void \\
+                    \publ accountShipment(int): void \\
+                    \publ getSuppliers(): Iterable\ty{Supplier} \\
+                    \publ getSupplier(int): Supplier \\
+                    \publ hasSupplier(int): boolean \\
+                    \publ addSupplier(Supplier): void \\
+                    \publ removeSupplier(int): void \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below=2cm of Stock.south]{Product}{
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv name: String \\
+                    \priv batch: PricedQuantity \\
+                    \priv unit: String \\
+                } {
+                    \publ Product() \\
+                    \publ Product(String, PricedQuantity, String) \\
+                    \publ id(): int \\
+                    \publ getName(): String \\
+                    \publ setName(String): void \\
+                    \publ getBatch(): PricedQuantity \\
+                    \publ setBatch(PricedQuantity): void \\
+                    \publ getUnit(): String \\
+                    \publ setUnit(String): void \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below left=0cm and 2cm of Product.north west]{Shipment}{
+                    \umlstatic{\publ UNSET{\un}TIME: long \{final\}} \\
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv supplier: int \\
+                    \priv items: ArrayList\ty{Item} \\
+                    \priv additional: double \\
+                    \priv paymentDate: long \\
+                    \priv accounted: boolean \\
+                } {
+                    \publ Shipment() \\
+                    \publ Shipment(int, double, long, boolean) \\
+                    \publ id(): int \\
+                    \publ getSupplier(): int \\
+                    \publ setSupplier(int): void \\
+                    \publ getItems(): Iterable\ty{Item} \\
+                    \publ getItem(int): Item \\
+                    \publ addItem(Item): void \\
+                    \publ removeItem(int): void \\
+                    \publ getAdditional(): double \\
+                    \publ setAdditional(double): void \\
+                    \publ getPaymentDate(): long \\
+                    \publ isPaid(): boolean \\
+                    \publ setPaymentDate(long): void \\
+                    \publ isAccounted(): boolean \\
+                    \publ setAccounted(boolean): void \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below=2cm of Shipment.south]{Item}{
+                    \priv info: int \\
+                    \priv batch: PricedQuantity \\
+                } {
+                    \publ Item() \\
+                    \publ Item(int, PricedQuantity) \\
+                    \publ getInfo(): int \\
+                    \publ setInfo(int): void \\
+                    \publ getBatch(): PricedQuantity \\
+                    \publ setBatch(PricedQuantity): void \\
+                    \publ toString(): String \\
+                }
+                
+                \umlclass[below=2cm of Item.south]{PricedQuantity}{
+                    \priv quantity: int \{final\} \\
+                    \priv value: double \{final\} \\
+                } {
+                    \publ PricedQuantity(int, double) \\
+                    \publ quantity(): int \\
+                    \publ value(): double \\
+                    \publ totalValue(): double \\
+                    \publ add(PricedQuantity, AccountingPolicy): PricedQuantity \\
+                    \publ add(PricedQuantity): PricedQuantity \\
+                    \publ setQuantity(int): PricedQuantity \\
+                    \publ addQuantity(int): PricedQuantity \\
+                    \publ subQuantity(int): PricedQuantity \\
+                    \publ setValue(double): PricedQuantity \\
+                    \publ clone(): PricedQuantity \\
+                    \publ toString(): String \\
+                }
+
+                \umlclass[below=2cm of PricedQuantity.south]{AccountingPolicy}{
+                    \umlstatic{\publ WEIGHTED{\un}AVERAGE: AccountingPolicy \{final\}} \\
+                    \umlstatic{\publ MAX{\un}VALUE{\un}BETWEEN: AccountingPolicy \{final\}} \\
+                    \umlstatic{\publ DEFAULT: AccountingPolicy \{final\}} \\
+                } {
+                    \publ evaluate(PricedQuantity, PricedQuantity): PricedQuantity \\
+                }
+
+                \umlclass[below right=0cm and 2cm of Product.north east]{Supplier}{
+                    \umlstatic{\priv CNPJ{\un}PATTERN: Pattern \{final\}} \\
+                    \umlstatic{\priv CNPJ{\un}NON{\un}DIGIT{\un}REMOVAL{\un}MASK: String \{final\}} \\
+                    \umlstatic{\priv STANDARD{\un}CNPJ{\un}MASK: String \{final\}} \\
+                    \umlstatic{\priv instanceCount: int} \\
+                    \priv id: int \{final\} \\
+                    \priv tradeName: String \\
+                    \priv cnpj: String \\
+                } {
+                    \publ Supplier() \\
+                    \publ Supplier(String, String) \\
+                    \publ id(): int \\
+                    \publ getTradeName(): String \\
+                    \publ setTradeName(String): void \\
+                    \publ getCnpj(): String \\
+                    \publ setCnpj(String): void \\
+                    \umlstatic{\publ getInstanceCount(): int} \\
+                    \umlstatic{\publ restoreInstanceCount(InstanceCountState): void} \\
+                    \umlstatic{\priv incrementInstanceCount(): void} \\
+                    \umlstatic{\priv generateNextId(): int} \\
+                    \publ toString(): String \\
+                }
+
+            \end{umlpackage}
+
+        \end{umlpackage}
+
+        \umlunicompo{Workshop}{Registry}
+        \umlunicompo{Workshop}{MemberBase}
+        \umlunicompo{Workshop}{Financial}
+        \umlunicompo{Workshop}{Scheduler}
+        \umlunicompo{Workshop}{Stock}
+
+        \umlcompo{Registry}{Customer}
+        \umlcompo{Registry}{Vehicle}
+        \umlcompo{MemberBase}{StaffMember}
+        \umlcompo{Financial}{Expense}
+        \umlcompo{Financial}{Invoice}
+        \umlcompo{Scheduler}{Elevator}
+        \umlcompo{Scheduler}{Service}
+        \umlcompo{Scheduler}{ServiceOrder}
+        \umlcompo{Stock}{Product}
+        \umlcompo{Stock}{Shipment}
+        \umlcompo{Stock}{Supplier}
+        \umlcompo{StaffMember}{AccessLevel}
+        \umlcompo{ServiceOrder}{InvoiceDraft}
+        \umlcompo{ServiceOrder}{Status}
+        
+        \umldep{DateSpan}{Dates}
+        \umldep{InvoiceDraft}{Invoice}
+        \umldep{Elevator}{ElevatorFunction}
+        \umldep{PricedQuantity}{AccountingPolicy}
+
+        \umlinherit{Person}{Customer}
+        \umlinherit{Person}{StaffMember}
+        \umlinherit{StaffMember}{Administrator}
+        \umlinherit{StaffMember}{Employee}
+
+        \umluniaggreg{Employee}{DateSpan}
+        \umluniaggreg{ServiceOrder}{DateSpan}
+        \umluniaggreg{Invoice}{Item}
+        \umluniaggreg{InvoiceDraft}{Item}
+        \umluniaggreg{Shipment}{Item}
+        \umluniaggreg{Item}{PricedQuantity}
+        \umluniaggreg{Product}{PricedQuantity}
+
+    \end{umlpackage}
+
+\end{tikzpicture}
+\end{document}

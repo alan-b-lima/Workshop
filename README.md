@@ -90,7 +90,8 @@ O projeto é estruturado em duas partes principais: **Modelo** (Backend) e **Vie
 
 ### Diagramas de Classes
 
-```mermaid
+```
+mermaid
 classDiagram
 
     class AccessLevel {
@@ -325,6 +326,31 @@ classDiagram
         + toString() String
     }
 
+    class Scheduler {
+
+        - elevators: Elevator[]
+        - orders: TreeSet<ServiceOrder>
+        - services: ArrayList<Service>
+
+        - instance: Scheduler $
+
+        - Scheduler()
+
+        + scheduler() Scheduler $
+        
+        + getElevators() Iterable<Elevator>
+        + getOrders() Iterable<ServiceOrders>
+        + getOrder(int) ServiceOrder
+        + addOrder(ServiceOrder)
+        + removeOrder(int)
+        + getServices() Iterable<Service>
+        + getService(int) Service
+        + addService(Service)
+        + removeService(int)
+
+        + toString() String
+    }
+
     class Service {
         - instanceCount: int $
 
@@ -335,9 +361,9 @@ classDiagram
 
         + Service()
         + Service(int, String, String, double)
-        - Service()
+        # Service(Service)
         
-        + id()
+        + id() int
         + getName() String
         + setName(String) void
         + getDescription() String
@@ -640,11 +666,11 @@ classDiagram
         - Commands.java
         - Shell.java
         - Main.java
-```
 
 ### Diagrama de classes
 
-```mermaid
+```
+mermaid
 classDiagram
 
     Command --|> Entry
@@ -702,6 +728,60 @@ classDiagram
         + code() ExitCode
         + message() String
     }
+```
+
+## Persistence
+
+```mermaid
+classDiagram
+
+    class Caretaker {
+        - head: int
+    }
+
+    Persistence ..> Caretaker
+    Persistence ..> Snapshot
+    class Persistence {
+        + ROOT_FILEPATH: Path $
+        + CARETAKER_FILENAME: Path $
+        + SNAPSHOT_FILEPATH: Path $
+        
+        - GSON: Gson $
+        - CARETAKER_TYPE: Type $
+        - SNAPSHOT_TYPE: Type $
+        
+        - Persistence()
+
+        + captureSnapshot() $
+        + restoreSnapshot(Snapshot) $
+
+        + loadCaretaker() Caretaker $
+        + saveCaretaker(Caretaker) void $
+        + loadSnapshot(int id) Snapshot $
+        + loadSnapshot(Snapshot) void $
+
+        - ~T~ load(Path, Type) T $
+        - ~T~ save(Path, Type) void $
+    }
+
+    Snapshot *-- InstanceCountState
+    Snapshot *-- Workshop
+    class Snapshot {
+        - id: final int
+        - version: final int
+        - identifierState: final InstanceCountState
+        - workshop: final Workshop
+        - timestamp: final long
+    }
+    
+    class InstanceCountState {
+        + instanceCounts: HashMap~String, Integer~
+    }
+
+    class Workshop {
+        ...
+    }
+
 ```
 
 ## Referências
