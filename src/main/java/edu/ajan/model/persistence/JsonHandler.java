@@ -16,8 +16,7 @@ import com.google.gson.reflect.TypeToken;
  * no formato Json.
  * 
  * Essa classe faz uso da biblioteca
- * <a href=
- * "https://javadoc.io/doc/com.google.code.gson/gson/latest/index.html">Gson</a>
+ * <a href="https://javadoc.io/doc/com.google.code.gson/gson/latest/index.html">Gson</a>
  * para manipulação de Json.
  * 
  * @author Alan Lima
@@ -81,6 +80,7 @@ public final class JsonHandler {
      * @param <T>      tipo do objeto a ser salvo.
      * @param object   objeto a ser salvo.
      * @param filename caminho do arquivo onde o objeto será salvo.
+     * @param type     tipo do objeto a ser salvo, utilizado para serialização.
      * @return {@code true} se o objeto foi salvo com sucesso, {@code false} caso
      *         contrário.
      */
@@ -98,7 +98,7 @@ public final class JsonHandler {
             writer.close();
 
         } catch (IOException err) {
-            return true;
+            return false;
         }
 
         return true;
@@ -109,6 +109,8 @@ public final class JsonHandler {
      * 
      * @param <T>      tipo do objeto a ser carregado.
      * @param filename caminho do arquivo de onde o objeto será carregado.
+     * @param type     tipo do objeto a ser carregado, utilizado para
+     *                 deserialização.
      * @return objeto carregado, ou {@code null} se não foi possível carregar.
      */
     public static <T> T load(Path filename, TypeToken<T> type) {
