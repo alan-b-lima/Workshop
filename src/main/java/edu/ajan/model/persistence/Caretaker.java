@@ -4,31 +4,32 @@ import java.util.Stack;
 
 import com.google.gson.reflect.TypeToken;
 
-import edu.ajan.model.workshop.Workshop;
-
 /**
- * Classe que representa o cuidador de snapshots.
+ * Classe que representa o curador de snapshots.
  * 
  * @author Alan Lima
  */
 public class Caretaker {
 
     /**
-     * Tipo de dado para serialização do cuidador de snapshots.
+     * Tipo de dado para serialização do curador de snapshots.
      */
-    private static final TypeToken<Caretaker> CARETAKER_TYPE = new TypeToken<>() {
-    };
+    private static final TypeToken<Caretaker> CARETAKER_TYPE = new TypeToken<>() {};
 
     /**
      * Tipo de dado para serialização de snapshots.
      */
-    private static final TypeToken<Snapshot> SNAPSHOT_TYPE = new TypeToken<>() {
-    };
+    private static final TypeToken<Snapshot> SNAPSHOT_TYPE = new TypeToken<>() {};
 
     /**
      * Pilha que armazena os identificadores dos snapshots salvos.
      */
     private Stack<Long> history;
+
+    /**
+     * Curador de snapshots, responsável por gerenciar o estado da oficina.
+     */
+    private static Caretaker caretaker;
 
     /**
      * Construtor padrão.
@@ -38,34 +39,36 @@ public class Caretaker {
     }
 
     /**
-     * Salva um snapshot do estado atual do workshop.
+     * Retorna a instância única do curador de snapshots.
      * 
-     * @param workshop o workshop do qual o snapshot será salvo.
-     * @param state o estado atual do workshop, representando a contagem de instâncias.
-     * @return {@code true} se o snapshot foi salvo com sucesso, {@code false}
-     *         caso contrário.
+     * @return instância única do curador de snapshots.
      */
-    public boolean saveSnapshot(Workshop workshop, InstanceCountState state) {
-        long id = generateNextId();
-        Snapshot snapshot = new Snapshot(workshop, state);
-
-        if (JsonHandler.save(snapshot, JsonHandler.getSnapshotFilepath(id), SNAPSHOT_TYPE)) {
-            history.push(id);
-            return true;
-        }
-
-        return false;
+    public static Caretaker caretaker() {
+        return caretaker;
     }
 
     /**
-     * Carrega o último snapshot salvo, retornando o primeiro snapshot
-     * @return o último snapshot salvo, ou {@code null} se não houver nenhum snapshot
-     *         salvo.
+     * Salva um snapshot do estado atual da oficina.
+     * 
+     * @param snapshot o snapshot a ser salvo.
+     */
+    public void saveSnapshot(Snapshot snapshot) {
+        long id = generateNextId();
+        if (JsonHandler.save(snapshot, JsonHandler.getSnapshotFilepath(id), SNAPSHOT_TYPE)) {
+            history.push(id);
+        }
+    }
+
+    /**
+     * Carrega o último snapshot salvo, retornando o primeiro snapshot.
+     * 
+     * @return o último snapshot salvo, ou {@code null} se não houver nenhum
+     *         snapshot salvo.
      */
     public Snapshot loadSnapshot() {
 
         // Retorna até achar uma snapshot válida, só desistindo se não achar nada
-        while (!history.isEmpty()) {
+        while (hasSnapshots()) {
             long id = history.peek();
 
             Snapshot snapshot = JsonHandler.load(JsonHandler.getSnapshotFilepath(id), SNAPSHOT_TYPE);
@@ -98,7 +101,8 @@ public class Caretaker {
     }
 
     /**
-     * Verifica se o cuidador possui algum snapshot salvo.
+     * Verifica se o curador possui algum snapshot salvo.
+     * 
      * @return {@code true} se houver pelo menos um snapshot salvo, {@code false}
      *         caso contrário.
      */
@@ -114,28 +118,23 @@ public class Caretaker {
     }
 
     /**
-     * Salva o cuidador de snapshots no arquivo padrão.
-     * @param caretaker o cuidador a ser salvo.
-     * @return {@code true} se o cuidador foi salvo com sucesso, {@code false}
+     * Salva o curador de snapshots no arquivo padrão.
+     * 
+     * @return {@code true} se o curador foi salvo com sucesso, {@code false}
      *         caso contrário.
      */
-    public static boolean save(Caretaker caretaker) {
+    public static boolean save() {
         return JsonHandler.save(caretaker, JsonHandler.getCaretakerFilepath(), CARETAKER_TYPE);
     }
 
     /**
-     * Carrega o cuidador de snapshots do arquivo padrão.
-     * Se não houver nenhum cuidador salvo, retorna um novo cuidador vazio.
-     * 
-     * @return o cuidador carregado, ou um novo cuidador vazio se não houver
-     *         nenhum salvo.
+     * Carrega o curador de snapshots do arquivo padrão.
+     * Se não houver nenhum curador salvo, retorna um novo curador.
      */
-    public static Caretaker load() {
-        Caretaker caretaker = JsonHandler.load(JsonHandler.getCaretakerFilepath(), CARETAKER_TYPE);
+    public static void load() {
+        caretaker = JsonHandler.load(JsonHandler.getCaretakerFilepath(), CARETAKER_TYPE);
         if (caretaker == null) {
-            return new Caretaker();
+            caretaker = new Caretaker();
         }
-
-        return caretaker;
     }
 }
