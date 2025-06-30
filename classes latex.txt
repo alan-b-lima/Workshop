@@ -1,0 +1,659 @@
+\publ
+\priv
+\prot
+\s static e vem antes do controle de acesso
+\class{nomeDaClasse}{todos os atributos}{todos os métodos}
+seforestaticoéaqui controledeacesso nomedoatributo: tipodoatributo
+seforestaticoéaqui controledeacesso nomedometodo(tipos): tipodoatributo
+pratiposgenerico nomedotipo\ty{parâmetrodetiposemos< >}
+se o atributo for final coloca no final depois de tudo {final}
+construtor sem retorno, não tem :
+
+\class{AccessLevel}{
+\s\publ SUPER: AccessLevel{final}
+\s\publ ADMIN: AccessLevel{final}
+\s\publ USER: AccessLevel{final}
+\s\publ GUEST: AccessLevel{final}
+\priv ordinal: int{final}
+} {
+\priv AccessLevel(int)
+\publ isSufficedBy(AccessLevel): boolean
+}
+
+\class{WorkshopException}{
+} {
+\publ WorkshopException()
+\publ WorkshopException(String)
+\publ WorkshopException(String, Object...)
+\s\publ methodNotImplemented(String): WorkshopException
+}
+
+\class{Caretaker}{
+\s\priv CARETAKER_TYPE: TypeToken\ty{Caretaker}{final}
+\s\priv SNAPSHOT_TYPE: TypeToken\ty{Snapshot}{final}
+\priv history: Stack\ty{Long}
+\s\priv caretaker: Caretaker
+} {
+\priv Caretaker()
+\s\publ caretaker(): Caretaker
+\publ saveSnapshot(Snapshot): void
+\publ loadSnapshot(): Snapshot
+\priv generateNextId(): long
+\publ getHistory(): Iterable\ty{Long}
+\publ hasSnapshots(): boolean
+\publ clearHistory(): void
+\s\publ save(): boolean
+\s\publ load(): void
+}
+
+\class{InstanceCountState}{
+\priv instanceCounts: HashMap\ty{String, Integer}{final}
+} {
+\priv InstanceCountState()
+\s\publ capture(): InstanceCountState
+\s\publ restore(InstanceCountState): void
+\priv add(Class, int): InstanceCountState
+\publ get(Class): int
+}
+
+\class{JsonHandler}{
+\s\priv STANDARD_DATE_FORMAT: SimpleDateFormat{final}
+\s\priv ROOT_FILEPATH: Path{final}
+\s\priv CARETAKER_FILEPATH: Path{final}
+\s\priv SNAPSHOT_FILEPATH: Path{final}
+\s\priv GSON: Gson{final}
+} {
+\priv JsonHandler()
+\s\publ getCaretakerFilepath(): Path
+\s\publ getSnapshotFilepath(long): Path
+\s\publ save(T, Path, TypeToken): boolean
+\s\publ load(Path, TypeToken): T
+\publ toString(): String
+}
+
+\class{Snapshot}{
+\priv instanceCountState: InstanceCountState{final}
+\priv workshop: Workshop{final}
+\priv timestamp: long{final}
+} {
+\publ Snapshot(Workshop, InstanceCountState)
+\publ workshop(): Workshop
+\publ instanceCountState(): InstanceCountState
+\publ timestamp(): long
+}
+
+\class{Customer}{
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv address: String
+\priv email: String
+} {
+\publ Customer()
+\publ Customer(String, String, String, String, String)
+\publ id(): int
+\publ getAddress(): String
+\publ setAddress(String): void
+\publ getEmail(): String
+\publ setEmail(String): void
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{Person}{
+\s\priv PHONE_PATTERN: Pattern{final}
+\s\priv CPF_PATTERN: Pattern{final}
+\s\priv ALL_DIGITS_EQUAL_PATTERN: Pattern{final}
+\s\priv STANDARD_PHONE_MASK: String{final}
+\s\priv CPF_NON_DIGIT_REMOVAL_MASK: String{final}
+\s\priv PSEUDO_CPF_ANONIMIZATION_MASK: String{final}
+\s\priv STANDARD_FULL_CPF_MASK: String{final}
+\priv name: String
+\priv phone: String
+\priv cpf: String
+} {
+\publ Person()
+\publ Person(String, String, String)
+\publ getName(): String
+\publ setName(String): void
+\publ getPhone(): String
+\publ setPhone(String): void
+\publ getCpf(): String
+\publ getFullCpf(): String
+\publ setCpf(String): void
+\publ toString(): String
+}
+
+\class{Registry}{
+\priv customers: HashMap\ty{Integer, Customer}
+\priv vehicles: HashMap\ty{Integer, Vehicle}
+} {
+\publ Registry()
+\publ getCustomers(): Iterable\ty{Customer}
+\publ getCustomer(int): Customer
+\publ hasCustomer(int): boolean
+\publ addCustomer(Customer): void
+\publ removeCustomer(int): void
+\publ getVehicles(): Iterable\ty{Vehicle}
+\publ getVehicle(int): Vehicle
+\publ hasVehicle(int): boolean
+\publ addVehicle(Vehicle): void
+\publ removeVehicle(int): void
+\publ toString(): String
+}
+
+\class{Vehicle}{
+\s\priv MERCOSUL_PLATE_PATTERN: Pattern{final}
+\s\priv OLD_PLATE_PATTERN: Pattern{final}
+\s\priv STANDART_MERCOSUL_PLATE_MASK: String{final}
+\s\priv OLD_STANDART_PLATE_MASK: String{final}
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv model: String
+\priv plate: String
+\priv year: int
+} {
+\publ Vehicle()
+\publ Vehicle(String, String, int)
+\publ id(): int
+\publ getModel(): String
+\publ setModel(String): void
+\publ getPlate(): String
+\publ setPlate(String): void
+\publ getYear(): int
+\publ setYear(int): void
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{Dates}{
+\s\priv DATETIME_FORMAT: SimpleDateFormat{final}
+\s\priv DATE_FORMAT: SimpleDateFormat{final}
+\s\priv DATETIME_PATTERN: Pattern{final}
+\s\priv DATE_PATTERN: Pattern{final}
+\s\publ MILLISECONDS_PER_SECOND: long{final}
+\s\publ MILLISECONDS_PER_MINUTE: long{final}
+\s\publ MILLISECONDS_PER_HOUR: long{final}
+\s\publ MILLISECONDS_PER_DAY: long{final}
+} {
+\priv Dates()
+\s\publ parse(String): long
+\s\publ formatAsDateTime(long): String
+\s\publ formatAsDate(long): String
+\s\publ formatAsInterval(long): String
+\s\publ now(): long
+}
+
+\class{DateSpan}{
+\s\priv EMPTY_SET_STRING: String{final}
+\priv start: long{final}
+\priv end: long{final}
+} {
+\publ DateSpan(long, long)
+\publ start(): long
+\publ end(): long
+\publ duration(): long
+\publ isEmpty(): boolean
+\publ intersect(DateSpan): DateSpan
+\publ intersects(DateSpan): boolean
+\publ contains(long): boolean
+\publ compareTo(DateSpan): int
+\publ equals(Object): boolean
+\publ toDateTimeString(): String
+\publ toDateString(): String
+\publ toTimeStampString(): String
+\publ toString(): String
+}
+
+\class{Expense}{
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv name: String
+\priv description: String
+\priv value: double
+\priv date: long
+} {
+\publ Expense()
+\publ Expense(String, String, double, long)
+\publ id(): int
+\publ getName(): String
+\publ setName(String): void
+\publ getDescription(): String
+\publ setDescription(String): void
+\publ getValue(): double
+\publ setValue(double): void
+\publ getDate(): long
+\publ setDate(long): void
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{Financial}{
+\priv expenses: ArrayList\ty{Expense}
+\priv invoices: ArrayList\ty{Invoice}
+} {
+\publ Financial()
+\publ getExpenses(): Iterable\ty{Expense}
+\publ getExpenses(long, long): Iterable\ty{Expense}
+\publ getExpense(int): Expense
+\publ hasExpense(int): boolean
+\publ addExpense(Expense): void
+\publ removeExpense(int): void
+\publ getInvoices(): Iterable\ty{Invoice}
+\publ getInvoices(long, long): Iterable\ty{Invoice}
+\publ getInvoice(int): Invoice
+\publ hasInvoice(int): boolean
+\publ addInvoice(Invoice): void
+\publ removeInvoice(int): void
+\publ toString(): String
+}
+
+\class{Invoice}{
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv customer: int{final}
+\priv products: Item[]{final}
+\priv services: Item[]{final}
+\priv additional: double{final}
+\priv subtotal: double{final}
+\priv date: long{final}
+} {
+\publ Invoice()
+\publ Invoice(int, Item[], Item[], double, long)
+\publ id(): int
+\publ customer(): int
+\publ products(): Item[]
+\publ services(): Item[]
+\publ additional(): double
+\publ subtotal(): double
+\publ date(): long
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{InvoiceDraft}{
+\priv products: HashMap\ty{Integer, Item}
+\priv services: HashMap\ty{Integer, Item}
+} {
+\publ InvoiceDraft()
+\publ getProducts(): Iterable\ty{Item}
+\publ getProductsAsArray(): Item[]
+\publ getProduct(int): Item
+\publ hasProduct(int): boolean
+\publ addProduct(Item): void
+\publ removeProduct(int): void
+\publ getServices(): Iterable\ty{Item}
+\publ getServicesAsArray(): Item[]
+\publ getService(int): Item
+\publ hasService(int): boolean
+\publ addService(Item): void
+\publ removeService(int): void
+\publ toString(): String
+}
+
+\class{Elevator}{
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv weightLimit: double
+\priv function: int
+} {
+\priv Elevator()
+\publ Elevator(double, int)
+\publ Elevator(double, ElevatorFunction...)
+\publ id(): int
+\publ getWeightLimit(): double
+\publ setWeightLimit(double): void
+\publ getFunction(): int
+\publ setFunction(int): void
+\publ setFunction(ElevatorFunction...): void
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{ElevatorFunction}{
+\s\priv iota: int
+\priv code: int{final}
+\priv name: String{final}
+\s\priv values: ElevatorFunction[]
+\s\publ GENERAL: ElevatorFunction{final}
+\s\publ ALIGNING: ElevatorFunction{final}
+\s\publ BALANCING: ElevatorFunction{final}
+} {
+\priv ElevatorFunction(String)
+\publ code(): int
+\publ name(): String
+\publ hasFunction(int): boolean
+\s\publ values(): ElevatorFunction[]
+\s\priv append(ElevatorFunction): void
+\s\publ toString(int): String
+\prot clone(): Object
+\publ toString(): String
+}
+
+\class{Scheduler}{
+\priv orders: HashMap\ty{Integer, ServiceOrder}
+\priv services: HashMap\ty{Integer, Service}
+\priv elevators: Elevator[]
+} {
+\publ Scheduler()
+\publ getOrder(int): ServiceOrder
+\publ hasOrder(int): boolean
+\publ addOrder(ServiceOrder): void
+\publ removeOrder(int): void
+\publ getService(int): Service
+\publ hasService(int): boolean
+\publ addService(Service): void
+\publ removeService(int): void
+\publ getElevator(int): Elevator
+\publ hasElevator(int): boolean
+\publ addElevator(Elevator): void
+\publ removeElevator(int): void
+}
+
+\class{Service}{
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv name: String
+\priv description: String
+\priv value: double
+} {
+\publ Service()
+\publ Service(String, String, double)
+\publ id(): int
+\publ getName(): String
+\publ setName(String): void
+\publ getDescription(): String
+\publ setDescription(String): void
+\publ getValue(): double
+\publ setValue(double): void
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{ServiceOrder}{
+\s\publ DATETIME_COMPARATOR: Comparator\ty{ServiceOrder}{final}
+\s\publ UNSET_ELEVATOR: int{final}
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv customer: int
+\priv vehicle: int
+\priv mechanic: int
+\priv elevator: int
+\priv invoice: InvoiceDraft
+\priv status: Status
+\priv datetime: DateSpan
+} {
+\publ ServiceOrder()
+\publ ServiceOrder(int, int, int, int, Status, DateSpan)
+\publ ServiceOrder(int, int, int, int, DateSpan)
+\publ ServiceOrder(int, int, int, DateSpan)
+\publ id(): int
+\publ getCustomer(): int
+\publ setCustomer(int): void
+\publ getVehicle(): int
+\publ setVehicle(int): void
+\publ getMechanic(): int
+\publ setMechanic(int): void
+\publ getElevator(): int
+\publ setElevator(int): void
+\publ getInvoice(): InvoiceDraft
+\publ getStatus(): Status
+\publ setStatus(Status): void
+\publ getDatetime(): DateSpan
+\publ setDatetime(DateSpan): void
+\publ isConflicting(ServiceOrder): boolean
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{Status}{
+\s\publ PENDING: Status{final}
+\s\publ INITIATED: Status{final}
+\s\publ COMPLETED: Status{final}
+\s\publ DELIVERED: Status{final}
+\s\publ CANCELLED: Status{final}
+} {
+}
+
+\class{Administrator}{
+} {
+\publ Administrator()
+\publ Administrator(String, String, String, double, String, AccessLevel)
+\publ toString(): String
+}
+
+\class{Employee}{
+\s\publ UNSET_TIME: long{final}
+\priv shifts: TreeSet\ty{DateSpan}
+\priv openShift: long
+} {
+\publ Employee()
+\publ Employee(String, String, String, double, String, AccessLevel)
+\publ getShifts(): Iterable\ty{DateSpan}
+\publ getShifts(long, long): Iterable\ty{DateSpan}
+\publ addShift(DateSpan): void
+\publ removeShifts(long, long): void
+\publ getOpenShift(): long
+\publ setOpenShift(long): void
+\publ registerShift(long): void
+\publ toString(): String
+}
+
+\class{MemberBase}{
+\priv members: HashMap\ty{Integer, StaffMember}
+} {
+\publ MemberBase()
+\publ getMembers(): Iterable\ty{StaffMember}
+\publ getMember(int): StaffMember
+\publ hasMember(int): boolean
+\publ addMember(StaffMember): void
+\publ removeMember(int): void
+}
+
+\class{StaffMember}{
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv salary: double
+\priv password: long
+\priv accessLevel: AccessLevel
+} {
+\publ StaffMember()
+\publ StaffMember(String, String, String, double, String, AccessLevel)
+\publ id(): int
+\publ getSalary(): double
+\publ setSalary(double): void
+\publ getPassword(): long
+\publ setPassword(String): void
+\publ checkPassword(String): boolean
+\publ getAccessLevel(): AccessLevel
+\publ setAccessLevel(AccessLevel): void
+\s\publ hash(String): long
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{AccountingPolicy}{
+\s\publ WEIGHTED_AVERAGE: AccountingPolicy{final}
+\s\publ MAX_VALUE_BETWEEN: AccountingPolicy{final}
+\s\publ DEFAULT: AccountingPolicy{final}
+} {
+\publ evaluate(PricedQuantity, PricedQuantity): PricedQuantity
+}
+
+\class{Item}{
+\priv info: int
+\priv batch: PricedQuantity
+} {
+\publ Item()
+\publ Item(int, PricedQuantity)
+\publ getInfo(): int
+\publ setInfo(int): void
+\publ getBatch(): PricedQuantity
+\publ setBatch(PricedQuantity): void
+\publ toString(): String
+}
+
+\class{PricedQuantity}{
+\priv quantity: int{final}
+\priv value: double{final}
+} {
+\publ PricedQuantity(int, double)
+\publ quantity(): int
+\publ value(): double
+\publ totalValue(): double
+\publ add(PricedQuantity, AccountingPolicy): PricedQuantity
+\publ add(PricedQuantity): PricedQuantity
+\publ setQuantity(int): PricedQuantity
+\publ addQuantity(int): PricedQuantity
+\publ subQuantity(int): PricedQuantity
+\publ setValue(double): PricedQuantity
+\publ clone(): PricedQuantity
+\publ toString(): String
+}
+
+\class{Product}{
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv name: String
+\priv batch: PricedQuantity
+\priv unit: String
+} {
+\publ Product()
+\publ Product(String, PricedQuantity, String)
+\publ id(): int
+\publ getName(): String
+\publ setName(String): void
+\publ getBatch(): PricedQuantity
+\publ setBatch(PricedQuantity): void
+\publ getUnit(): String
+\publ setUnit(String): void
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{Shipment}{
+\s\publ UNSET_TIME: long{final}
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv supplier: int
+\priv items: ArrayList\ty{Item}
+\priv additional: double
+\priv paymentDate: long
+\priv accounted: boolean
+} {
+\publ Shipment()
+\publ Shipment(int, double, long, boolean)
+\publ id(): int
+\publ getSupplier(): int
+\publ setSupplier(int): void
+\publ getItems(): Iterable\ty{Item}
+\publ getItem(int): Item
+\publ addItem(Item): void
+\publ removeItem(int): void
+\publ getAdditional(): double
+\publ setAdditional(double): void
+\publ getPaymentDate(): long
+\publ isPaid(): boolean
+\publ setPaymentDate(long): void
+\publ isAccounted(): boolean
+\publ setAccounted(boolean): void
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{Stock}{
+\priv products: HashMap\ty{Integer, Product}
+\priv shipments: ArrayList\ty{Shipment}
+\priv suppliers: TreeMap\ty{Integer, Supplier}
+} {
+\publ Stock()
+\publ getProducts(): Iterable\ty{Product}
+\publ getProduct(int): Product
+\publ hasProduct(int): boolean
+\publ addProduct(Product): void
+\publ removeProduct(int): void
+\publ getShipments(): Iterable\ty{Shipment}
+\publ getShipment(int): Shipment
+\publ hasShipment(int): boolean
+\publ addShipment(Shipment): void
+\publ removeShipment(int): void
+\publ accountShipment(int): void
+\publ getSuppliers(): Iterable\ty{Supplier}
+\publ getSupplier(int): Supplier
+\publ hasSupplier(int): boolean
+\publ addSupplier(Supplier): void
+\publ removeSupplier(int): void
+\publ toString(): String
+}
+
+\class{Supplier}{
+\s\priv CNPJ_PATTERN: Pattern{final}
+\s\priv CNPJ_NON_DIGIT_REMOVAL_MASK: String{final}
+\s\priv STANDARD_CNPJ_MASK: String{final}
+\s\priv instanceCount: int
+\priv id: int{final}
+\priv tradeName: String
+\priv cnpj: String
+} {
+\publ Supplier()
+\publ Supplier(String, String)
+\publ id(): int
+\publ getTradeName(): String
+\publ setTradeName(String): void
+\publ getCnpj(): String
+\publ setCnpj(String): void
+\s\publ getInstanceCount(): int
+\s\publ restoreInstanceCount(InstanceCountState): void
+\s\priv incrementInstanceCount(): void
+\s\priv generateNextId(): int
+\publ toString(): String
+}
+
+\class{Workshop}{
+\priv registry: Registry
+\priv memberbase: MemberBase
+\priv financial: Financial
+\priv scheduler: Scheduler
+\priv stock: Stock
+\s\priv instance: Workshop
+} {
+\priv Workshop()
+\s\publ workshop(): Workshop
+\s\publ load(): void
+\s\publ save(): void
+\publ registry(): Registry
+\publ memberbase(): MemberBase
+\publ financial(): Financial
+\publ scheduler(): Scheduler
+\publ stock(): Stock
+\publ toString(): String
+}
