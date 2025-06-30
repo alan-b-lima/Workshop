@@ -1,6 +1,15 @@
+import edu.ajan.model.CoreEngine;
+import edu.ajan.model.auth.AccessLevel;
+import edu.ajan.model.workshop.staff.Administrator;
+import edu.ajan.model.workshop.staff.Employee;
+import edu.ajan.model.workshop.staff.StaffMember;
+import edu.ajan.view.Console;
+
 public class Questions {
 
     public static void main(String[] args) {
+
+        CoreEngine engine = CoreEngine.engine();
 
         // Questão 1
         /**
@@ -34,7 +43,8 @@ public class Questions {
          * subclasses.
          */
         {
-            //Sim, as classes StaffMember, Administrator, Costumer e Employee utilizam super() em seus construtores pois utiliza herança.
+            // Sim, as classes StaffMember, Administrator, Costumer e Employee utilizam
+            // super() em seus construtores pois utiliza herança.
         }
 
         // Questão 5
@@ -52,7 +62,30 @@ public class Questions {
          * seus atributos.
          */
         {
+            // Funcionários (Employee) e Administradores (Administrator) compartilham o
+            // limite superior Membro (StaffMember), essa última uma classe abstrata
 
+            StaffMember[] newMembers = new StaffMember[] {
+                    new Administrator("Juan Pablo", "1234567890", "12345678909", 3255.21, "12345678", AccessLevel.ADMIN),
+                    new Administrator("Alan Lima", "0987654321", "98765432100", 3475.22, "12345678", AccessLevel.SUPER),
+                    new Employee("Maria Silva", "1122334455", "11223344517", 2500.00, "12345678", AccessLevel.USER),
+                    new Employee("João Souza", "5566778899", "55667788950", 2700.00, "12345678", AccessLevel.USER)
+            };
+
+            for (StaffMember member : newMembers) {
+                engine.workshop().memberbase().addMember(member);
+            }
+
+            Console.out.println("Membros cadastrados:");
+            engine.workshop().memberbase().getMembers().forEach(Console.out::println);
+
+            // Exemplo de alteração de um membro
+            StaffMember memberToUpdate = engine.workshop().memberbase().getMember(2);
+            if (memberToUpdate != null) {
+                memberToUpdate.setName("Maria Oliveira");
+                memberToUpdate.setSalary(2800.00);
+                Console.out.println("Membro atualizado: " + memberToUpdate);
+            }
         }
 
         // Questão 7
@@ -77,7 +110,8 @@ public class Questions {
          * forma dinâmica no sistema.
          */
         {
-            // Sim. Toda unidade semântica e algumas classes de dados usam coleções da java.util para armazenamento dinâmico.
+            // Sim. Toda unidade semântica e algumas classes de dados usam coleções da
+            // java.util para armazenamento dinâmico.
         }
 
         // Questão 10
@@ -111,7 +145,7 @@ public class Questions {
              * protected;
              */
             {
-                
+
             }
 
             // c
@@ -120,7 +154,15 @@ public class Questions {
              * estratégias.
              */
             {
-                //Estratégia com enfoque no encapsulamento: Essa estratégia é mais recomendada pois ela preserva os princípios do encapsulamento contribuindo para a segurança, manutenabilidade e o controle exclusivo sobre seu estado. A desvantagem é que requer mais código com métodos getters e setters separados. Já a estratégia com acesso do tipo protected não é recomendada pois o encapsulamento é quebrado, comprometendo a segurança uma vez que qualquer classe no mesmo pacote ou subclasse possa alterar diretamente o valor do contador colocando por exemplo um valor negativo. O único ponto positivo é a facíl implementação, porém ao custo de comprometer a qualidade do software.
+                // Estratégia com enfoque no encapsulamento: Essa estratégia é mais recomendada
+                // pois ela preserva os princípios do encapsulamento contribuindo para a
+                // segurança, manutenabilidade e o controle exclusivo sobre seu estado. A
+                // desvantagem é que requer mais código com métodos getters e setters separados.
+                // Já a estratégia com acesso do tipo protected não é recomendada pois o
+                // encapsulamento é quebrado, comprometendo a segurança uma vez que qualquer
+                // classe no mesmo pacote ou subclasse possa alterar diretamente o valor do
+                // contador colocando por exemplo um valor negativo. O único ponto positivo é a
+                // facíl implementação, porém ao custo de comprometer a qualidade do software.
 
             }
         }
@@ -131,7 +173,7 @@ public class Questions {
          * quantas instâncias foram criadas do tipo Veículo.
          */
         {
-            
+
         }
 
         // Questão 13
@@ -160,7 +202,7 @@ public class Questions {
          * Gerar um JavaDoc de todo o seu projeto.
          */
         {
-            // Gerado. 
+            // Gerado.
         }
 
         // Questão 15
@@ -204,10 +246,10 @@ public class Questions {
          * Apresentar testes do método iomplementado.
          * 
          * Fazer chamadas ao binarySearch() da classe collections e comparar com o find
-         * IMPLEMENTADO. 
+         * IMPLEMENTADO.
          */
         {
-            
+
         }
 
         // Questão 18
