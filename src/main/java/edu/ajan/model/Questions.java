@@ -1,15 +1,17 @@
-import edu.ajan.model.CoreEngine;
+package edu.ajan.model;
 import edu.ajan.model.auth.AccessLevel;
+import edu.ajan.model.persistence.Caretaker;
+import edu.ajan.model.workshop.Workshop;
 import edu.ajan.model.workshop.staff.Administrator;
 import edu.ajan.model.workshop.staff.Employee;
 import edu.ajan.model.workshop.staff.StaffMember;
-import edu.ajan.view.Console;
 
 public class Questions {
 
     public static void main(String[] args) {
 
-        CoreEngine engine = CoreEngine.engine();
+        Caretaker.load();
+        Workshop.load();
 
         // Questão 1
         /**
@@ -73,18 +75,18 @@ public class Questions {
             };
 
             for (StaffMember member : newMembers) {
-                engine.workshop().memberbase().addMember(member);
+                Workshop.workshop().memberbase().addMember(member);
             }
 
-            Console.out.println("Membros cadastrados:");
-            engine.workshop().memberbase().getMembers().forEach(Console.out::println);
+            System.out.println("Membros cadastrados:");
+            Workshop.workshop().memberbase().getMembers().forEach(System.out::println);
 
             // Exemplo de alteração de um membro
-            StaffMember memberToUpdate = engine.workshop().memberbase().getMember(2);
+            StaffMember memberToUpdate = Workshop.workshop().memberbase().getMember(2);
             if (memberToUpdate != null) {
                 memberToUpdate.setName("Maria Oliveira");
                 memberToUpdate.setSalary(2800.00);
-                Console.out.println("Membro atualizado: " + memberToUpdate);
+                System.out.println("Membro atualizado: " + memberToUpdate);
             }
         }
 
