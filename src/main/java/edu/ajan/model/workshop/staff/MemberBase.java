@@ -1,5 +1,6 @@
 package edu.ajan.model.workshop.staff;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -23,7 +24,7 @@ public class MemberBase {
      * 
      * @return estrutura iterável de membros.
      */
-    public Iterable<StaffMember> getMembers() {
+    public Collection<StaffMember> getMembers() {
         return members.values();
     }
 

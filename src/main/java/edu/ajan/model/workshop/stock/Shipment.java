@@ -1,6 +1,7 @@
 package edu.ajan.model.workshop.stock;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import edu.ajan.model.persistence.InstanceCountState;
 import edu.ajan.model.workshop.date.Dates;
@@ -112,7 +113,7 @@ public class Shipment {
      * 
      * @return estrutura iterável de itens.
      */
-    public Iterable<Item> getItems() {
+    public Collection<Item> getItems() {
         return items;
     }
 

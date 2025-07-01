@@ -1,5 +1,6 @@
 package edu.ajan.model.workshop.financial;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import edu.ajan.model.workshop.stock.Item;
@@ -34,7 +35,7 @@ public class InvoiceDraft {
      * 
      * @return estrutura iterável de produtos.
      */
-    public Iterable<Item> getProducts() {
+    public Collection<Item> getProducts() {
         return products.values();
     }
 
@@ -91,7 +92,7 @@ public class InvoiceDraft {
      * 
      * @return estrutura iterável de serviços.
      */
-    public Iterable<Item> getServices() {
+    public Collection<Item> getServices() {
         return services.values();
     }
 

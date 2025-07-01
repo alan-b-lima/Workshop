@@ -1,7 +1,5 @@
 package edu.ajan.model.workshop.staff;
 
-import edu.ajan.model.auth.AccessLevel;
-
 /**
  * Classe que representa um administrador.
  * 

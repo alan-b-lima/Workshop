@@ -1,8 +1,8 @@
 package edu.ajan.model.workshop.staff;
 
+import java.util.Collection;
 import java.util.TreeSet;
 
-import edu.ajan.model.auth.AccessLevel;
 import edu.ajan.model.exception.WorkshopException;
 import edu.ajan.model.workshop.date.DateSpan;
 import edu.ajan.model.workshop.date.Dates;
@@ -61,7 +61,7 @@ public class Employee extends StaffMember {
      * 
      * @return turno atual não terminado.
      */
-    public Iterable<DateSpan> getShifts() {
+    public Collection<DateSpan> getShifts() {
         return shifts;
     }
 
@@ -72,7 +72,7 @@ public class Employee extends StaffMember {
      * @param end   fim do espaço de tempo.
      * @return iterável de turnos.
      */
-    public Iterable<DateSpan> getShifts(long start, long end) {
+    public Collection<DateSpan> getShifts(long start, long end) {
         DateSpan span = new DateSpan(start, end);
         return shifts.stream().filter(shift -> shift.intersects(span)).toList();
     }

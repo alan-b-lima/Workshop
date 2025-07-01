@@ -70,6 +70,10 @@ public class Workshop {
      */
     public static void load() {
 
+        if (Caretaker.caretaker() == null) {
+            Caretaker.load();
+        }
+
         Snapshot snapshot = Caretaker.caretaker().loadSnapshot();
         if (snapshot == null) {
             instance = new Workshop();

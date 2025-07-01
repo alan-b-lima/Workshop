@@ -44,6 +44,20 @@ public class Item {
     }
 
     /**
+     * Construtor parametrizado.
+     * 
+     * @param info     informação de identificação de peça ou serviço.
+     * @param quantity quantidade do item.
+     * @param value    valor do item.
+     * 
+     * @throws WorkshopException se algum parametro for inválido.
+     */
+    public Item(int info, int quantity, double value) {
+        this.setInfo(info);
+        this.setBatch(new PricedQuantity(quantity, value));
+    }
+
+    /**
      * Retorna a informação de idenficação do item.
      * 
      * @return informação de identificação do item.

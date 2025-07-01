@@ -1,6 +1,5 @@
 package edu.ajan.model.workshop.staff;
 
-import edu.ajan.model.auth.AccessLevel;
 import edu.ajan.model.exception.WorkshopException;
 import edu.ajan.model.persistence.InstanceCountState;
 import edu.ajan.model.workshop.common.Person;

@@ -1,4 +1,4 @@
-package edu.ajan.model.auth;
+package edu.ajan.model.workshop.staff;
 
 /**
  * Enumeração dos níveis de acesso dos usuários da aplicação.

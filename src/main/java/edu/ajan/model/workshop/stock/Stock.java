@@ -1,6 +1,7 @@
 package edu.ajan.model.workshop.stock;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -40,7 +41,7 @@ public class Stock {
      * 
      * @return estrutura iterável de produtos.
      */
-    public Iterable<Product> getProducts() {
+    public Collection<Product> getProducts() {
         return products.values();
     }
 
@@ -88,7 +89,7 @@ public class Stock {
      * 
      * @return estrutura iterável de remessas.
      */
-    public Iterable<Shipment> getShipments() {
+    public Collection<Shipment> getShipments() {
         return shipments;
     }
 
@@ -174,7 +175,7 @@ public class Stock {
      * 
      * @return estrutura iterável de fornecedores.
      */
-    public Iterable<Supplier> getSuppliers() {
+    public Collection<Supplier> getSuppliers() {
         return suppliers.values();
     }
 

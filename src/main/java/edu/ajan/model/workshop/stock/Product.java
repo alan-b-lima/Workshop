@@ -60,6 +60,21 @@ public class Product {
     }
 
     /**
+     * Construtor parametrizado.
+     * 
+     * @param name     nome do produto.
+     * @param quantity quantidade do produto.
+     * @param value    valor do produto.
+     * @param unit     unidade de medida do produto.
+     */
+    public Product(String name, int quantity, double value, String unit) {
+        this();
+        this.setName(name);
+        this.setBatch(new PricedQuantity(quantity, value));
+        this.setUnit(unit);
+    }
+
+    /**
      * Retorna o identificador único do produto.
      * 
      * @return identificador único do produto.

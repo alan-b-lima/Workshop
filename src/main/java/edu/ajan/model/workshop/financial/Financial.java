@@ -1,6 +1,7 @@
 package edu.ajan.model.workshop.financial;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import edu.ajan.model.exception.WorkshopException;
 import edu.ajan.model.workshop.date.DateSpan;
@@ -36,7 +37,7 @@ public class Financial {
      * 
      * @return estrutura iterável de despesas.
      */
-    public Iterable<Expense> getExpenses() {
+    public Collection<Expense> getExpenses() {
         return expenses;
     }
 
@@ -47,7 +48,7 @@ public class Financial {
      * @param end   fim do espaço de tempo.
      * @return estrutura iterável de despesas dentro do espaço de tempo.
      */
-    public Iterable<Expense> getExpenses(long start, long end) {
+    public Collection<Expense> getExpenses(long start, long end) {
         DateSpan span = new DateSpan(start, end);
 
         return expenses.stream()
@@ -115,7 +116,7 @@ public class Financial {
      * 
      * @return estrutura iterável de nota do fiscal.
      */
-    public Iterable<Invoice> getInvoices() {
+    public Collection<Invoice> getInvoices() {
         return invoices;
     }
 
@@ -126,7 +127,7 @@ public class Financial {
      * @param end   fim do espaço de tempo.
      * @return estrutura iterável de nota fiscais dentro do espaço de tempo.
      */
-    public Iterable<Invoice> getInvoices(long start, long end) {
+    public Collection<Invoice> getInvoices(long start, long end) {
         DateSpan span = new DateSpan(start, end);
 
         return invoices.stream()

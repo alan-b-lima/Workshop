@@ -5,6 +5,8 @@ import java.util.Comparator;
 import edu.ajan.model.exception.WorkshopException;
 import edu.ajan.model.persistence.InstanceCountState;
 import edu.ajan.model.workshop.date.DateSpan;
+import edu.ajan.model.workshop.date.Dates;
+import edu.ajan.model.workshop.financial.Invoice;
 import edu.ajan.model.workshop.financial.InvoiceDraft;
 
 /**
@@ -17,10 +19,29 @@ public class ServiceOrder {
     /**
      * Comparador de ordem de serviço por data e hora.
      */
-    public static Comparator<ServiceOrder> DATETIME_COMPARATOR = new Comparator<ServiceOrder>() {
+    public static final Comparator<ServiceOrder> STATUS_COMPARATOR = new Comparator<>() {
         @Override
         public int compare(ServiceOrder o1, ServiceOrder o2) {
-            return o1.getDatetime().compareTo(o2.getDatetime());
+            
+            if (o1.status == Status.CANCELLED) {
+                return o1.status == o2.status ? 0 : -1;
+            }
+            
+            if (o2.status == Status.CANCELLED) {
+                return 1;
+            }
+
+            return o1.status.ordinal() - o2.status.ordinal();
+        }
+    };
+
+    /**
+     * Comparador de ordem de serviço por data e hora.
+     */
+    public static final Comparator<ServiceOrder> DATETIME_COMPARATOR = new Comparator<>() {
+        @Override
+        public int compare(ServiceOrder o1, ServiceOrder o2) {
+            return o1.datetime.compareTo(o2.datetime);
         }
     };
 
@@ -274,6 +295,15 @@ public class ServiceOrder {
         return true
                 && this.elevator == other.getElevator()
                 && this.getDatetime().intersects(other.getDatetime());
+    }
+
+    /**
+     * Sela uma ordem de serviço, criando uma nota fiscal finalizada.
+     * 
+     * @return uma nova nota fiscal finalizada.
+     */
+    public Invoice seal() {
+        return new Invoice(customer, invoice.getProductsAsArray(), invoice.getServicesAsArray(), 0, Dates.now());
     }
 
     /**

@@ -1,5 +1,6 @@
 package edu.ajan.model.persistence;
 
+import java.util.Collection;
 import java.util.Stack;
 
 import com.google.gson.reflect.TypeToken;
@@ -96,7 +97,7 @@ public class Caretaker {
      * 
      * @return estrutura iterável com os identificadores dos snapshots salvos.
      */
-    public Iterable<Long> getHistory() {
+    public Collection<Long> getHistory() {
         return history;
     }
 

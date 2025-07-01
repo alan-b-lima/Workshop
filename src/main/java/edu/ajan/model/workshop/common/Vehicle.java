@@ -39,7 +39,7 @@ public class Vehicle {
     /**
      * Contador de instâncias.
      */
-    private static int instanceCount;
+    protected static int instanceCount;
 
     /**
      * Identificador único do veículo.

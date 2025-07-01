@@ -1,5 +1,7 @@
 package edu.ajan.model.workshop.common;
 
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -32,7 +34,7 @@ public class Registry {
      * 
      * @return estrutura iterável de clientes.
      */
-    public Iterable<Customer> getCustomers() {
+    public Collection<Customer> getCustomers() {
         return customers.values();
     }
 
@@ -58,6 +60,24 @@ public class Registry {
     }
 
     /**
+     * Busca um cliente com base em um critério de comparação.
+     * 
+     * @param searchCustomer cliente a ser buscado.
+     * @param comparator     critério de comparação a ser utilizado.
+     * @return cliente que atende ao critério de comparação, ou {@code null} se não
+     *         houver nenhum cliente que atenda ao critério.
+     */
+    public Customer findCustomer(Customer searchCustomer, Comparator<Customer> comparator) {
+        for (Customer customer : getCustomers()) {
+            if (comparator.compare(customer, searchCustomer) == 0) {
+                return customer;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Adiciona um cliente ao registro.
      * 
      * @param customer cliente a ser adicionado.
@@ -80,7 +100,7 @@ public class Registry {
      * 
      * @return estrutura iterável de veículos.
      */
-    public Iterable<Vehicle> getVehicles() {
+    public Collection<Vehicle> getVehicles() {
         return vehicles.values();
     }
 

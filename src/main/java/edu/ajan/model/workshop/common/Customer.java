@@ -1,5 +1,7 @@
 package edu.ajan.model.workshop.common;
 
+import java.util.Comparator;
+
 import edu.ajan.model.exception.WorkshopException;
 import edu.ajan.model.persistence.InstanceCountState;
 
@@ -7,8 +9,59 @@ import edu.ajan.model.persistence.InstanceCountState;
  * Classe que representa um cliente.
  * 
  * @author Alan Lima
+ * @author Juan Pablo
  */
 public class Customer extends Person {
+
+    /**
+     * Comparador de cliente por nome.
+     */
+    public static final Comparator<Customer> NAME_COMPARATOR = new Comparator<>() {
+        @Override
+        public int compare(Customer o1, Customer o2) {
+            
+            String s0 = o1.getName();
+            String s1 = o2.getName();
+
+            int minLen = Math.min(s0.length(), s1.length());
+
+            for (int i = 0; i < minLen; i++) {
+                int diff = (int) s0.charAt(i) - (int) s1.charAt(i);
+
+                if (diff != 0) {
+                    return diff;
+                } // Se forem iguais compara o tamanho fora do loop
+            }
+
+            // Comparação do tamanho caso os caracteres até minLen forem iguais
+            return s0.length() - s1.length();
+        };
+    };
+    
+    /**
+     * Comparador de cliente por email.
+     */
+    public static final Comparator<Customer> EMAIL_COMPARATOR = new Comparator<>() {
+        @Override
+        public int compare(Customer o1, Customer o2) {
+            
+            String s0 = o1.getEmail();
+            String s1 = o2.getEmail();
+
+            int minLen = Math.min(s0.length(), s1.length());
+
+            for (int i = 0; i < minLen; i++) {
+                int diff = (int) s0.charAt(i) - (int) s1.charAt(i);
+
+                if (diff != 0) {
+                    return diff;
+                } // Se forem iguais compara o tamanho fora do loop
+            }
+
+            // Comparação do tamanho caso os caracteres até minLen forem iguais
+            return s0.length() - s1.length();
+        };
+    };
 
     /**
      * Contador de instâncias.
@@ -160,7 +213,7 @@ public class Customer extends Person {
     public String toString() {
         String person = super.toString();
         return String.format("(%d %s \"%s\" %s)",
-            id, person.substring(1, person.length() - 1), address, email);
+                id, person.substring(1, person.length() - 1), address, email);
     }
-    
+
 }
