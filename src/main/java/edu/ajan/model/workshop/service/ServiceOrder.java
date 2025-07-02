@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import edu.ajan.model.exception.WorkshopException;
 import edu.ajan.model.persistence.InstanceCountState;
+import edu.ajan.model.workshop.Workshop;
 import edu.ajan.model.workshop.date.DateSpan;
 import edu.ajan.model.workshop.date.Dates;
 import edu.ajan.model.workshop.financial.Invoice;
@@ -125,6 +126,7 @@ public class ServiceOrder {
         this.setVehicle(vehicle);
         this.setMechanic(mechanic);
         this.setElevator(elevator);
+        this.invoice = new InvoiceDraft();
         this.setStatus(status);
         this.setDatetime(datetime);
     }
@@ -303,7 +305,9 @@ public class ServiceOrder {
      * @return uma nova nota fiscal finalizada.
      */
     public Invoice seal() {
-        return new Invoice(customer, invoice.getProductsAsArray(), invoice.getServicesAsArray(), 0, Dates.now());
+        Invoice completeInvoice = new Invoice(customer, invoice.getProductsAsArray(), invoice.getServicesAsArray(), 0, Dates.now());
+        Workshop.workshop().financial().addInvoice(completeInvoice);
+        return completeInvoice;
     }
 
     /**

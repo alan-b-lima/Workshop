@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import edu.ajan.model.exception.WorkshopException;
+import edu.ajan.model.workshop.Workshop;
 import edu.ajan.model.workshop.date.DateSpan;
+import edu.ajan.model.workshop.staff.StaffMember;
+import edu.ajan.model.workshop.stock.Item;
+import edu.ajan.model.workshop.stock.Product;
+import edu.ajan.model.workshop.stock.Stock;
 
 /**
  * Classe que representa a unidade financeira da oficina mecânica.
@@ -85,7 +90,7 @@ public class Financial {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -98,7 +103,7 @@ public class Financial {
         if (expense == null) {
             throw new WorkshopException("despesa não pode ser nula");
         }
-        
+
         expenses.add(expense);
     }
 
@@ -164,7 +169,7 @@ public class Financial {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -179,6 +184,12 @@ public class Financial {
         }
 
         invoices.add(invoice);
+
+        Stock stock = Workshop.workshop().stock();
+        for (Item product : invoice.products()) {
+            Product foundProduct = stock.getProduct(product.getInfo());
+            foundProduct.setBatch(foundProduct.getBatch().addQuantity(-product.getBatch().quantity()));
+        }
     }
 
     /**
@@ -190,6 +201,41 @@ public class Financial {
         invoices.removeIf(invoice -> invoice.id() == invoiceId);
     }
 
+    public String toBalanceString(long start, long end) {
+
+        DateSpan span = new DateSpan(start, end);
+        StringBuffer sb = new StringBuffer();
+        double total = 0.0;
+
+        sb.append("Despesas:\n");
+        for (Expense expense : expenses) {
+            if (!span.contains(expense.getDate())) {
+                continue;
+            }
+            
+            sb.append(expense).append('\n');
+            total -= expense.getValue();
+        }
+        
+        sb.append("Notas Fiscais:\n");
+        for (Invoice invoice : invoices) {
+            if (!span.contains(invoice.date())) {
+                continue;
+            }
+            
+            sb.append(invoice).append('\n');
+            total += invoice.subtotal();
+        }
+        
+        sb.append("Membros:\n");
+        for (StaffMember member : Workshop.workshop().memberbase().getMembers()) {
+            sb.append(member).append('\n');
+            total -= member.getSalary();
+        }
+
+        return sb.append(String.format("Total: %.2f\n", total)).toString();
+    }
+
     /**
      * Retorna uma representação textual da unidade financeira.
      * 
@@ -199,4 +245,6 @@ public class Financial {
     public String toString() {
         return String.format("(%s %s)", expenses, invoices);
     }
+
+
 }

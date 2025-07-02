@@ -42,6 +42,9 @@ public class Workshop {
      */
     private Stock stock;
 
+    /**
+     * Instância única do estoque
+     */
     private static Workshop instance;
 
     /**

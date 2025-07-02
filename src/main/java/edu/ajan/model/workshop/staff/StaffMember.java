@@ -9,7 +9,7 @@ import edu.ajan.model.workshop.common.Person;
  * 
  * @author Alan Lima
  */
-public abstract class StaffMember extends Person {
+public class StaffMember extends Person {
 
     /**
      * Contador de instâncias.

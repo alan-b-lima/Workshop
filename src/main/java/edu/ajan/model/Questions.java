@@ -243,8 +243,7 @@ public class Questions {
          */
         {
             Customer c1 = new Customer("Otávio Calazans", "1234567890", "98765432100", "Capelinha", "otavio@gmail.com");
-            Customer c2 = new Customer("Otávio Calazans", "0987654321", "12345678909", "Minas Novas",
-                    "otavio@yahoo.com");
+            Customer c2 = new Customer("Otávio Calazans", "0987654321", "12345678909", "Minas Novas", "otavio@yahoo.com");
 
             int nameComp = Customer.NAME_COMPARATOR.compare(c1, c2);
             int emailComp = Customer.EMAIL_COMPARATOR.compare(c1, c2);
@@ -423,13 +422,15 @@ public class Questions {
                 orders[i] = new ServiceOrder(customers[i].id(), vehicles[i].id(), 1, 2, new DateSpan(now + i * hour, now + (i + 1) * hour));
                 Workshop.workshop().scheduler().addOrder(orders[i]);
                 
-                orders[i].getInvoice().addService(new Item(gear.id(), 2, gear.getBatch().value()));
-                orders[i].getInvoice().addService(new Item(engine.id(), 1, engine.getBatch().value()));
-                orders[i].getInvoice().addProduct(new Item(oilExchange.id(), 1, oilExchange.getValue()));
+                orders[i].getInvoice().addProduct(new Item(gear.id(), 2, gear.getBatch().value()));
+                orders[i].getInvoice().addProduct(new Item(engine.id(), 1, engine.getBatch().value()));
+                orders[i].getInvoice().addService(new Item(oilExchange.id(), 1, oilExchange.getValue()));
                 
                 Invoice invoice = orders[i].seal();
                 System.out.println(invoice);
             }
         }
+
+        Workshop.save();
     }
 }

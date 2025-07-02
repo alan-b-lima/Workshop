@@ -44,8 +44,8 @@ public class InvoiceDraft {
      * 
      * @return array de produtos.
      */
-    public Item[] getProductsAsArray() {
-        return (Item[]) products.values().toArray();
+    public Item[] getProductsAsArray() {        
+        return products.values().toArray(new Item[0]);
     }
 
     /**
@@ -102,7 +102,7 @@ public class InvoiceDraft {
      * @return array de serviços.
      */
     public Item[] getServicesAsArray() {
-        return (Item[]) services.values().toArray();
+        return services.values().toArray(new Item[0]);
     }
 
     /**
